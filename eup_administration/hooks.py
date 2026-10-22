@@ -40,3 +40,24 @@ permission_query_conditions["ADM Consumable Transaction"] = "eup_administration.
 has_permission["ADM Consumable Transaction"] = "eup_administration.consumables.transaction_permission"
 permission_query_conditions["ADM Admin Custody"] = "eup_administration.consumables.custody_query"
 has_permission["ADM Admin Custody"] = "eup_administration.consumables.custody_permission"
+
+
+# V3 additive integration: old approval/start/end POST methods remain authoritative.
+doc_events = {
+    dt: {
+        "after_insert": "eup_administration.v3.registry.sync_document",
+        "on_update": "eup_administration.v3.registry.sync_document",
+    }
+    for dt in (
+        "ADM Trip", "ADM Service Request", "ADM Supply Request",
+        "ADM Meeting Booking", "ADM Admin Custody", "ADM General Service Request"
+    )
+}
+permission_query_conditions["ADM General Service Request"] = "eup_administration.v3.security.general_query"
+has_permission["ADM General Service Request"] = "eup_administration.v3.security.general_permission"
+permission_query_conditions["ADM Request Registry"] = "eup_administration.v3.security.registry_query"
+has_permission["ADM Request Registry"] = "eup_administration.v3.security.registry_permission"
+scheduler_events = {
+    "hourly": ["eup_administration.v3.notifications.process_outbox"],
+    "daily": ["eup_administration.v3.notifications.daily_sla_digest"],
+}
