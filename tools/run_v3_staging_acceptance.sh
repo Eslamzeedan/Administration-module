@@ -16,6 +16,12 @@ if [[ "$SITE" == "erpnext-v16.eup-cairo.local" || "$BENCH" == "/home/frappe/frap
   echo "REFUSED: never run this script on the known primary bench/site." >&2
   exit 2
 fi
+# A separate bench pointing at the primary checkout is NOT an isolated test.
+PRIMARY_APP="$(readlink -f /home/frappe/frappe-bench/apps/eup_administration 2>/dev/null || true)"
+if [[ "$SRC" == "/home/frappe/eup_administration" || ( -n "$PRIMARY_APP" && "$SRC" == "$PRIMARY_APP" ) ]]; then
+  echo "REFUSED: staging shares the primary app source tree." >&2
+  exit 2
+fi
 if [[ ! -f "$BENCH/sites/$SITE/site_config.json" || ! -f "$SRC/eup_administration/hooks.py" ]]; then
   echo "REFUSED: independent staging site/app missing." >&2
   exit 2
