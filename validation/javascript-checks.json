@@ -1,0 +1,56 @@
+[
+  {
+    "file": "eup_administration/eup_administration/doctype/adm_maintenance/adm_maintenance.js",
+    "code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "file": "eup_administration/eup_administration/doctype/adm_meeting_booking/adm_meeting_booking.js",
+    "code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "file": "eup_administration/eup_administration/doctype/adm_meeting_booking/adm_meeting_booking_calendar.js",
+    "code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "file": "eup_administration/eup_administration/doctype/adm_trip/adm_trip.js",
+    "code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "file": "eup_administration/eup_administration/page/administration_dashboard/administration_dashboard.js",
+    "code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "file": "eup_administration/eup_administration/report/adm_fleet_costs/adm_fleet_costs.js",
+    "code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "file": "eup_administration/eup_administration/report/adm_meeting_utilization/adm_meeting_utilization.js",
+    "code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "file": "eup_administration/eup_administration/report/adm_renewals_and_service/adm_renewals_and_service.js",
+    "code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "file": "eup_administration/eup_administration/report/adm_trip_register/adm_trip_register.js",
+    "code": 0,
+    "stdout": "",
+    "stderr": ""
+  }
+]

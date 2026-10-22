@@ -1,0 +1,56 @@
+{
+  "doctype": "DocType",
+  "name": "ADM Careem Ride",
+  "module": "EuP Administration",
+  "custom": 0,
+  "engine": "InnoDB",
+  "track_changes": 1,
+  "field_order": [
+    "pickup",
+    "dropoff",
+    "booking_reference",
+    "ridden_at",
+    "fare",
+    "receipt"
+  ],
+  "fields": [
+    {
+      "fieldname": "pickup",
+      "label": "Pickup",
+      "fieldtype": "Data",
+      "reqd": 1
+    },
+    {
+      "fieldname": "dropoff",
+      "label": "Drop-off",
+      "fieldtype": "Data",
+      "reqd": 1
+    },
+    {
+      "fieldname": "booking_reference",
+      "label": "Careem Booking Reference",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "ridden_at",
+      "label": "Ride Date/Time",
+      "fieldtype": "Datetime",
+      "reqd": 1
+    },
+    {
+      "fieldname": "fare",
+      "label": "Actual Fare",
+      "fieldtype": "Currency",
+      "options": "parent.currency",
+      "reqd": 1
+    },
+    {
+      "fieldname": "receipt",
+      "label": "Private Receipt",
+      "fieldtype": "Attach",
+      "reqd": 1
+    }
+  ],
+  "permissions": [],
+  "istable": 1
+}

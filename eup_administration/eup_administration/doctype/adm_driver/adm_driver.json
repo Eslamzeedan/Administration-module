@@ -1,0 +1,85 @@
+{
+  "doctype": "DocType",
+  "name": "ADM Driver",
+  "module": "EuP Administration",
+  "custom": 0,
+  "engine": "InnoDB",
+  "track_changes": 1,
+  "field_order": [
+    "driver_name",
+    "user",
+    "enabled",
+    "employee",
+    "license_expiry"
+  ],
+  "fields": [
+    {
+      "fieldname": "driver_name",
+      "label": "Driver Name",
+      "fieldtype": "Data",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "user",
+      "label": "Login User",
+      "fieldtype": "Link",
+      "options": "User",
+      "unique": 1,
+      "reqd": 1
+    },
+    {
+      "fieldname": "enabled",
+      "label": "Enabled",
+      "fieldtype": "Check",
+      "default": "1"
+    },
+    {
+      "fieldname": "employee",
+      "label": "Employee",
+      "fieldtype": "Link",
+      "options": "Employee"
+    },
+    {
+      "fieldname": "license_expiry",
+      "label": "License Expiry",
+      "fieldtype": "Date"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "Administration Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "report": 1,
+      "export": 1
+    },
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "report": 1,
+      "export": 1
+    },
+    {
+      "role": "Administration User",
+      "read": 1,
+      "write": 0,
+      "create": 0,
+      "report": 1,
+      "export": 1
+    },
+    {
+      "role": "Administration Driver",
+      "read": 1,
+      "write": 0,
+      "create": 0,
+      "report": 1,
+      "export": 1
+    }
+  ],
+  "autoname": "format:DRV-{#####}",
+  "title_field": "driver_name"
+}

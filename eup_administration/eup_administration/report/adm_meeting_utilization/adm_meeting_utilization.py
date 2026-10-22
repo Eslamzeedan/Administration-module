@@ -1,0 +1,4 @@
+from eup_administration.reporting import meeting_rows
+
+def execute(filters=None):
+    return [{"fieldname":"name","label":"Booking","fieldtype":"Link","options":"ADM Meeting Booking","width":150},{"fieldname":"room","label":"Room","fieldtype":"Link","options":"ADM Meeting Room","width":150},{"fieldname":"title","label":"Title","fieldtype":"Data","width":150},{"fieldname":"organizer","label":"Organizer","fieldtype":"Link","options":"User","width":150},{"fieldname":"starts_at","label":"Start","fieldtype":"Datetime","width":150},{"fieldname":"ends_at","label":"End","fieldtype":"Datetime","width":150},{"fieldname":"status","label":"Status","fieldtype":"Data","width":150},{"fieldname":"booked_hours","label":"Booked Hours","fieldtype":"Float","width":150},{"fieldname":"attendee_count","label":"Attendees","fieldtype":"Int","width":150}], meeting_rows(filters)

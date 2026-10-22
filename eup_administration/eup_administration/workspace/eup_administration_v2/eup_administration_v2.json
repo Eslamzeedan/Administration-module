@@ -1,0 +1,137 @@
+{
+  "doctype": "Workspace",
+  "name": "EuP Administration v2",
+  "label": "EuP Administration v2",
+  "title": "EuP Administration v2",
+  "module": "EuP Administration",
+  "type": "Workspace",
+  "public": 1,
+  "standard": 1,
+  "is_hidden": 0,
+  "content": "[{\"id\":\"adm-v2-title\",\"type\":\"header\",\"data\":{\"text\":\"EuP Administration v2\",\"col\":12}},{\"id\":\"adm-v2-0\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Dashboard\",\"col\":4}},{\"id\":\"adm-v2-1\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Vehicles\",\"col\":4}},{\"id\":\"adm-v2-2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Drivers\",\"col\":4}},{\"id\":\"adm-v2-3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Trips\",\"col\":4}},{\"id\":\"adm-v2-4\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Fuel\",\"col\":4}},{\"id\":\"adm-v2-5\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Expenses\",\"col\":4}},{\"id\":\"adm-v2-6\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Maintenance\",\"col\":4}},{\"id\":\"adm-v2-7\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Meeting Rooms\",\"col\":4}},{\"id\":\"adm-v2-8\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Meetings\",\"col\":4}},{\"id\":\"adm-v2-9\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"ADM Trip Register\",\"col\":4}},{\"id\":\"adm-v2-10\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"ADM Fleet Costs\",\"col\":4}},{\"id\":\"adm-v2-11\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"ADM Meeting Utilization\",\"col\":4}},{\"id\":\"adm-v2-12\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"ADM Renewals and Service\",\"col\":4}},{\"id\":\"adm-v2-14\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Supply Requests\",\"col\":4}},{\"id\":\"adm-v2-15\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Consumables\",\"col\":4}},{\"id\":\"adm-v2-16\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Admin Stores\",\"col\":4}},{\"id\":\"adm-v2-17\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Movements\",\"col\":4}},{\"id\":\"adm-v2-18\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Admin Custody\",\"col\":4}},{\"id\":\"adm-v2-19\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Low Stock\",\"col\":4}},{\"id\":\"adm-v2-20\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Department Consumption\",\"col\":4}}]",
+  "shortcuts": [
+    {
+      "label": "Dashboard",
+      "type": "Page",
+      "link_to": "administration-dashboard"
+    },
+    {
+      "label": "Vehicles",
+      "type": "DocType",
+      "link_to": "ADM Vehicle"
+    },
+    {
+      "label": "Drivers",
+      "type": "DocType",
+      "link_to": "ADM Driver"
+    },
+    {
+      "label": "Trips",
+      "type": "DocType",
+      "link_to": "ADM Trip"
+    },
+    {
+      "label": "Fuel",
+      "type": "DocType",
+      "link_to": "ADM Fuel Log"
+    },
+    {
+      "label": "Expenses",
+      "type": "DocType",
+      "link_to": "ADM Trip Expense"
+    },
+    {
+      "label": "Maintenance",
+      "type": "DocType",
+      "link_to": "ADM Maintenance"
+    },
+    {
+      "label": "Meeting Rooms",
+      "type": "DocType",
+      "link_to": "ADM Meeting Room"
+    },
+    {
+      "label": "Meetings",
+      "type": "DocType",
+      "link_to": "ADM Meeting Booking"
+    },
+    {
+      "label": "ADM Trip Register",
+      "type": "Report",
+      "link_to": "ADM Trip Register",
+      "is_query_report": 1
+    },
+    {
+      "label": "ADM Fleet Costs",
+      "type": "Report",
+      "link_to": "ADM Fleet Costs",
+      "is_query_report": 1
+    },
+    {
+      "label": "ADM Meeting Utilization",
+      "type": "Report",
+      "link_to": "ADM Meeting Utilization",
+      "is_query_report": 1
+    },
+    {
+      "label": "ADM Renewals and Service",
+      "type": "Report",
+      "link_to": "ADM Renewals and Service",
+      "is_query_report": 1
+    },
+    {
+      "label": "Supply Requests",
+      "type": "DocType",
+      "link_to": "ADM Supply Request"
+    },
+    {
+      "label": "Consumables",
+      "type": "DocType",
+      "link_to": "ADM Consumable Item"
+    },
+    {
+      "label": "Admin Stores",
+      "type": "DocType",
+      "link_to": "ADM Consumable Location"
+    },
+    {
+      "label": "Movements",
+      "type": "DocType",
+      "link_to": "ADM Consumable Transaction"
+    },
+    {
+      "label": "Admin Custody",
+      "type": "DocType",
+      "link_to": "ADM Admin Custody"
+    },
+    {
+      "label": "Low Stock",
+      "type": "Report",
+      "link_to": "ADM Low Stock",
+      "is_query_report": 1
+    },
+    {
+      "label": "Department Consumption",
+      "type": "Report",
+      "link_to": "ADM Department Consumption",
+      "is_query_report": 1
+    }
+  ],
+  "roles": [
+    {
+      "role": "Administration Manager"
+    },
+    {
+      "role": "Administration User"
+    },
+    {
+      "role": "Administration Driver"
+    },
+    {
+      "role": "System Manager"
+    },
+    {
+      "role": "Administration Storekeeper"
+    }
+  ]
+}

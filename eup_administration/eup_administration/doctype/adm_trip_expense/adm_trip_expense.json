@@ -1,0 +1,131 @@
+{
+  "doctype": "DocType",
+  "name": "ADM Trip Expense",
+  "module": "EuP Administration",
+  "custom": 0,
+  "engine": "InnoDB",
+  "track_changes": 1,
+  "autoname": "format:ADM_TRIP_EXPENSE-{YYYY}-{#####}",
+  "field_order": [
+    "vehicle",
+    "trip",
+    "company",
+    "posting_date",
+    "currency",
+    "expense_type",
+    "amount",
+    "receipt",
+    "notes",
+    "amended_from"
+  ],
+  "fields": [
+    {
+      "fieldname": "vehicle",
+      "label": "Vehicle",
+      "fieldtype": "Link",
+      "options": "ADM Vehicle",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "trip",
+      "label": "Trip",
+      "fieldtype": "Link",
+      "options": "ADM Trip"
+    },
+    {
+      "fieldname": "company",
+      "label": "Company",
+      "fieldtype": "Link",
+      "options": "Company",
+      "read_only": 1
+    },
+    {
+      "fieldname": "posting_date",
+      "label": "Date",
+      "fieldtype": "Date",
+      "reqd": 1,
+      "default": "Today",
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "currency",
+      "label": "Currency",
+      "fieldtype": "Link",
+      "options": "Currency",
+      "read_only": 1
+    },
+    {
+      "fieldname": "expense_type",
+      "label": "Expense Type",
+      "fieldtype": "Select",
+      "options": "Tolls\nParking\nTravel\nOther",
+      "reqd": 1
+    },
+    {
+      "fieldname": "amount",
+      "label": "Amount",
+      "fieldtype": "Currency",
+      "options": "currency",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "receipt",
+      "label": "Private Receipt",
+      "fieldtype": "Attach"
+    },
+    {
+      "fieldname": "notes",
+      "label": "Notes",
+      "fieldtype": "Small Text"
+    },
+    {
+      "fieldname": "amended_from",
+      "label": "Amended From",
+      "fieldtype": "Link",
+      "options": "ADM Trip Expense"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "Administration Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "submit": 1,
+      "cancel": 1
+    },
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "submit": 1,
+      "cancel": 1
+    },
+    {
+      "role": "Administration User",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "report": 1,
+      "print": 1
+    },
+    {
+      "role": "Administration Driver",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "report": 1,
+      "print": 1
+    }
+  ],
+  "is_submittable": 1
+}

@@ -1,0 +1,4 @@
+from eup_administration.reporting import trip_rows
+
+def execute(filters=None):
+    return [{"fieldname":"name","label":"Trip","fieldtype":"Link","options":"ADM Trip","width":150},{"fieldname":"company","label":"Company","fieldtype":"Link","options":"Company","width":150},{"fieldname":"purpose","label":"Purpose","fieldtype":"Data","width":150},{"fieldname":"vehicle","label":"Vehicle","fieldtype":"Link","options":"ADM Vehicle","width":150},{"fieldname":"driver","label":"Driver","fieldtype":"Link","options":"ADM Driver","width":150},{"fieldname":"status","label":"Status","fieldtype":"Data","width":150},{"fieldname":"planned_start","label":"Planned Start","fieldtype":"Datetime","width":150},{"fieldname":"planned_end","label":"Planned End","fieldtype":"Datetime","width":150},{"fieldname":"distance_km","label":"Distance (km)","fieldtype":"Float","width":150},{"fieldname":"duration_minutes","label":"Minutes","fieldtype":"Float","width":150}], trip_rows(filters)

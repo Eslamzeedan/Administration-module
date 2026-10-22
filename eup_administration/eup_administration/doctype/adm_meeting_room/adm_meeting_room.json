@@ -1,0 +1,103 @@
+{
+  "doctype": "DocType",
+  "name": "ADM Meeting Room",
+  "module": "EuP Administration",
+  "custom": 0,
+  "engine": "InnoDB",
+  "track_changes": 1,
+  "field_order": [
+    "room_name",
+    "company",
+    "branch",
+    "floor",
+    "capacity",
+    "enabled",
+    "buffer_minutes",
+    "equipment"
+  ],
+  "fields": [
+    {
+      "fieldname": "room_name",
+      "label": "Room Name",
+      "fieldtype": "Data",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "company",
+      "label": "Company",
+      "fieldtype": "Link",
+      "options": "Company",
+      "reqd": 1
+    },
+    {
+      "fieldname": "branch",
+      "label": "Branch",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "floor",
+      "label": "Floor",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "capacity",
+      "label": "Capacity",
+      "fieldtype": "Int",
+      "reqd": 1
+    },
+    {
+      "fieldname": "enabled",
+      "label": "Available for Booking",
+      "fieldtype": "Check",
+      "default": "1"
+    },
+    {
+      "fieldname": "buffer_minutes",
+      "label": "Preparation Time (minutes)",
+      "fieldtype": "Int",
+      "default": "15"
+    },
+    {
+      "fieldname": "equipment",
+      "label": "Equipment",
+      "fieldtype": "Small Text"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "Administration Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "report": 1,
+      "export": 1
+    },
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "report": 1,
+      "export": 1
+    },
+    {
+      "role": "Administration User",
+      "read": 1,
+      "write": 0,
+      "create": 0,
+      "report": 1,
+      "export": 1
+    },
+    {
+      "role": "Administration Driver",
+      "read": 1,
+      "write": 0,
+      "create": 0,
+      "report": 1,
+      "export": 1
+    }
+  ],
+  "autoname": "format:ROOM-{#####}",
+  "title_field": "room_name"
+}

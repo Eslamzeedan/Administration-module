@@ -1,0 +1,55 @@
+{
+  "doctype": "DocType",
+  "name": "ADM Supply Request Line",
+  "module": "EuP Administration",
+  "custom": 0,
+  "istable": 1,
+  "engine": "InnoDB",
+  "track_changes": 1,
+  "fields": [
+    {
+      "fieldname": "item",
+      "fieldtype": "Link",
+      "label": "Item",
+      "options": "ADM Consumable Item",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "requested_qty",
+      "fieldtype": "Float",
+      "label": "Requested Qty",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "approved_qty",
+      "fieldtype": "Float",
+      "label": "Approved Qty",
+      "default": "0",
+      "read_only": 1
+    },
+    {
+      "fieldname": "issued_qty",
+      "fieldtype": "Float",
+      "label": "Issued Qty",
+      "default": "0",
+      "read_only": 1
+    },
+    {
+      "fieldname": "notes",
+      "fieldtype": "Small Text",
+      "label": "Notes"
+    }
+  ],
+  "field_order": [
+    "item",
+    "requested_qty",
+    "approved_qty",
+    "issued_qty",
+    "notes"
+  ],
+  "permissions": [],
+  "sort_field": "modified",
+  "sort_order": "DESC"
+}

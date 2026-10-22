@@ -1,0 +1,4 @@
+from eup_administration.reporting import cost_rows
+
+def execute(filters=None):
+    return [{"fieldname":"record_type","label":"Record Type","fieldtype":"Data","width":150},{"fieldname":"name","label":"Record","fieldtype":"Dynamic Link","options":"record_type","width":150},{"fieldname":"date","label":"Date","fieldtype":"Datetime","width":150},{"fieldname":"company","label":"Company","fieldtype":"Link","options":"Company","width":150},{"fieldname":"vehicle","label":"Vehicle","fieldtype":"Link","options":"ADM Vehicle","width":150},{"fieldname":"trip","label":"Trip","fieldtype":"Link","options":"ADM Trip","width":150},{"fieldname":"currency","label":"Currency","fieldtype":"Link","options":"Currency","width":150},{"fieldname":"amount","label":"Cost","fieldtype":"Currency","options":"currency","width":150}], cost_rows(filters)

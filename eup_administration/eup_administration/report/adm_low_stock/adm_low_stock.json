@@ -1,0 +1,22 @@
+{
+  "doctype": "Report",
+  "name": "ADM Low Stock",
+  "report_name": "ADM Low Stock",
+  "ref_doctype": "ADM Consumable Transaction",
+  "report_type": "Script Report",
+  "is_standard": "Yes",
+  "module": "EuP Administration",
+  "disabled": 0,
+  "roles": [
+    {
+      "role": "Administration Manager"
+    },
+    {
+      "role": "Administration Storekeeper"
+    },
+    {
+      "role": "System Manager"
+    }
+  ],
+  "add_total_row": 0
+}
