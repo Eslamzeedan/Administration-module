@@ -14,8 +14,7 @@ V3_DOCS = (
     "adm_approval_delegation", "adm_sla_policy", "adm_request_event",
     "adm_notification_outbox", "adm_settings", "adm_vehicle_document",
     "adm_vehicle_incident", "adm_meeting_checkin", "adm_stock_count",
-    "adm_stock_count_line", "adm_consumable_erp_mapping",
-    "adm_purchasing_link", "adm_custody_handover", "adm_request_feedback",
+    "adm_stock_count_line", "adm_custody_handover", "adm_request_feedback",
 )
 
 class TestV3Bundle(unittest.TestCase):
@@ -35,15 +34,15 @@ class TestV3Bundle(unittest.TestCase):
 
     def test_mutable_ledger_not_open_to_users(self):
         for slug in ("adm_request_event", "adm_notification_outbox", "adm_approval_decision",
-                     "adm_request_registry", "adm_purchasing_link", "adm_request_feedback"):
+                     "adm_request_registry", "adm_request_feedback"):
             schema = json.loads((DOCTYPE / slug / (slug + ".json")).read_text())
             self.assertFalse(any(x.get("create") or x.get("write") or x.get("delete") for x in schema["permissions"]))
 
     def test_sensitive_bridge_flags_disabled(self):
         x = json.loads((DOCTYPE / "adm_settings" / "adm_settings.json").read_text())
         fields = {f["fieldname"]: f for f in x["fields"]}
-        for name in ("enable_v3_requests", "enable_email_notifications", "enable_purchasing_bridge",
-                     "enable_accounting_bridge", "enable_nextcloud_links", "enable_auto_release_meetings"):
+        for name in ("enable_v3_requests", "enable_email_notifications",
+                     "enable_nextcloud_links", "enable_auto_release_meetings"):
             self.assertEqual(fields[name]["default"], "0")
 
     def test_erpnext_side_navigation(self):
@@ -63,7 +62,7 @@ class TestV3Bundle(unittest.TestCase):
         for name, funcs in {
             "general": {"submit", "assign", "start", "complete", "close", "cancel"},
             "approval": {"decide"}, "inventory": {"submit_count", "approve_count", "post_count"},
-            "meetings": {"check_in"}, "purchasing": {"create_material_request"},
+            "meetings": {"check_in"},
             "custody": {"confirm"}, "vehicle_documents": {"verify"}, "feedback": {"submit_feedback"},
         }.items():
             code = (APP / "v3" / (name + ".py")).read_text()
@@ -79,3 +78,30 @@ class TestV3Bundle(unittest.TestCase):
                   "adm_service_request", "adm_supply_request", "adm_consumable_transaction")
         for slug in legacy:
             self.assertTrue((DOCTYPE / slug / (slug + ".json")).exists())
+
+    def test_no_accounting_or_procurement_bridge_exists(self):
+        forbidden_paths = (
+            APP / "v3" / "purchasing.py",
+            DOCTYPE / "adm_consumable_erp_mapping",
+            DOCTYPE / "adm_purchasing_link",
+        )
+        for path in forbidden_paths:
+            self.assertFalse(path.exists(), "Administrative-only boundary violation: " + str(path))
+        config = json.loads((DOCTYPE / "adm_settings" / "adm_settings.json").read_text())
+        names = {x["fieldname"] for x in config["fields"]}
+        self.assertFalse({"enable_purchasing_bridge", "enable_accounting_bridge"} & names)
+        general = json.loads((DOCTYPE / "adm_general_service_request" / "adm_general_service_request.json").read_text())
+        self.assertNotIn("cost_center", {x["fieldname"] for x in general["fields"]})
+        nav = json.loads((APP / "workspace_sidebar" / "eup_administration_v3.json").read_text())
+        self.assertFalse({"Purchasing Links", "ERP Item Mapping"} & {row["label"] for row in nav["items"]})
+
+    def test_no_financial_or_erp_stock_writes_in_v3_sources(self):
+        # Offline static defense-in-depth. Live DB before/after assertions are also mandatory.
+        import re
+        forbidden = ("GL Entry", "Journal Entry", "Payment Entry", "Purchase Order", "Material Request",
+                     "Stock Entry", "Stock Ledger Entry", "Expense Claim", "Purchase Invoice",
+                     "Sales Invoice", "Payment Request", "Asset")
+        pattern = re.compile(r'frappe\.get_doc\s*\(\s*[{(]?\s*["\']doctype["\']\s*:\s*["\'](?:' +
+                             "|".join(re.escape(x) for x in forbidden) + r')["\']')
+        for path in (APP / "v3").glob("*.py"):
+            self.assertNotRegex(path.read_text(), pattern)

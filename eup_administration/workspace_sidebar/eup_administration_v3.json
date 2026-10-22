@@ -202,28 +202,6 @@
       "child": 1
     },
     {
-      "label": "Integration",
-      "type": "Section Break",
-      "child": 0,
-      "collapsible": 1,
-      "keep_closed": 0,
-      "icon": "plug"
-    },
-    {
-      "label": "Purchasing Links",
-      "type": "Link",
-      "link_type": "DocType",
-      "link_to": "ADM Purchasing Link",
-      "child": 1
-    },
-    {
-      "label": "ERP Item Mapping",
-      "type": "Link",
-      "link_type": "DocType",
-      "link_to": "ADM Consumable ERP Mapping",
-      "child": 1
-    },
-    {
       "label": "Settings",
       "type": "Section Break",
       "child": 0,

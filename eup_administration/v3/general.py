@@ -41,8 +41,6 @@ def validate(doc):
             frappe.throw("Protected fields require authorized actions", frappe.PermissionError)
         if old.status != "Draft" and not _allow_transition.get():
             frappe.throw("Only draft service requests may be edited directly", frappe.PermissionError)
-    if doc.cost_center and frappe.db.get_value("Cost Center", doc.cost_center, "company") != doc.company:
-        frappe.throw("Cost center belongs to another company")
     if not doc.subject or not doc.description or not doc.company:
         frappe.throw("Subject, description, and company are required")
     if doc.needed_by:

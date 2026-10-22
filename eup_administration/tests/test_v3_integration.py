@@ -9,7 +9,7 @@ class TestV3Integration(AdministrationIntegrationTestCase):
             "ADM Request Registry", "ADM General Service Request",
             "ADM Approval Policy", "ADM Approval Case", "ADM Approval Decision",
             "ADM SLA Policy", "ADM Stock Count", "ADM Custody Handover",
-            "ADM Meeting Checkin", "ADM Vehicle Document", "ADM Purchasing Link"
+            "ADM Meeting Checkin", "ADM Vehicle Document"
         ):
             self.assertTrue(frappe.db.exists("DocType", slug), slug)
             self.assertTrue(frappe.get_meta(slug).get("fields") is not None)
@@ -18,6 +18,18 @@ class TestV3Integration(AdministrationIntegrationTestCase):
         self.assertEqual(frappe.db.get_value("Desktop Icon", "EuP Administration v3", "parent_icon"), "ERPNext")
 
     def test_integrations_disabled_before_acceptance(self):
-        for name in ("enable_email_notifications", "enable_purchasing_bridge",
-                     "enable_accounting_bridge", "enable_nextcloud_links"):
+        for name in ("enable_email_notifications", "enable_nextcloud_links"):
             self.assertFalse(frappe.db.get_single_value("ADM Settings", name))
+
+    def test_financial_and_procurement_tables_unchanged_by_admin_setup(self):
+        """All financial records are outside Administration's write boundary."""
+        tracked = ("GL Entry", "Journal Entry", "Payment Entry", "Expense Claim",
+                   "Purchase Invoice", "Stock Ledger Entry", "Stock Entry",
+                   "Material Request", "Purchase Order")
+        before = {dt: frappe.db.count(dt) for dt in tracked}
+        from eup_administration.v3.bootstrap import configure
+        from eup_administration.v3.registry import rebuild_registry
+        configure()
+        rebuild_registry()
+        after = {dt: frappe.db.count(dt) for dt in tracked}
+        self.assertEqual(after, before)

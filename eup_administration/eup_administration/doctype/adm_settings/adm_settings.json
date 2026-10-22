@@ -9,8 +9,6 @@
   "field_order": [
     "enable_v3_requests",
     "enable_email_notifications",
-    "enable_purchasing_bridge",
-    "enable_accounting_bridge",
     "enable_nextcloud_links",
     "enable_auto_release_meetings",
     "default_sla_minutes"
@@ -26,18 +24,6 @@
       "fieldname": "enable_email_notifications",
       "fieldtype": "Check",
       "label": "enable email notifications",
-      "default": "0"
-    },
-    {
-      "fieldname": "enable_purchasing_bridge",
-      "fieldtype": "Check",
-      "label": "enable purchasing bridge",
-      "default": "0"
-    },
-    {
-      "fieldname": "enable_accounting_bridge",
-      "fieldtype": "Check",
-      "label": "enable accounting bridge",
       "default": "0"
     },
     {

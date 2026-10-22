@@ -3,7 +3,7 @@ import frappe
 
 ROLES = ('Administration Manager', 'Administration User', 'Administration Driver',
          'Administration Requester', 'Administration Runner', 'Administration Department Approver', 'Administration Storekeeper',
-         'Administration Coordinator', 'Administration Finance Reviewer', 'Administration Auditor')
+         'Administration Coordinator', 'Administration Auditor')
 
 def ensure_roles():
     for role in ROLES:

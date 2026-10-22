@@ -9,4 +9,4 @@ def configure():
     if not frappe.db.get_single_value("ADM Settings", "default_sla_minutes"):
         frappe.db.set_single_value("ADM Settings", "default_sla_minutes", 1440)
     frappe.clear_cache()
-    return {"v3": "configured", "external_integrations": "off by default"}
+    return {"v3": "configured", "financial_integrations": "absent; strictly administrative only"}

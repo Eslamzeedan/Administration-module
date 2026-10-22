@@ -20,8 +20,7 @@
     "started_at",
     "completed_at",
     "closed_at",
-    "completion_notes",
-    "cost_center"
+    "completion_notes"
   ],
   "fields": [
     {
@@ -106,12 +105,6 @@
       "fieldname": "completion_notes",
       "fieldtype": "Data",
       "label": "completion notes"
-    },
-    {
-      "fieldname": "cost_center",
-      "fieldtype": "Link",
-      "label": "cost center",
-      "options": "Cost Center"
     }
   ],
   "permissions": [
