@@ -1,0 +1,95 @@
+{
+  "doctype": "DocType",
+  "name": "ADM Vehicle Document",
+  "module": "EuP Administration",
+  "custom": 0,
+  "engine": "InnoDB",
+  "track_changes": 1,
+  "autoname": "hash",
+  "field_order": [
+    "vehicle",
+    "company",
+    "document_type",
+    "document_number",
+    "valid_from",
+    "expiry_date",
+    "attachment",
+    "verified",
+    "verified_by"
+  ],
+  "fields": [
+    {
+      "fieldname": "vehicle",
+      "fieldtype": "Link",
+      "label": "vehicle",
+      "options": "ADM Vehicle",
+      "reqd": 1
+    },
+    {
+      "fieldname": "company",
+      "fieldtype": "Link",
+      "label": "company",
+      "options": "Company",
+      "reqd": 1
+    },
+    {
+      "fieldname": "document_type",
+      "fieldtype": "Select",
+      "label": "document type",
+      "options": "Vehicle License\nInsurance\nInspection\nLease\nOther",
+      "reqd": 1
+    },
+    {
+      "fieldname": "document_number",
+      "fieldtype": "Data",
+      "label": "Document Number"
+    },
+    {
+      "fieldname": "valid_from",
+      "fieldtype": "Date",
+      "label": "Valid From"
+    },
+    {
+      "fieldname": "expiry_date",
+      "fieldtype": "Date",
+      "label": "Expiry Date"
+    },
+    {
+      "fieldname": "attachment",
+      "fieldtype": "Attach",
+      "label": "Private Attachment"
+    },
+    {
+      "fieldname": "verified",
+      "fieldtype": "Check",
+      "label": "verified",
+      "default": "0"
+    },
+    {
+      "fieldname": "verified_by",
+      "fieldtype": "Link",
+      "label": "verified by",
+      "options": "User"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1
+    },
+    {
+      "role": "Administration Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1
+    },
+    {
+      "role": "Administration Coordinator",
+      "read": 1,
+      "create": 1,
+      "write": 1
+    }
+  ]
+}

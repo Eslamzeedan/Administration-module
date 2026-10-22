@@ -1,0 +1,62 @@
+{
+  "doctype": "DocType",
+  "name": "ADM Settings",
+  "module": "EuP Administration",
+  "custom": 0,
+  "engine": "InnoDB",
+  "track_changes": 1,
+  "issingle": 1,
+  "field_order": [
+    "enable_v3_requests",
+    "enable_email_notifications",
+    "enable_nextcloud_links",
+    "enable_auto_release_meetings",
+    "default_sla_minutes"
+  ],
+  "fields": [
+    {
+      "fieldname": "enable_v3_requests",
+      "fieldtype": "Check",
+      "label": "enable v3 requests",
+      "default": "0"
+    },
+    {
+      "fieldname": "enable_email_notifications",
+      "fieldtype": "Check",
+      "label": "enable email notifications",
+      "default": "0"
+    },
+    {
+      "fieldname": "enable_nextcloud_links",
+      "fieldtype": "Check",
+      "label": "enable nextcloud links",
+      "default": "0"
+    },
+    {
+      "fieldname": "enable_auto_release_meetings",
+      "fieldtype": "Check",
+      "label": "enable auto release meetings",
+      "default": "0"
+    },
+    {
+      "fieldname": "default_sla_minutes",
+      "fieldtype": "Int",
+      "label": "Default SLA Minutes",
+      "default": "1440"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1
+    },
+    {
+      "role": "Administration Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1
+    }
+  ]
+}

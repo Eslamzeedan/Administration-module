@@ -1,0 +1,147 @@
+{
+  "doctype": "Workspace",
+  "name": "EuP Administration v3",
+  "label": "EuP Administration v3",
+  "title": "EuP Administration v3",
+  "app": "eup_administration",
+  "module": "EuP Administration",
+  "type": "Workspace",
+  "public": 1,
+  "standard": 1,
+  "is_hidden": 0,
+  "icon": "building-2",
+  "content": "[{\"id\":\"v3header\",\"type\":\"header\",\"data\":{\"text\":\"EuP Administration v3 — Operations Hub\",\"col\":12}},{\"id\":\"v3short0\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"General Services\",\"col\":4}},{\"id\":\"v3short1\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"My Request Registry\",\"col\":4}},{\"id\":\"v3short2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Approval Cases\",\"col\":4}},{\"id\":\"v3short3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Vehicles\",\"col\":4}},{\"id\":\"v3short4\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Trips\",\"col\":4}},{\"id\":\"v3short5\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Drivers\",\"col\":4}},{\"id\":\"v3short6\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Fuel\",\"col\":4}},{\"id\":\"v3short7\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Maintenance\",\"col\":4}},{\"id\":\"v3short8\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Vehicle Documents\",\"col\":4}},{\"id\":\"v3short9\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Vehicle Incidents\",\"col\":4}},{\"id\":\"v3short10\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Meeting Rooms\",\"col\":4}},{\"id\":\"v3short11\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Meeting Bookings\",\"col\":4}},{\"id\":\"v3short12\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Meeting Check-ins\",\"col\":4}},{\"id\":\"v3short13\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Runner Requests\",\"col\":4}},{\"id\":\"v3short14\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Supply Requests\",\"col\":4}},{\"id\":\"v3short15\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Consumable Items\",\"col\":4}},{\"id\":\"v3short16\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Admin Stores\",\"col\":4}},{\"id\":\"v3short17\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Movements\",\"col\":4}},{\"id\":\"v3short18\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Counts\",\"col\":4}},{\"id\":\"v3short19\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Custody\",\"col\":4}}]",
+  "shortcuts": [
+    {
+      "label": "General Services",
+      "type": "DocType",
+      "link_to": "ADM General Service Request"
+    },
+    {
+      "label": "My Request Registry",
+      "type": "DocType",
+      "link_to": "ADM Request Registry"
+    },
+    {
+      "label": "Approval Cases",
+      "type": "DocType",
+      "link_to": "ADM Approval Case"
+    },
+    {
+      "label": "Vehicles",
+      "type": "DocType",
+      "link_to": "ADM Vehicle"
+    },
+    {
+      "label": "Trips",
+      "type": "DocType",
+      "link_to": "ADM Trip"
+    },
+    {
+      "label": "Drivers",
+      "type": "DocType",
+      "link_to": "ADM Driver"
+    },
+    {
+      "label": "Fuel",
+      "type": "DocType",
+      "link_to": "ADM Fuel Log"
+    },
+    {
+      "label": "Maintenance",
+      "type": "DocType",
+      "link_to": "ADM Maintenance"
+    },
+    {
+      "label": "Vehicle Documents",
+      "type": "DocType",
+      "link_to": "ADM Vehicle Document"
+    },
+    {
+      "label": "Vehicle Incidents",
+      "type": "DocType",
+      "link_to": "ADM Vehicle Incident"
+    },
+    {
+      "label": "Meeting Rooms",
+      "type": "DocType",
+      "link_to": "ADM Meeting Room"
+    },
+    {
+      "label": "Meeting Bookings",
+      "type": "DocType",
+      "link_to": "ADM Meeting Booking"
+    },
+    {
+      "label": "Meeting Check-ins",
+      "type": "DocType",
+      "link_to": "ADM Meeting Checkin"
+    },
+    {
+      "label": "Runner Requests",
+      "type": "DocType",
+      "link_to": "ADM Service Request"
+    },
+    {
+      "label": "Supply Requests",
+      "type": "DocType",
+      "link_to": "ADM Supply Request"
+    },
+    {
+      "label": "Consumable Items",
+      "type": "DocType",
+      "link_to": "ADM Consumable Item"
+    },
+    {
+      "label": "Admin Stores",
+      "type": "DocType",
+      "link_to": "ADM Consumable Location"
+    },
+    {
+      "label": "Stock Movements",
+      "type": "DocType",
+      "link_to": "ADM Consumable Transaction"
+    },
+    {
+      "label": "Stock Counts",
+      "type": "DocType",
+      "link_to": "ADM Stock Count"
+    },
+    {
+      "label": "Custody",
+      "type": "DocType",
+      "link_to": "ADM Admin Custody"
+    },
+    {
+      "label": "Custody Handover",
+      "type": "DocType",
+      "link_to": "ADM Custody Handover"
+    }
+  ],
+  "roles": [
+    {
+      "role": "System Manager"
+    },
+    {
+      "role": "Administration Manager"
+    },
+    {
+      "role": "Administration User"
+    },
+    {
+      "role": "Administration Requester"
+    },
+    {
+      "role": "Administration Coordinator"
+    },
+    {
+      "role": "Administration Driver"
+    },
+    {
+      "role": "Administration Runner"
+    },
+    {
+      "role": "Administration Storekeeper"
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "doctype": "DocType",
+  "name": "ADM Stock Count",
+  "module": "EuP Administration",
+  "custom": 0,
+  "engine": "InnoDB",
+  "track_changes": 1,
+  "autoname": "hash",
+  "field_order": [
+    "company",
+    "location",
+    "status",
+    "count_date",
+    "counted_by",
+    "approved_by",
+    "reason",
+    "lines",
+    "posted_at"
+  ],
+  "fields": [
+    {
+      "fieldname": "company",
+      "fieldtype": "Link",
+      "label": "company",
+      "options": "Company",
+      "reqd": 1
+    },
+    {
+      "fieldname": "location",
+      "fieldtype": "Link",
+      "label": "location",
+      "options": "ADM Consumable Location",
+      "reqd": 1
+    },
+    {
+      "fieldname": "status",
+      "fieldtype": "Select",
+      "label": "status",
+      "options": "Draft\nSubmitted\nApproved\nPosted\nRejected",
+      "reqd": 1
+    },
+    {
+      "fieldname": "count_date",
+      "fieldtype": "Date",
+      "label": "Count Date",
+      "reqd": 1
+    },
+    {
+      "fieldname": "counted_by",
+      "fieldtype": "Link",
+      "label": "counted by",
+      "options": "User"
+    },
+    {
+      "fieldname": "approved_by",
+      "fieldtype": "Link",
+      "label": "approved by",
+      "options": "User"
+    },
+    {
+      "fieldname": "reason",
+      "fieldtype": "Small Text",
+      "label": "Adjustment Reason"
+    },
+    {
+      "fieldname": "lines",
+      "fieldtype": "Table",
+      "label": "lines",
+      "options": "ADM Stock Count Line"
+    },
+    {
+      "fieldname": "posted_at",
+      "fieldtype": "Datetime",
+      "label": "posted at"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1
+    },
+    {
+      "role": "Administration Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1
+    },
+    {
+      "role": "Administration Coordinator",
+      "read": 1,
+      "create": 1,
+      "write": 1
+    },
+    {
+      "role": "Administration Storekeeper",
+      "read": 1,
+      "create": 1,
+      "write": 1
+    }
+  ]
+}

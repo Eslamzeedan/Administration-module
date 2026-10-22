@@ -1,0 +1,83 @@
+{
+  "doctype": "DocType",
+  "name": "ADM Approval Delegation",
+  "module": "EuP Administration",
+  "custom": 0,
+  "engine": "InnoDB",
+  "track_changes": 1,
+  "autoname": "hash",
+  "field_order": [
+    "delegator",
+    "delegate",
+    "company",
+    "department",
+    "valid_from",
+    "valid_until",
+    "enabled",
+    "reason"
+  ],
+  "fields": [
+    {
+      "fieldname": "delegator",
+      "fieldtype": "Link",
+      "label": "delegator",
+      "options": "User",
+      "reqd": 1
+    },
+    {
+      "fieldname": "delegate",
+      "fieldtype": "Link",
+      "label": "delegate",
+      "options": "User",
+      "reqd": 1
+    },
+    {
+      "fieldname": "company",
+      "fieldtype": "Link",
+      "label": "company",
+      "options": "Company",
+      "reqd": 1
+    },
+    {
+      "fieldname": "department",
+      "fieldtype": "Link",
+      "label": "department",
+      "options": "Department"
+    },
+    {
+      "fieldname": "valid_from",
+      "fieldtype": "Datetime",
+      "label": "valid from"
+    },
+    {
+      "fieldname": "valid_until",
+      "fieldtype": "Datetime",
+      "label": "valid until"
+    },
+    {
+      "fieldname": "enabled",
+      "fieldtype": "Check",
+      "label": "enabled",
+      "default": "1"
+    },
+    {
+      "fieldname": "reason",
+      "fieldtype": "Small Text",
+      "label": "Reason"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1
+    },
+    {
+      "role": "Administration Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1
+    }
+  ]
+}

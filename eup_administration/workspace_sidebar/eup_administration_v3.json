@@ -1,0 +1,241 @@
+{
+  "doctype": "Workspace Sidebar",
+  "name": "EuP Administration v3",
+  "title": "EuP Administration v3",
+  "app": "eup_administration",
+  "module": "EuP Administration",
+  "standard": 1,
+  "header_icon": "building-2",
+  "items": [
+    {
+      "label": "Home",
+      "type": "Link",
+      "link_type": "Page",
+      "link_to": "administration-v3",
+      "child": 0
+    },
+    {
+      "label": "Services",
+      "type": "Section Break",
+      "child": 0,
+      "collapsible": 1,
+      "keep_closed": 0,
+      "icon": "clipboard-list"
+    },
+    {
+      "label": "General Services",
+      "type": "Link",
+      "link_type": "DocType",
+      "link_to": "ADM General Service Request",
+      "child": 1
+    },
+    {
+      "label": "My Request Registry",
+      "type": "Link",
+      "link_type": "DocType",
+      "link_to": "ADM Request Registry",
+      "child": 1
+    },
+    {
+      "label": "Approval Cases",
+      "type": "Link",
+      "link_type": "DocType",
+      "link_to": "ADM Approval Case",
+      "child": 1
+    },
+    {
+      "label": "Fleet",
+      "type": "Section Break",
+      "child": 0,
+      "collapsible": 1,
+      "keep_closed": 0,
+      "icon": "car-front"
+    },
+    {
+      "label": "Vehicles",
+      "type": "Link",
+      "link_type": "DocType",
+      "link_to": "ADM Vehicle",
+      "child": 1
+    },
+    {
+      "label": "Trips",
+      "type": "Link",
+      "link_type": "DocType",
+      "link_to": "ADM Trip",
+      "child": 1
+    },
+    {
+      "label": "Drivers",
+      "type": "Link",
+      "link_type": "DocType",
+      "link_to": "ADM Driver",
+      "child": 1
+    },
+    {
+      "label": "Fuel",
+      "type": "Link",
+      "link_type": "DocType",
+      "link_to": "ADM Fuel Log",
+      "child": 1
+    },
+    {
+      "label": "Maintenance",
+      "type": "Link",
+      "link_type": "DocType",
+      "link_to": "ADM Maintenance",
+      "child": 1
+    },
+    {
+      "label": "Vehicle Documents",
+      "type": "Link",
+      "link_type": "DocType",
+      "link_to": "ADM Vehicle Document",
+      "child": 1
+    },
+    {
+      "label": "Vehicle Incidents",
+      "type": "Link",
+      "link_type": "DocType",
+      "link_to": "ADM Vehicle Incident",
+      "child": 1
+    },
+    {
+      "label": "Meetings",
+      "type": "Section Break",
+      "child": 0,
+      "collapsible": 1,
+      "keep_closed": 0,
+      "icon": "calendar-days"
+    },
+    {
+      "label": "Meeting Rooms",
+      "type": "Link",
+      "link_type": "DocType",
+      "link_to": "ADM Meeting Room",
+      "child": 1
+    },
+    {
+      "label": "Meeting Bookings",
+      "type": "Link",
+      "link_type": "DocType",
+      "link_to": "ADM Meeting Booking",
+      "child": 1
+    },
+    {
+      "label": "Meeting Check-ins",
+      "type": "Link",
+      "link_type": "DocType",
+      "link_to": "ADM Meeting Checkin",
+      "child": 1
+    },
+    {
+      "label": "Runner",
+      "type": "Section Break",
+      "child": 0,
+      "collapsible": 1,
+      "keep_closed": 0,
+      "icon": "footprints"
+    },
+    {
+      "label": "Runner Requests",
+      "type": "Link",
+      "link_type": "DocType",
+      "link_to": "ADM Service Request",
+      "child": 1
+    },
+    {
+      "label": "Inventory",
+      "type": "Section Break",
+      "child": 0,
+      "collapsible": 1,
+      "keep_closed": 0,
+      "icon": "package"
+    },
+    {
+      "label": "Supply Requests",
+      "type": "Link",
+      "link_type": "DocType",
+      "link_to": "ADM Supply Request",
+      "child": 1
+    },
+    {
+      "label": "Consumable Items",
+      "type": "Link",
+      "link_type": "DocType",
+      "link_to": "ADM Consumable Item",
+      "child": 1
+    },
+    {
+      "label": "Admin Stores",
+      "type": "Link",
+      "link_type": "DocType",
+      "link_to": "ADM Consumable Location",
+      "child": 1
+    },
+    {
+      "label": "Stock Movements",
+      "type": "Link",
+      "link_type": "DocType",
+      "link_to": "ADM Consumable Transaction",
+      "child": 1
+    },
+    {
+      "label": "Stock Counts",
+      "type": "Link",
+      "link_type": "DocType",
+      "link_to": "ADM Stock Count",
+      "child": 1
+    },
+    {
+      "label": "Custody",
+      "type": "Link",
+      "link_type": "DocType",
+      "link_to": "ADM Admin Custody",
+      "child": 1
+    },
+    {
+      "label": "Custody Handover",
+      "type": "Link",
+      "link_type": "DocType",
+      "link_to": "ADM Custody Handover",
+      "child": 1
+    },
+    {
+      "label": "Settings",
+      "type": "Section Break",
+      "child": 0,
+      "collapsible": 1,
+      "keep_closed": 0,
+      "icon": "settings"
+    },
+    {
+      "label": "Approval Policies",
+      "type": "Link",
+      "link_type": "DocType",
+      "link_to": "ADM Approval Policy",
+      "child": 1
+    },
+    {
+      "label": "Approval Delegations",
+      "type": "Link",
+      "link_type": "DocType",
+      "link_to": "ADM Approval Delegation",
+      "child": 1
+    },
+    {
+      "label": "SLA Policies",
+      "type": "Link",
+      "link_type": "DocType",
+      "link_to": "ADM SLA Policy",
+      "child": 1
+    },
+    {
+      "label": "ADM Settings",
+      "type": "Link",
+      "link_type": "DocType",
+      "link_to": "ADM Settings",
+      "child": 1
+    }
+  ]
+}

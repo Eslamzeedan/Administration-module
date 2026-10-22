@@ -1,0 +1,70 @@
+{
+  "doctype": "DocType",
+  "name": "ADM Meeting Checkin",
+  "module": "EuP Administration",
+  "custom": 0,
+  "engine": "InnoDB",
+  "track_changes": 1,
+  "autoname": "hash",
+  "field_order": [
+    "booking",
+    "company",
+    "checked_in_by",
+    "checked_in_at",
+    "status"
+  ],
+  "fields": [
+    {
+      "fieldname": "booking",
+      "fieldtype": "Link",
+      "label": "booking",
+      "options": "ADM Meeting Booking",
+      "reqd": 1
+    },
+    {
+      "fieldname": "company",
+      "fieldtype": "Link",
+      "label": "company",
+      "options": "Company",
+      "reqd": 1
+    },
+    {
+      "fieldname": "checked_in_by",
+      "fieldtype": "Link",
+      "label": "checked in by",
+      "options": "User"
+    },
+    {
+      "fieldname": "checked_in_at",
+      "fieldtype": "Datetime",
+      "label": "checked in at"
+    },
+    {
+      "fieldname": "status",
+      "fieldtype": "Select",
+      "label": "status",
+      "options": "Present\nNo Show",
+      "reqd": 1
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1
+    },
+    {
+      "role": "Administration Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1
+    },
+    {
+      "role": "Administration Coordinator",
+      "read": 1,
+      "create": 1,
+      "write": 1
+    }
+  ]
+}

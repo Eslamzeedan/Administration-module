@@ -1,0 +1,134 @@
+{
+  "doctype": "DocType",
+  "name": "ADM Request Registry",
+  "module": "EuP Administration",
+  "custom": 0,
+  "engine": "InnoDB",
+  "track_changes": 1,
+  "autoname": "hash",
+  "field_order": [
+    "reference_doctype",
+    "reference_name",
+    "service_family",
+    "company",
+    "department",
+    "requested_by",
+    "assigned_to",
+    "summary",
+    "source_status",
+    "priority",
+    "due_at",
+    "last_event_at"
+  ],
+  "fields": [
+    {
+      "fieldname": "reference_doctype",
+      "fieldtype": "Link",
+      "label": "reference doctype",
+      "options": "DocType",
+      "reqd": 1
+    },
+    {
+      "fieldname": "reference_name",
+      "fieldtype": "Dynamic Link",
+      "label": "Reference Name",
+      "options": "reference_doctype",
+      "reqd": 1
+    },
+    {
+      "fieldname": "service_family",
+      "fieldtype": "Select",
+      "label": "service family",
+      "options": "Fleet\nMeeting\nRunner\nSupplies\nCustody\nGeneral",
+      "reqd": 1
+    },
+    {
+      "fieldname": "company",
+      "fieldtype": "Link",
+      "label": "company",
+      "options": "Company"
+    },
+    {
+      "fieldname": "department",
+      "fieldtype": "Link",
+      "label": "department",
+      "options": "Department"
+    },
+    {
+      "fieldname": "requested_by",
+      "fieldtype": "Link",
+      "label": "requested by",
+      "options": "User"
+    },
+    {
+      "fieldname": "assigned_to",
+      "fieldtype": "Link",
+      "label": "assigned to",
+      "options": "User"
+    },
+    {
+      "fieldname": "summary",
+      "fieldtype": "Data",
+      "label": "summary"
+    },
+    {
+      "fieldname": "source_status",
+      "fieldtype": "Data",
+      "label": "source status"
+    },
+    {
+      "fieldname": "priority",
+      "fieldtype": "Select",
+      "label": "priority",
+      "options": "Normal\nUrgent"
+    },
+    {
+      "fieldname": "due_at",
+      "fieldtype": "Datetime",
+      "label": "due at"
+    },
+    {
+      "fieldname": "last_event_at",
+      "fieldtype": "Datetime",
+      "label": "last event at"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1
+    },
+    {
+      "role": "Administration Manager",
+      "read": 1
+    },
+    {
+      "role": "Administration Auditor",
+      "read": 1
+    },
+    {
+      "role": "Administration Requester",
+      "read": 1
+    },
+    {
+      "role": "Administration User",
+      "read": 1
+    },
+    {
+      "role": "Administration Coordinator",
+      "read": 1
+    },
+    {
+      "role": "Administration Driver",
+      "read": 1
+    },
+    {
+      "role": "Administration Runner",
+      "read": 1
+    },
+    {
+      "role": "Administration Storekeeper",
+      "read": 1
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "doctype": "DocType",
+  "name": "ADM Stock Count Line",
+  "module": "EuP Administration",
+  "custom": 0,
+  "engine": "InnoDB",
+  "track_changes": 1,
+  "istable": 1,
+  "autoname": "hash",
+  "field_order": [
+    "item",
+    "expected_qty",
+    "counted_qty",
+    "difference",
+    "notes"
+  ],
+  "fields": [
+    {
+      "fieldname": "item",
+      "fieldtype": "Link",
+      "label": "item",
+      "options": "ADM Consumable Item",
+      "reqd": 1
+    },
+    {
+      "fieldname": "expected_qty",
+      "fieldtype": "Float",
+      "label": "expected qty"
+    },
+    {
+      "fieldname": "counted_qty",
+      "fieldtype": "Float",
+      "label": "Counted Qty",
+      "reqd": 1
+    },
+    {
+      "fieldname": "difference",
+      "fieldtype": "Float",
+      "label": "difference"
+    },
+    {
+      "fieldname": "notes",
+      "fieldtype": "Data",
+      "label": "notes"
+    }
+  ],
+  "permissions": []
+}

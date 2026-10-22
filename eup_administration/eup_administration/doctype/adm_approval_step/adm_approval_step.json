@@ -1,0 +1,51 @@
+{
+  "doctype": "DocType",
+  "name": "ADM Approval Step",
+  "module": "EuP Administration",
+  "custom": 0,
+  "engine": "InnoDB",
+  "track_changes": 1,
+  "istable": 1,
+  "autoname": "hash",
+  "field_order": [
+    "step_number",
+    "approver_role",
+    "same_department",
+    "same_company",
+    "allow_delegation"
+  ],
+  "fields": [
+    {
+      "fieldname": "step_number",
+      "fieldtype": "Int",
+      "label": "Step Number",
+      "reqd": 1
+    },
+    {
+      "fieldname": "approver_role",
+      "fieldtype": "Link",
+      "label": "approver role",
+      "options": "Role",
+      "reqd": 1
+    },
+    {
+      "fieldname": "same_department",
+      "fieldtype": "Check",
+      "label": "same department",
+      "default": "1"
+    },
+    {
+      "fieldname": "same_company",
+      "fieldtype": "Check",
+      "label": "same company",
+      "default": "1"
+    },
+    {
+      "fieldname": "allow_delegation",
+      "fieldtype": "Check",
+      "label": "allow delegation",
+      "default": "0"
+    }
+  ],
+  "permissions": []
+}

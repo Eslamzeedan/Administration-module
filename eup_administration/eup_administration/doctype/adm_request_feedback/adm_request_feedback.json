@@ -1,0 +1,70 @@
+{
+  "doctype": "DocType",
+  "name": "ADM Request Feedback",
+  "module": "EuP Administration",
+  "custom": 0,
+  "engine": "InnoDB",
+  "track_changes": 1,
+  "autoname": "hash",
+  "field_order": [
+    "reference_doctype",
+    "reference_name",
+    "submitted_by",
+    "rating",
+    "comments",
+    "submitted_at"
+  ],
+  "fields": [
+    {
+      "fieldname": "reference_doctype",
+      "fieldtype": "Link",
+      "label": "reference doctype",
+      "options": "DocType",
+      "reqd": 1
+    },
+    {
+      "fieldname": "reference_name",
+      "fieldtype": "Dynamic Link",
+      "label": "Reference",
+      "options": "reference_doctype",
+      "reqd": 1
+    },
+    {
+      "fieldname": "submitted_by",
+      "fieldtype": "Link",
+      "label": "submitted by",
+      "options": "User",
+      "reqd": 1
+    },
+    {
+      "fieldname": "rating",
+      "fieldtype": "Int",
+      "label": "Rating 1–5",
+      "reqd": 1
+    },
+    {
+      "fieldname": "comments",
+      "fieldtype": "Small Text",
+      "label": "Comments"
+    },
+    {
+      "fieldname": "submitted_at",
+      "fieldtype": "Datetime",
+      "label": "submitted at"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1
+    },
+    {
+      "role": "Administration Manager",
+      "read": 1
+    },
+    {
+      "role": "Administration Auditor",
+      "read": 1
+    }
+  ]
+}

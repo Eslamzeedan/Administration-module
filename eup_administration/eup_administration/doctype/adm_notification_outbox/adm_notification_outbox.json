@@ -1,0 +1,83 @@
+{
+  "doctype": "DocType",
+  "name": "ADM Notification Outbox",
+  "module": "EuP Administration",
+  "custom": 0,
+  "engine": "InnoDB",
+  "track_changes": 1,
+  "autoname": "hash",
+  "field_order": [
+    "event",
+    "recipient",
+    "channel",
+    "status",
+    "attempts",
+    "next_attempt",
+    "error_message",
+    "sent_at"
+  ],
+  "fields": [
+    {
+      "fieldname": "event",
+      "fieldtype": "Link",
+      "label": "event",
+      "options": "ADM Request Event",
+      "reqd": 1
+    },
+    {
+      "fieldname": "recipient",
+      "fieldtype": "Link",
+      "label": "recipient",
+      "options": "User",
+      "reqd": 1
+    },
+    {
+      "fieldname": "channel",
+      "fieldtype": "Select",
+      "label": "channel",
+      "options": "In App\nEmail",
+      "reqd": 1
+    },
+    {
+      "fieldname": "status",
+      "fieldtype": "Select",
+      "label": "status",
+      "options": "Pending\nSent\nFailed\nDisabled",
+      "reqd": 1
+    },
+    {
+      "fieldname": "attempts",
+      "fieldtype": "Int",
+      "label": "Attempts"
+    },
+    {
+      "fieldname": "next_attempt",
+      "fieldtype": "Datetime",
+      "label": "next attempt"
+    },
+    {
+      "fieldname": "error_message",
+      "fieldtype": "Data",
+      "label": "error message"
+    },
+    {
+      "fieldname": "sent_at",
+      "fieldtype": "Datetime",
+      "label": "sent at"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1
+    },
+    {
+      "role": "Administration Manager",
+      "read": 1
+    },
+    {
+      "role": "Administration Auditor",
+      "read": 1
+    }
+  ]
+}
