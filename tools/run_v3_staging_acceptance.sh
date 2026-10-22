@@ -55,6 +55,12 @@ bench --site "$SITE" set-config allow_tests 1
 bench --site "$SITE" set-config adm_allow_integration_tests 1
 bench --site "$SITE" run-tests --app eup_administration 2>&1 | tee "$LOGDIR/08_all_integrations.log"
 
+# Strict acceptance: a successful exit with skipped tests is NOT a full test pass.
+if grep -Eiq 'skipped[=: ]+[1-9][0-9]*|[1-9][0-9]* skipped|Ran 0 tests' "$LOGDIR/08_all_integrations.log"; then
+  echo "INCOMPLETE: one or more integration tests were skipped or none ran. Review staging prerequisites." >&2
+  exit 3
+fi
+
 # Explicitly keep scheduler disabled and maintenance mode enabled for browser/manual acceptance.
 echo "AUTOMATED STAGING PASS: inspect logs and continue manual roles/concurrency/browser/restore."
 echo "No deployment to production has been performed."
