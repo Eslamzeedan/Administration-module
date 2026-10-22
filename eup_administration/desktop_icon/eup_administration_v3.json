@@ -1,0 +1,14 @@
+{
+  "doctype": "Desktop Icon",
+  "name": "EuP Administration v3",
+  "label": "EuP Administration v3",
+  "app": "eup_administration",
+  "standard": 1,
+  "hidden": 0,
+  "parent_icon": "ERPNext",
+  "icon": "building-2",
+  "icon_type": "Link",
+  "link_type": "Workspace Sidebar",
+  "link_to": "EuP Administration v3",
+  "roles": []
+}

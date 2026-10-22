@@ -92,6 +92,12 @@
       "read": 1,
       "create": 1,
       "write": 1
+    },
+    {
+      "role": "Administration Storekeeper",
+      "read": 1,
+      "create": 1,
+      "write": 1
     }
   ]
 }

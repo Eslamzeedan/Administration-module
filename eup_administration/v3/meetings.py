@@ -41,8 +41,11 @@ def check_in(booking):
         frappe.throw("Check-in must occur during the booking")
     if frappe.db.exists("ADM Meeting Checkin", {"booking": booking}):
         frappe.throw("Meeting has already been checked in")
-    with frappe.flags.set_flag("adm_v3_checkin", True):
+    frappe.flags.adm_v3_checkin = True
+    try:
         record = frappe.get_doc({"doctype": "ADM Meeting Checkin", "booking": doc.name,
             "company": doc.company, "status": "Present", "checked_in_by": frappe.session.user,
             "checked_in_at": now_datetime()}).insert(ignore_permissions=True)
+    finally:
+        frappe.flags.adm_v3_checkin = False
     return {"checkin": record.name, "status": "Present"}

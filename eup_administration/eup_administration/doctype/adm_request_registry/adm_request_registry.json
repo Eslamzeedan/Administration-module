@@ -105,6 +105,30 @@
     {
       "role": "Administration Auditor",
       "read": 1
+    },
+    {
+      "role": "Administration Requester",
+      "read": 1
+    },
+    {
+      "role": "Administration User",
+      "read": 1
+    },
+    {
+      "role": "Administration Coordinator",
+      "read": 1
+    },
+    {
+      "role": "Administration Driver",
+      "read": 1
+    },
+    {
+      "role": "Administration Runner",
+      "read": 1
+    },
+    {
+      "role": "Administration Storekeeper",
+      "read": 1
     }
   ]
 }

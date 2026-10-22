@@ -23,7 +23,9 @@ def sync_document(doc, method=None):
     if not frappe.db.exists("DocType", "ADM Request Registry"):
         return
     state = doc.get("status") or "Created"
-    who = doc.get("requested_by") or doc.get("organizer") or doc.get("assigned_to")
+    who = doc.get("requested_by") or doc.get("organizer")
+    if doc.doctype == "ADM General Service Request":
+        who = doc.get("requested_by")
     if not who and doc.doctype == "ADM Admin Custody":
         who = frappe.db.get_value("Employee", doc.get("assigned_to"), "user_id") if doc.get("assigned_to") else None
     summary = doc.get("subject") or doc.get("purpose") or doc.get("title") or doc.get("custody_title") or doc.name

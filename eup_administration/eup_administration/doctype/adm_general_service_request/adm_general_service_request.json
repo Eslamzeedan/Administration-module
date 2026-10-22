@@ -138,6 +138,10 @@
       "read": 1,
       "create": 1,
       "write": 1
+    },
+    {
+      "role": "Administration Coordinator",
+      "read": 1
     }
   ]
 }
