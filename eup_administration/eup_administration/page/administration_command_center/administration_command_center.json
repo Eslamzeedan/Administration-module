@@ -1,0 +1,34 @@
+{
+  "doctype": "Page",
+  "name": "administration-command-center",
+  "page_name": "administration-command-center",
+  "title": "Administration Command Center",
+  "module": "EuP Administration",
+  "standard": "Yes",
+  "roles": [
+    {
+      "role": "System Manager"
+    },
+    {
+      "role": "Administration Manager"
+    },
+    {
+      "role": "Administration User"
+    },
+    {
+      "role": "Administration Requester"
+    },
+    {
+      "role": "Administration Coordinator"
+    },
+    {
+      "role": "Administration Driver"
+    },
+    {
+      "role": "Administration Runner"
+    },
+    {
+      "role": "Administration Storekeeper"
+    }
+  ]
+}

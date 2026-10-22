@@ -61,3 +61,37 @@ scheduler_events = {
     "hourly": ["eup_administration.v3.notifications.process_outbox"],
     "daily": ["eup_administration.v3.notifications.daily_sla_digest"],
 }
+
+# V4: additive administrative-only operations. Legacy API hooks remain unchanged.
+permission_query_conditions["ADM Facility Ticket"] = "eup_administration.v4.security.adm_facility_ticket_query"
+has_permission["ADM Facility Ticket"] = "eup_administration.v4.security.operation_permission"
+permission_query_conditions["ADM Driver Checklist"] = "eup_administration.v4.security.adm_driver_checklist_query"
+has_permission["ADM Driver Checklist"] = "eup_administration.v4.security.operation_permission"
+permission_query_conditions["ADM Preventive Plan"] = "eup_administration.v4.security.adm_preventive_plan_query"
+has_permission["ADM Preventive Plan"] = "eup_administration.v4.security.operation_permission"
+permission_query_conditions["ADM Parcel"] = "eup_administration.v4.security.adm_parcel_query"
+has_permission["ADM Parcel"] = "eup_administration.v4.security.operation_permission"
+permission_query_conditions["ADM Equipment Booking"] = "eup_administration.v4.security.adm_equipment_booking_query"
+has_permission["ADM Equipment Booking"] = "eup_administration.v4.security.operation_permission"
+permission_query_conditions["ADM Contract Register"] = "eup_administration.v4.security.adm_contract_register_query"
+has_permission["ADM Contract Register"] = "eup_administration.v4.security.operation_permission"
+permission_query_conditions["ADM Operational Incident"] = "eup_administration.v4.security.adm_operational_incident_query"
+has_permission["ADM Operational Incident"] = "eup_administration.v4.security.operation_permission"
+permission_query_conditions["ADM Recurring Task"] = "eup_administration.v4.security.adm_recurring_task_query"
+has_permission["ADM Recurring Task"] = "eup_administration.v4.security.operation_permission"
+permission_query_conditions["ADM Task Occurrence"] = "eup_administration.v4.security.adm_task_occurrence_query"
+has_permission["ADM Task Occurrence"] = "eup_administration.v4.security.operation_permission"
+permission_query_conditions["ADM Workflow Policy"] = "eup_administration.v4.security.master_query"
+has_permission["ADM Workflow Policy"] = "eup_administration.v4.security.master_permission"
+permission_query_conditions["ADM Shared Equipment"] = "eup_administration.v4.security.master_query"
+has_permission["ADM Shared Equipment"] = "eup_administration.v4.security.master_permission"
+permission_query_conditions["ADM SLA Escalation"] = "eup_administration.v4.security.escalation_query"
+has_permission["ADM SLA Escalation"] = "eup_administration.v4.security.escalation_permission"
+scheduler_events["hourly"].append("eup_administration.v4.jobs.escalate")
+scheduler_events["daily"].append("eup_administration.v4.operations.recurring")
+permission_query_conditions["ADM Workflow Run"] = "eup_administration.v4.security.master_query"
+has_permission["ADM Workflow Run"] = "eup_administration.v4.security.master_permission"
+permission_query_conditions["ADM Workflow Audit"] = "eup_administration.v4.security.master_query"
+has_permission["ADM Workflow Audit"] = "eup_administration.v4.security.master_permission"
+permission_query_conditions["ADM Operation Feedback"] = "eup_administration.v4.security.master_query"
+has_permission["ADM Operation Feedback"] = "eup_administration.v4.security.master_permission"

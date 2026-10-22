@@ -1,0 +1,12 @@
+{% extends "templates/web.html" %}
+{% block page_content %}
+<div class="adm-self-service">
+  <h1>{{ _("Administration Self-Service") }}</h1>
+  <p>{{ _("Request office services, track your requests, and rate completed services.") }}</p>
+  <p><strong>{{ company | e }}</strong></p>
+  <div id="adm-portal-status" role="status" aria-live="polite"></div>
+  <button id="adm-new-request" class="btn btn-primary">{{ _("New request") }}</button>
+  <button id="adm-refresh" class="btn btn-default">{{ _("Refresh") }}</button>
+  <div id="adm-portal-list" class="mt-4"></div>
+</div>
+{% endblock %}

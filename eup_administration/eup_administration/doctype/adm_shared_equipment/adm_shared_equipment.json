@@ -1,0 +1,81 @@
+{
+  "doctype": "DocType",
+  "name": "ADM Shared Equipment",
+  "module": "EuP Administration",
+  "custom": 0,
+  "engine": "InnoDB",
+  "autoname": "hash",
+  "track_changes": 1,
+  "field_order": [
+    "equipment_name",
+    "company",
+    "enabled",
+    "location"
+  ],
+  "fields": [
+    {
+      "fieldname": "equipment_name",
+      "label": "Equipment Name",
+      "fieldtype": "Data",
+      "reqd": 1
+    },
+    {
+      "fieldname": "company",
+      "label": "Company",
+      "fieldtype": "Link",
+      "options": "Company",
+      "reqd": 1
+    },
+    {
+      "fieldname": "enabled",
+      "label": "Enabled",
+      "fieldtype": "Check",
+      "default": "1"
+    },
+    {
+      "fieldname": "location",
+      "label": "Location",
+      "fieldtype": "Data"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "report": 1
+    },
+    {
+      "role": "Administration Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "report": 1
+    },
+    {
+      "role": "Administration User",
+      "read": 1
+    },
+    {
+      "role": "Administration Requester",
+      "read": 1
+    },
+    {
+      "role": "Administration Coordinator",
+      "read": 1
+    },
+    {
+      "role": "Administration Driver",
+      "read": 1
+    },
+    {
+      "role": "Administration Runner",
+      "read": 1
+    },
+    {
+      "role": "Administration Storekeeper",
+      "read": 1
+    }
+  ]
+}

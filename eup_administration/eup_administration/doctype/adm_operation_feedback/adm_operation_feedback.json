@@ -1,0 +1,81 @@
+{
+  "doctype": "DocType",
+  "name": "ADM Operation Feedback",
+  "module": "EuP Administration",
+  "custom": 0,
+  "engine": "InnoDB",
+  "autoname": "hash",
+  "track_changes": 1,
+  "field_order": [
+    "reference_doctype",
+    "reference_name",
+    "reference_key",
+    "requested_by",
+    "rating",
+    "comment",
+    "company"
+  ],
+  "fields": [
+    {
+      "fieldname": "reference_doctype",
+      "label": "Reference Doctype",
+      "fieldtype": "Select",
+      "options": "ADM Facility Ticket\nADM Driver Checklist\nADM Preventive Plan\nADM Parcel\nADM Equipment Booking\nADM Contract Register\nADM Operational Incident\nADM Recurring Task\nADM Task Occurrence",
+      "reqd": 1
+    },
+    {
+      "fieldname": "reference_name",
+      "label": "Reference Name",
+      "fieldtype": "Data",
+      "reqd": 1
+    },
+    {
+      "fieldname": "reference_key",
+      "label": "Reference Key",
+      "fieldtype": "Data",
+      "unique": 1,
+      "reqd": 1
+    },
+    {
+      "fieldname": "requested_by",
+      "label": "Requested By",
+      "fieldtype": "Link",
+      "options": "User"
+    },
+    {
+      "fieldname": "rating",
+      "label": "Rating",
+      "fieldtype": "Int",
+      "reqd": 1
+    },
+    {
+      "fieldname": "comment",
+      "label": "Comment",
+      "fieldtype": "Small Text"
+    },
+    {
+      "fieldname": "company",
+      "label": "Company",
+      "fieldtype": "Link",
+      "options": "Company",
+      "read_only": 1,
+      "reqd": 1
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "create": 0,
+      "write": 0,
+      "report": 1
+    },
+    {
+      "role": "Administration Manager",
+      "read": 1,
+      "create": 0,
+      "write": 0,
+      "report": 1
+    }
+  ]
+}

@@ -1,0 +1,197 @@
+{
+  "doctype": "DocType",
+  "name": "ADM Driver Checklist",
+  "module": "EuP Administration",
+  "custom": 0,
+  "engine": "InnoDB",
+  "autoname": "hash",
+  "track_changes": 1,
+  "field_order": [
+    "subject",
+    "company",
+    "department",
+    "requested_by",
+    "assigned_to",
+    "workflow_state",
+    "workflow_policy",
+    "description",
+    "priority",
+    "due_at",
+    "vehicle",
+    "check_date",
+    "odometer",
+    "brakes_ok",
+    "tires_ok",
+    "lights_ok",
+    "documents_ok",
+    "defect_notes"
+  ],
+  "fields": [
+    {
+      "fieldname": "subject",
+      "label": "Subject",
+      "fieldtype": "Data",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "company",
+      "label": "Company",
+      "fieldtype": "Link",
+      "options": "Company",
+      "reqd": 1
+    },
+    {
+      "fieldname": "department",
+      "label": "Department",
+      "fieldtype": "Link",
+      "options": "Department"
+    },
+    {
+      "fieldname": "requested_by",
+      "label": "Requested By",
+      "fieldtype": "Link",
+      "options": "User",
+      "read_only": 1
+    },
+    {
+      "fieldname": "assigned_to",
+      "label": "Assigned To",
+      "fieldtype": "Link",
+      "options": "User"
+    },
+    {
+      "fieldname": "workflow_state",
+      "label": "Workflow State",
+      "fieldtype": "Data",
+      "read_only": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "workflow_policy",
+      "label": "Workflow Policy",
+      "fieldtype": "Link",
+      "options": "ADM Workflow Policy",
+      "read_only": 1
+    },
+    {
+      "fieldname": "description",
+      "label": "Description",
+      "fieldtype": "Small Text"
+    },
+    {
+      "fieldname": "priority",
+      "label": "Priority",
+      "fieldtype": "Select",
+      "options": "Low\nNormal\nHigh\nCritical",
+      "default": "Normal"
+    },
+    {
+      "fieldname": "due_at",
+      "label": "Due At",
+      "fieldtype": "Datetime",
+      "read_only": 1
+    },
+    {
+      "fieldname": "vehicle",
+      "label": "Vehicle",
+      "fieldtype": "Link",
+      "options": "ADM Vehicle",
+      "reqd": 1
+    },
+    {
+      "fieldname": "check_date",
+      "label": "Check Date",
+      "fieldtype": "Date",
+      "reqd": 1
+    },
+    {
+      "fieldname": "odometer",
+      "label": "Odometer",
+      "fieldtype": "Float"
+    },
+    {
+      "fieldname": "brakes_ok",
+      "label": "Brakes Ok",
+      "fieldtype": "Check"
+    },
+    {
+      "fieldname": "tires_ok",
+      "label": "Tires Ok",
+      "fieldtype": "Check"
+    },
+    {
+      "fieldname": "lights_ok",
+      "label": "Lights Ok",
+      "fieldtype": "Check"
+    },
+    {
+      "fieldname": "documents_ok",
+      "label": "Documents Ok",
+      "fieldtype": "Check"
+    },
+    {
+      "fieldname": "defect_notes",
+      "label": "Defect Notes",
+      "fieldtype": "Small Text"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "report": 1
+    },
+    {
+      "role": "Administration Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "report": 1
+    },
+    {
+      "role": "Administration User",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "report": 1
+    },
+    {
+      "role": "Administration Requester",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "report": 1
+    },
+    {
+      "role": "Administration Coordinator",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "report": 1
+    },
+    {
+      "role": "Administration Driver",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "report": 1
+    },
+    {
+      "role": "Administration Runner",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "report": 1
+    },
+    {
+      "role": "Administration Storekeeper",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "report": 1
+    }
+  ]
+}

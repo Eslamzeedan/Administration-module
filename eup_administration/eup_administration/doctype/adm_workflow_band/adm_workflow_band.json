@@ -1,0 +1,56 @@
+{
+  "doctype": "DocType",
+  "name": "ADM Workflow Band",
+  "module": "EuP Administration",
+  "custom": 0,
+  "engine": "InnoDB",
+  "track_changes": 1,
+  "field_order": [
+    "transition_action",
+    "step_number",
+    "approver_role",
+    "same_company",
+    "same_department",
+    "allow_delegation"
+  ],
+  "fields": [
+    {
+      "fieldname": "transition_action",
+      "label": "Transition Action",
+      "fieldtype": "Data",
+      "reqd": 1
+    },
+    {
+      "fieldname": "step_number",
+      "label": "Step Number",
+      "fieldtype": "Int",
+      "reqd": 1
+    },
+    {
+      "fieldname": "approver_role",
+      "label": "Approver Role",
+      "fieldtype": "Link",
+      "options": "Role",
+      "reqd": 1
+    },
+    {
+      "fieldname": "same_company",
+      "label": "Same Company",
+      "fieldtype": "Check",
+      "default": "1"
+    },
+    {
+      "fieldname": "same_department",
+      "label": "Same Department",
+      "fieldtype": "Check",
+      "default": "1"
+    },
+    {
+      "fieldname": "allow_delegation",
+      "label": "Allow Delegation",
+      "fieldtype": "Check"
+    }
+  ],
+  "permissions": [],
+  "istable": 1
+}

@@ -1,3 +1,7 @@
+# 4.0.0rc1 — independent administration staging candidate
+
+18 additive DocTypes, workflow designer, authenticated self-service, command center, operational dispatch/maintenance/parcel/equipment/contract/incident/task features and isolated acceptance tests. No financial bridge. See V4_IMPLEMENTATION_AND_ACCEPTANCE.md for exact scope and untested gates.
+
 ## 2.1.0rc1 — Runner/Careem staging candidate
 
 - Add non-fleet ADM Service Request with Careem Ride and Errand Stop child DocTypes.

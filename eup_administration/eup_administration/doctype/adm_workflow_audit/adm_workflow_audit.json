@@ -1,0 +1,117 @@
+{
+  "doctype": "DocType",
+  "name": "ADM Workflow Audit",
+  "module": "EuP Administration",
+  "custom": 0,
+  "engine": "InnoDB",
+  "autoname": "hash",
+  "track_changes": 1,
+  "field_order": [
+    "reference_doctype",
+    "reference_name",
+    "policy",
+    "from_state",
+    "to_state",
+    "action",
+    "actor",
+    "delegated_from",
+    "step_number",
+    "decision",
+    "comment",
+    "revision",
+    "company"
+  ],
+  "fields": [
+    {
+      "fieldname": "reference_doctype",
+      "label": "Reference Doctype",
+      "fieldtype": "Select",
+      "options": "ADM Facility Ticket\nADM Driver Checklist\nADM Preventive Plan\nADM Parcel\nADM Equipment Booking\nADM Contract Register\nADM Operational Incident\nADM Recurring Task\nADM Task Occurrence",
+      "reqd": 1
+    },
+    {
+      "fieldname": "reference_name",
+      "label": "Reference Name",
+      "fieldtype": "Data",
+      "reqd": 1
+    },
+    {
+      "fieldname": "policy",
+      "label": "Policy",
+      "fieldtype": "Link",
+      "options": "ADM Workflow Policy",
+      "reqd": 1
+    },
+    {
+      "fieldname": "from_state",
+      "label": "From State",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "to_state",
+      "label": "To State",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "action",
+      "label": "Action",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "actor",
+      "label": "Actor",
+      "fieldtype": "Link",
+      "options": "User"
+    },
+    {
+      "fieldname": "delegated_from",
+      "label": "Delegated From",
+      "fieldtype": "Link",
+      "options": "User"
+    },
+    {
+      "fieldname": "step_number",
+      "label": "Step Number",
+      "fieldtype": "Int"
+    },
+    {
+      "fieldname": "decision",
+      "label": "Decision",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "comment",
+      "label": "Comment",
+      "fieldtype": "Small Text"
+    },
+    {
+      "fieldname": "revision",
+      "label": "Revision",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "company",
+      "label": "Company",
+      "fieldtype": "Link",
+      "options": "Company",
+      "read_only": 1,
+      "reqd": 1
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "create": 0,
+      "write": 0,
+      "report": 1
+    },
+    {
+      "role": "Administration Manager",
+      "read": 1,
+      "create": 0,
+      "write": 0,
+      "report": 1
+    }
+  ]
+}
