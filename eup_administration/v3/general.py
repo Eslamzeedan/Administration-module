@@ -83,6 +83,8 @@ def assign(name, assignee):
     if not frappe.db.get_value("User", assignee, "enabled"):
         frappe.throw("Assignee must be an enabled user")
     employee = active_employee(assignee)
+    if not (roles(assignee) & {"Administration Coordinator", "Administration User", "Administration Requester"}):
+        frappe.throw("Assignee needs an Administration operational role")
     if not employee or employee.company != doc.company:
         frappe.throw("Assignee must be an active employee of the same company")
     doc.assigned_to = assignee

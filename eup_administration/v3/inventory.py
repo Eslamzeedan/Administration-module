@@ -4,7 +4,7 @@ from contextvars import ContextVar
 from decimal import Decimal
 import frappe
 from frappe.utils import now_datetime
-from eup_administration.consumables import _fetch_stock, reconcile_consumables
+from eup_administration.consumables import _fetch_stock, reconcile_consumables, _lock
 from eup_administration.v3.security import is_manager, active_employee, roles
 
 _action = ContextVar("adm_v3_stock_count_action", default=False)
@@ -97,6 +97,10 @@ def post_count(name):
         frappe.throw("Only an approved count may be posted")
     if not (doc.reason or "").strip():
         frappe.throw("Physical count adjustment reason is required")
+    # Lock in deterministic order to avoid races/deadlocks across stock counts.
+    for item in sorted({r.item for r in doc.lines}):
+        _lock("ADM Consumable Item", item)
+    _lock("ADM Consumable Location", doc.location)
     # No partial posting on failure: the Frappe POST transaction rolls back.
     for row in doc.lines:
         current = Decimal(str(_fetch_stock(row.item, doc.location)))

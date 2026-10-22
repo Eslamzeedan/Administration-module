@@ -1,7 +1,7 @@
 """Desk dashboard: only request registry rows the caller may read."""
 from collections import Counter
 import frappe
-from frappe.utils import now_datetime, getdate
+from frappe.utils import now_datetime, get_datetime
 from eup_administration.v3.security import is_manager, active_employee
 
 
@@ -20,7 +20,7 @@ def dashboard(company=None, limit=500):
     active = {"Requested", "Pending Approval", "Approved", "Assigned", "In Progress",
               "Partially Issued", "Submitted"}
     totals = Counter(row.service_family for row in data)
-    overdue = sum(1 for row in data if row.source_status in active and row.due_at and row.due_at < now_datetime())
+    overdue = sum(1 for row in data if row.source_status in active and row.due_at and get_datetime(row.due_at) < now_datetime())
     return {"total": len(data), "by_service": dict(totals),
             "by_status": dict(Counter(row.source_status for row in data)),
             "overdue": overdue, "scope": "Only permitted records"}

@@ -20,6 +20,8 @@ def validate(doc):
             frappe.throw("Vehicle documents must be private files")
     old = doc.get_doc_before_save()
     if not _verifying.get():
+        if old and old.verified and any(doc.get(x) != old.get(x) for x in ("attachment", "document_number", "valid_from", "expiry_date", "vehicle", "company", "document_type")):
+            frappe.throw("Verified vehicle documents are immutable; create a new revision")
         if old and (doc.verified != old.verified or doc.verified_by != old.verified_by):
             frappe.throw("Verify using the protected action", frappe.PermissionError)
         if not old:
