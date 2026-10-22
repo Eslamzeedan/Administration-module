@@ -1,0 +1,98 @@
+{
+  "doctype": "DocType",
+  "name": "ADM Vehicle Incident",
+  "module": "EuP Administration",
+  "custom": 0,
+  "engine": "InnoDB",
+  "track_changes": 1,
+  "autoname": "hash",
+  "field_order": [
+    "vehicle",
+    "trip",
+    "company",
+    "incident_type",
+    "incident_date",
+    "description",
+    "cost",
+    "status",
+    "attachment"
+  ],
+  "fields": [
+    {
+      "fieldname": "vehicle",
+      "fieldtype": "Link",
+      "label": "vehicle",
+      "options": "ADM Vehicle",
+      "reqd": 1
+    },
+    {
+      "fieldname": "trip",
+      "fieldtype": "Link",
+      "label": "trip",
+      "options": "ADM Trip"
+    },
+    {
+      "fieldname": "company",
+      "fieldtype": "Link",
+      "label": "company",
+      "options": "Company",
+      "reqd": 1
+    },
+    {
+      "fieldname": "incident_type",
+      "fieldtype": "Select",
+      "label": "incident type",
+      "options": "Accident\nViolation\nDamage\nOther",
+      "reqd": 1
+    },
+    {
+      "fieldname": "incident_date",
+      "fieldtype": "Date",
+      "label": "Incident Date",
+      "reqd": 1
+    },
+    {
+      "fieldname": "description",
+      "fieldtype": "Small Text",
+      "label": "Description",
+      "reqd": 1
+    },
+    {
+      "fieldname": "cost",
+      "fieldtype": "Currency",
+      "label": "Operational Cost"
+    },
+    {
+      "fieldname": "status",
+      "fieldtype": "Select",
+      "label": "status",
+      "options": "Open\nInvestigating\nClosed",
+      "reqd": 1
+    },
+    {
+      "fieldname": "attachment",
+      "fieldtype": "Attach",
+      "label": "Private Attachment"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1
+    },
+    {
+      "role": "Administration Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1
+    },
+    {
+      "role": "Administration Coordinator",
+      "read": 1,
+      "create": 1,
+      "write": 1
+    }
+  ]
+}

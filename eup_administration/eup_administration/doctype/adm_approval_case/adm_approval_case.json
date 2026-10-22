@@ -1,0 +1,98 @@
+{
+  "doctype": "DocType",
+  "name": "ADM Approval Case",
+  "module": "EuP Administration",
+  "custom": 0,
+  "engine": "InnoDB",
+  "track_changes": 1,
+  "autoname": "hash",
+  "field_order": [
+    "reference_doctype",
+    "reference_name",
+    "policy",
+    "company",
+    "department",
+    "requested_by",
+    "status",
+    "current_step",
+    "created_on",
+    "decided_on"
+  ],
+  "fields": [
+    {
+      "fieldname": "reference_doctype",
+      "fieldtype": "Link",
+      "label": "reference doctype",
+      "options": "DocType",
+      "reqd": 1
+    },
+    {
+      "fieldname": "reference_name",
+      "fieldtype": "Dynamic Link",
+      "label": "Reference Name",
+      "options": "reference_doctype",
+      "reqd": 1
+    },
+    {
+      "fieldname": "policy",
+      "fieldtype": "Link",
+      "label": "policy",
+      "options": "ADM Approval Policy",
+      "reqd": 1
+    },
+    {
+      "fieldname": "company",
+      "fieldtype": "Link",
+      "label": "company",
+      "options": "Company"
+    },
+    {
+      "fieldname": "department",
+      "fieldtype": "Link",
+      "label": "department",
+      "options": "Department"
+    },
+    {
+      "fieldname": "requested_by",
+      "fieldtype": "Link",
+      "label": "requested by",
+      "options": "User"
+    },
+    {
+      "fieldname": "status",
+      "fieldtype": "Select",
+      "label": "status",
+      "options": "Pending\nApproved\nRejected\nCancelled",
+      "reqd": 1
+    },
+    {
+      "fieldname": "current_step",
+      "fieldtype": "Int",
+      "label": "Current Step"
+    },
+    {
+      "fieldname": "created_on",
+      "fieldtype": "Datetime",
+      "label": "created on"
+    },
+    {
+      "fieldname": "decided_on",
+      "fieldtype": "Datetime",
+      "label": "decided on"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1
+    },
+    {
+      "role": "Administration Manager",
+      "read": 1
+    },
+    {
+      "role": "Administration Auditor",
+      "read": 1
+    }
+  ]
+}

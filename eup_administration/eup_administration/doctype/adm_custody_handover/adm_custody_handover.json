@@ -1,0 +1,97 @@
+{
+  "doctype": "DocType",
+  "name": "ADM Custody Handover",
+  "module": "EuP Administration",
+  "custom": 0,
+  "engine": "InnoDB",
+  "track_changes": 1,
+  "autoname": "hash",
+  "field_order": [
+    "custody",
+    "company",
+    "from_employee",
+    "to_employee",
+    "handover_at",
+    "issued_by",
+    "received_by",
+    "condition",
+    "status"
+  ],
+  "fields": [
+    {
+      "fieldname": "custody",
+      "fieldtype": "Link",
+      "label": "custody",
+      "options": "ADM Admin Custody",
+      "reqd": 1
+    },
+    {
+      "fieldname": "company",
+      "fieldtype": "Link",
+      "label": "company",
+      "options": "Company",
+      "reqd": 1
+    },
+    {
+      "fieldname": "from_employee",
+      "fieldtype": "Link",
+      "label": "from employee",
+      "options": "Employee"
+    },
+    {
+      "fieldname": "to_employee",
+      "fieldtype": "Link",
+      "label": "to employee",
+      "options": "Employee"
+    },
+    {
+      "fieldname": "handover_at",
+      "fieldtype": "Datetime",
+      "label": "handover at"
+    },
+    {
+      "fieldname": "issued_by",
+      "fieldtype": "Link",
+      "label": "issued by",
+      "options": "User"
+    },
+    {
+      "fieldname": "received_by",
+      "fieldtype": "Link",
+      "label": "received by",
+      "options": "User"
+    },
+    {
+      "fieldname": "condition",
+      "fieldtype": "Small Text",
+      "label": "Condition"
+    },
+    {
+      "fieldname": "status",
+      "fieldtype": "Select",
+      "label": "status",
+      "options": "Pending\nConfirmed\nRejected",
+      "reqd": 1
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1
+    },
+    {
+      "role": "Administration Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1
+    },
+    {
+      "role": "Administration Coordinator",
+      "read": 1,
+      "create": 1,
+      "write": 1
+    }
+  ]
+}

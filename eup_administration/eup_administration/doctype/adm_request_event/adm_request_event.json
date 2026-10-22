@@ -1,0 +1,81 @@
+{
+  "doctype": "DocType",
+  "name": "ADM Request Event",
+  "module": "EuP Administration",
+  "custom": 0,
+  "engine": "InnoDB",
+  "track_changes": 1,
+  "autoname": "hash",
+  "field_order": [
+    "reference_doctype",
+    "reference_name",
+    "event_type",
+    "actor",
+    "occurred_at",
+    "old_status",
+    "new_status",
+    "details"
+  ],
+  "fields": [
+    {
+      "fieldname": "reference_doctype",
+      "fieldtype": "Link",
+      "label": "reference doctype",
+      "options": "DocType",
+      "reqd": 1
+    },
+    {
+      "fieldname": "reference_name",
+      "fieldtype": "Dynamic Link",
+      "label": "Reference",
+      "options": "reference_doctype",
+      "reqd": 1
+    },
+    {
+      "fieldname": "event_type",
+      "fieldtype": "Select",
+      "label": "event type",
+      "options": "Created\nSubmitted\nStatus Changed\nApproved\nRejected\nAssigned\nCompleted\nClosed\nComment\nReminder"
+    },
+    {
+      "fieldname": "actor",
+      "fieldtype": "Link",
+      "label": "actor",
+      "options": "User"
+    },
+    {
+      "fieldname": "occurred_at",
+      "fieldtype": "Datetime",
+      "label": "occurred at"
+    },
+    {
+      "fieldname": "old_status",
+      "fieldtype": "Data",
+      "label": "old status"
+    },
+    {
+      "fieldname": "new_status",
+      "fieldtype": "Data",
+      "label": "new status"
+    },
+    {
+      "fieldname": "details",
+      "fieldtype": "Small Text",
+      "label": "Details"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1
+    },
+    {
+      "role": "Administration Manager",
+      "read": 1
+    },
+    {
+      "role": "Administration Auditor",
+      "read": 1
+    }
+  ]
+}

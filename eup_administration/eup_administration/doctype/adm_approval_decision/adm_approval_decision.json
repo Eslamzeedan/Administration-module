@@ -1,0 +1,77 @@
+{
+  "doctype": "DocType",
+  "name": "ADM Approval Decision",
+  "module": "EuP Administration",
+  "custom": 0,
+  "engine": "InnoDB",
+  "track_changes": 1,
+  "autoname": "hash",
+  "field_order": [
+    "approval_case",
+    "step_number",
+    "actor",
+    "delegated_from",
+    "decision",
+    "decided_on",
+    "comment"
+  ],
+  "fields": [
+    {
+      "fieldname": "approval_case",
+      "fieldtype": "Link",
+      "label": "approval case",
+      "options": "ADM Approval Case",
+      "reqd": 1
+    },
+    {
+      "fieldname": "step_number",
+      "fieldtype": "Int",
+      "label": "Step Number",
+      "reqd": 1
+    },
+    {
+      "fieldname": "actor",
+      "fieldtype": "Link",
+      "label": "actor",
+      "options": "User",
+      "reqd": 1
+    },
+    {
+      "fieldname": "delegated_from",
+      "fieldtype": "Link",
+      "label": "delegated from",
+      "options": "User"
+    },
+    {
+      "fieldname": "decision",
+      "fieldtype": "Select",
+      "label": "decision",
+      "options": "Approved\nRejected",
+      "reqd": 1
+    },
+    {
+      "fieldname": "decided_on",
+      "fieldtype": "Datetime",
+      "label": "decided on"
+    },
+    {
+      "fieldname": "comment",
+      "fieldtype": "Small Text",
+      "label": "Comment"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1
+    },
+    {
+      "role": "Administration Manager",
+      "read": 1
+    },
+    {
+      "role": "Administration Auditor",
+      "read": 1
+    }
+  ]
+}

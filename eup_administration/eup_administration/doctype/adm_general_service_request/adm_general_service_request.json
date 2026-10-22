@@ -1,0 +1,143 @@
+{
+  "doctype": "DocType",
+  "name": "ADM General Service Request",
+  "module": "EuP Administration",
+  "custom": 0,
+  "engine": "InnoDB",
+  "track_changes": 1,
+  "autoname": "hash",
+  "field_order": [
+    "service_type",
+    "subject",
+    "description",
+    "company",
+    "department",
+    "requested_by",
+    "assigned_to",
+    "priority",
+    "status",
+    "needed_by",
+    "started_at",
+    "completed_at",
+    "closed_at",
+    "completion_notes",
+    "cost_center"
+  ],
+  "fields": [
+    {
+      "fieldname": "service_type",
+      "fieldtype": "Select",
+      "label": "service type",
+      "options": "Facilities\nIT Coordination\nOffice Support\nDocument Delivery\nCleaning\nOther",
+      "reqd": 1
+    },
+    {
+      "fieldname": "subject",
+      "fieldtype": "Data",
+      "label": "Subject",
+      "reqd": 1
+    },
+    {
+      "fieldname": "description",
+      "fieldtype": "Small Text",
+      "label": "Description",
+      "reqd": 1
+    },
+    {
+      "fieldname": "company",
+      "fieldtype": "Link",
+      "label": "company",
+      "options": "Company",
+      "reqd": 1
+    },
+    {
+      "fieldname": "department",
+      "fieldtype": "Link",
+      "label": "department",
+      "options": "Department"
+    },
+    {
+      "fieldname": "requested_by",
+      "fieldtype": "Link",
+      "label": "requested by",
+      "options": "User"
+    },
+    {
+      "fieldname": "assigned_to",
+      "fieldtype": "Link",
+      "label": "assigned to",
+      "options": "User"
+    },
+    {
+      "fieldname": "priority",
+      "fieldtype": "Select",
+      "label": "priority",
+      "options": "Normal\nUrgent",
+      "reqd": 1
+    },
+    {
+      "fieldname": "status",
+      "fieldtype": "Select",
+      "label": "status",
+      "options": "Draft\nPending Approval\nApproved\nAssigned\nIn Progress\nCompleted\nClosed\nRejected\nCancelled",
+      "reqd": 1
+    },
+    {
+      "fieldname": "needed_by",
+      "fieldtype": "Datetime",
+      "label": "needed by"
+    },
+    {
+      "fieldname": "started_at",
+      "fieldtype": "Datetime",
+      "label": "started at"
+    },
+    {
+      "fieldname": "completed_at",
+      "fieldtype": "Datetime",
+      "label": "completed at"
+    },
+    {
+      "fieldname": "closed_at",
+      "fieldtype": "Datetime",
+      "label": "closed at"
+    },
+    {
+      "fieldname": "completion_notes",
+      "fieldtype": "Data",
+      "label": "completion notes"
+    },
+    {
+      "fieldname": "cost_center",
+      "fieldtype": "Link",
+      "label": "cost center",
+      "options": "Cost Center"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1
+    },
+    {
+      "role": "Administration Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1
+    },
+    {
+      "role": "Administration Requester",
+      "read": 1,
+      "create": 1,
+      "write": 1
+    },
+    {
+      "role": "Administration User",
+      "read": 1,
+      "create": 1,
+      "write": 1
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "doctype": "DocType",
+  "name": "ADM Purchasing Link",
+  "module": "EuP Administration",
+  "custom": 0,
+  "engine": "InnoDB",
+  "track_changes": 1,
+  "autoname": "hash",
+  "field_order": [
+    "supply_request",
+    "company",
+    "material_request",
+    "status",
+    "created_by",
+    "created_on"
+  ],
+  "fields": [
+    {
+      "fieldname": "supply_request",
+      "fieldtype": "Link",
+      "label": "supply request",
+      "options": "ADM Supply Request",
+      "reqd": 1
+    },
+    {
+      "fieldname": "company",
+      "fieldtype": "Link",
+      "label": "company",
+      "options": "Company",
+      "reqd": 1
+    },
+    {
+      "fieldname": "material_request",
+      "fieldtype": "Link",
+      "label": "material request",
+      "options": "Material Request"
+    },
+    {
+      "fieldname": "status",
+      "fieldtype": "Select",
+      "label": "status",
+      "options": "Preview\nCreated\nCancelled",
+      "reqd": 1
+    },
+    {
+      "fieldname": "created_by",
+      "fieldtype": "Link",
+      "label": "created by",
+      "options": "User"
+    },
+    {
+      "fieldname": "created_on",
+      "fieldtype": "Datetime",
+      "label": "created on"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1
+    },
+    {
+      "role": "Administration Manager",
+      "read": 1
+    },
+    {
+      "role": "Administration Auditor",
+      "read": 1
+    }
+  ]
+}
