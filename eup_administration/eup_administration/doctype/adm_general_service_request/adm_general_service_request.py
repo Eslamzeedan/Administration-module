@@ -1,5 +1,7 @@
 from frappe.model.document import Document
+from eup_administration.v3.general import validate
 
 
 class ADMGeneralServiceRequest(Document):
-    pass
+    def validate(self):
+        validate(self)
