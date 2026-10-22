@@ -1,0 +1,253 @@
+{
+  "doctype": "DocType",
+  "name": "ADM Service Request",
+  "module": "EuP Administration",
+  "custom": 0,
+  "engine": "InnoDB",
+  "track_changes": 1,
+  "field_order": [
+    "status",
+    "request_type",
+    "purpose",
+    "service_location",
+    "priority",
+    "needed_by",
+    "requested_by",
+    "department",
+    "company",
+    "cost_center",
+    "stops",
+    "estimated_transport_cost",
+    "assigned_runner",
+    "rides",
+    "actual_transport_cost",
+    "currency",
+    "completion_proof",
+    "completion_notes",
+    "approved_by",
+    "rejected_by",
+    "rejection_reason",
+    "verified_by",
+    "started_at",
+    "completed_at",
+    "closed_at"
+  ],
+  "fields": [
+    {
+      "fieldname": "status",
+      "label": "Status",
+      "fieldtype": "Select",
+      "options": "Draft\nPending Approval\nApproved\nAssigned\nIn Progress\nCompleted\nClosed\nRejected\nCancelled",
+      "read_only": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "request_type",
+      "label": "Request Type",
+      "fieldtype": "Select",
+      "options": "Bank\nShipping\nGovernment\nHR\nPurchasing\nDelivery\nOther",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "purpose",
+      "label": "Purpose (do not enter account or cheque numbers)",
+      "fieldtype": "Small Text",
+      "reqd": 1
+    },
+    {
+      "fieldname": "service_location",
+      "label": "Destination / Service Location",
+      "fieldtype": "Data",
+      "reqd": 1
+    },
+    {
+      "fieldname": "priority",
+      "label": "Priority",
+      "fieldtype": "Select",
+      "options": "Normal\nUrgent",
+      "default": "Normal"
+    },
+    {
+      "fieldname": "needed_by",
+      "label": "Required By",
+      "fieldtype": "Datetime",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "requested_by",
+      "label": "Requested By",
+      "fieldtype": "Link",
+      "options": "User",
+      "read_only": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "department",
+      "label": "Requesting Department",
+      "fieldtype": "Link",
+      "options": "Department",
+      "read_only": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "company",
+      "label": "Company",
+      "fieldtype": "Link",
+      "options": "Company",
+      "read_only": 1
+    },
+    {
+      "fieldname": "cost_center",
+      "label": "Cost Center",
+      "fieldtype": "Link",
+      "options": "Cost Center"
+    },
+    {
+      "fieldname": "stops",
+      "label": "Errand Stops",
+      "fieldtype": "Table",
+      "options": "ADM Errand Stop"
+    },
+    {
+      "fieldname": "estimated_transport_cost",
+      "label": "Estimated Careem Cost",
+      "fieldtype": "Currency",
+      "options": "currency"
+    },
+    {
+      "fieldname": "assigned_runner",
+      "label": "Assigned Runner",
+      "fieldtype": "Link",
+      "options": "User",
+      "read_only": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "rides",
+      "label": "Careem Rides",
+      "fieldtype": "Table",
+      "options": "ADM Careem Ride",
+      "read_only": 1
+    },
+    {
+      "fieldname": "actual_transport_cost",
+      "label": "Actual Careem Cost",
+      "fieldtype": "Currency",
+      "options": "currency",
+      "read_only": 1
+    },
+    {
+      "fieldname": "currency",
+      "label": "Currency",
+      "fieldtype": "Link",
+      "options": "Currency",
+      "read_only": 1
+    },
+    {
+      "fieldname": "completion_proof",
+      "label": "Private Completion Proof",
+      "fieldtype": "Attach",
+      "read_only": 1
+    },
+    {
+      "fieldname": "completion_notes",
+      "label": "Completion Notes",
+      "fieldtype": "Small Text",
+      "read_only": 1
+    },
+    {
+      "fieldname": "approved_by",
+      "label": "Approved By",
+      "fieldtype": "Link",
+      "options": "User",
+      "read_only": 1
+    },
+    {
+      "fieldname": "rejected_by",
+      "label": "Rejected By",
+      "fieldtype": "Link",
+      "options": "User",
+      "read_only": 1
+    },
+    {
+      "fieldname": "rejection_reason",
+      "label": "Rejection Reason",
+      "fieldtype": "Small Text",
+      "read_only": 1
+    },
+    {
+      "fieldname": "verified_by",
+      "label": "Verified By",
+      "fieldtype": "Link",
+      "options": "User",
+      "read_only": 1
+    },
+    {
+      "fieldname": "started_at",
+      "label": "Started At",
+      "fieldtype": "Datetime",
+      "read_only": 1
+    },
+    {
+      "fieldname": "completed_at",
+      "label": "Completed At",
+      "fieldtype": "Datetime",
+      "read_only": 1
+    },
+    {
+      "fieldname": "closed_at",
+      "label": "Closed At",
+      "fieldtype": "Datetime",
+      "read_only": 1
+    }
+  ],
+  "permissions": [
+    {
+      "role": "Administration Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 0,
+      "report": 1,
+      "export": 1,
+      "print": 1
+    },
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 0,
+      "report": 1,
+      "export": 1,
+      "print": 1
+    },
+    {
+      "role": "Administration User",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "print": 1
+    },
+    {
+      "role": "Administration Requester",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "print": 1
+    },
+    {
+      "role": "Administration Runner",
+      "read": 1,
+      "print": 1
+    },
+    {
+      "role": "Administration Department Approver",
+      "read": 1,
+      "print": 1
+    }
+  ],
+  "autoname": "format:ADM-REQ-{YYYY}-{#####}"
+}

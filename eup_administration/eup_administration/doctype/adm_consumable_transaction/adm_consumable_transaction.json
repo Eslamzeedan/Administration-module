@@ -1,0 +1,155 @@
+{
+  "doctype": "DocType",
+  "name": "ADM Consumable Transaction",
+  "module": "EuP Administration",
+  "custom": 0,
+  "istable": 0,
+  "engine": "InnoDB",
+  "track_changes": 1,
+  "fields": [
+    {
+      "fieldname": "company",
+      "fieldtype": "Link",
+      "label": "Company",
+      "options": "Company",
+      "read_only": 1
+    },
+    {
+      "fieldname": "item",
+      "fieldtype": "Link",
+      "label": "Item",
+      "options": "ADM Consumable Item",
+      "read_only": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "location",
+      "fieldtype": "Link",
+      "label": "Location",
+      "options": "ADM Consumable Location",
+      "read_only": 1
+    },
+    {
+      "fieldname": "movement_type",
+      "fieldtype": "Select",
+      "label": "Movement Type",
+      "options": "Receipt\nIssue\nAdjustment In\nAdjustment Out",
+      "read_only": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "quantity",
+      "fieldtype": "Float",
+      "label": "Quantity",
+      "read_only": 1
+    },
+    {
+      "fieldname": "signed_quantity",
+      "fieldtype": "Float",
+      "label": "Signed Quantity",
+      "read_only": 1
+    },
+    {
+      "fieldname": "balance_before",
+      "fieldtype": "Float",
+      "label": "Balance Before",
+      "read_only": 1
+    },
+    {
+      "fieldname": "balance_after",
+      "fieldtype": "Float",
+      "label": "Balance After",
+      "read_only": 1
+    },
+    {
+      "fieldname": "posting_time",
+      "fieldtype": "Datetime",
+      "label": "Posting Time",
+      "read_only": 1
+    },
+    {
+      "fieldname": "request",
+      "fieldtype": "Link",
+      "label": "Request",
+      "options": "ADM Supply Request",
+      "read_only": 1
+    },
+    {
+      "fieldname": "request_line",
+      "fieldtype": "Data",
+      "label": "Request Line",
+      "read_only": 1
+    },
+    {
+      "fieldname": "performed_by",
+      "fieldtype": "Link",
+      "label": "Performed By",
+      "options": "User",
+      "read_only": 1
+    },
+    {
+      "fieldname": "reference",
+      "fieldtype": "Data",
+      "label": "Reference",
+      "read_only": 1
+    },
+    {
+      "fieldname": "remarks",
+      "fieldtype": "Small Text",
+      "label": "Remarks",
+      "read_only": 1
+    }
+  ],
+  "field_order": [
+    "company",
+    "item",
+    "location",
+    "movement_type",
+    "quantity",
+    "signed_quantity",
+    "balance_before",
+    "balance_after",
+    "posting_time",
+    "request",
+    "request_line",
+    "performed_by",
+    "reference",
+    "remarks"
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 0,
+      "create": 0,
+      "delete": 0,
+      "report": 1,
+      "export": 0,
+      "print": 1
+    },
+    {
+      "role": "Administration Manager",
+      "read": 1,
+      "write": 0,
+      "create": 0,
+      "delete": 0,
+      "report": 1,
+      "export": 0,
+      "print": 1
+    },
+    {
+      "role": "Administration Storekeeper",
+      "read": 1,
+      "write": 0,
+      "create": 0,
+      "delete": 0,
+      "report": 1,
+      "export": 0,
+      "print": 1
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "autoname": "format:ADM-MOV-{YYYY}-{#####}",
+  "description": "Append-only physical-unit movements. No ERPNext Stock Ledger or GL Entry is created."
+}

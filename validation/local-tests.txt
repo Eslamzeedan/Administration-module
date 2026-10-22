@@ -1,0 +1,47 @@
+test_conflict_and_boundary (test_rules.TestRules.test_conflict_and_boundary) ... ok
+test_distance (test_rules.TestRules.test_distance) ... ok
+test_equal_start_reading (test_rules.TestRules.test_equal_start_reading) ... ok
+test_gap_needs_reason (test_rules.TestRules.test_gap_needs_reason) ... ok
+test_invalid_time_range (test_rules.TestRules.test_invalid_time_range) ... ok
+test_mandatory_and_invalid_readings (test_rules.TestRules.test_mandatory_and_invalid_readings) ... ok
+test_negative_distance_rejected (test_rules.TestRules.test_negative_distance_rejected) ... ok
+test_overnight (test_rules.TestRules.test_overnight) ... ok
+test_room_buffer (test_rules.TestRules.test_room_buffer) ... ok
+test_start_cannot_go_backwards (test_rules.TestRules.test_start_cannot_go_backwards) ... ok
+test_zero_distance_allowed (test_rules.TestRules.test_zero_distance_allowed) ... ok
+test_zero_is_valid (test_rules.TestRules.test_zero_is_valid) ... ok
+test_new_permissions_do_not_grant_driver_submission (test_schema.TestAdditiveSchema.test_new_permissions_do_not_grant_driver_submission) ... ok
+test_original_fields_and_types_preserved (test_schema.TestAdditiveSchema.test_original_fields_and_types_preserved) ... ok
+test_source_backed_v2_workspace (test_schema.TestAdditiveSchema.test_source_backed_v2_workspace) ... ok
+test_disabled_or_unroled_driver_is_denied (test_security.TestSecurity.test_disabled_or_unroled_driver_is_denied) ... ok
+test_driver_cannot_manage_maintenance (test_security.TestSecurity.test_driver_cannot_manage_maintenance) ... ok
+test_fuel_amount_is_computed_without_modifying_odometer (test_security.TestSecurity.test_fuel_amount_is_computed_without_modifying_odometer) ... ok
+test_ledger_cannot_be_submitted_by_driver (test_security.TestSecurity.test_ledger_cannot_be_submitted_by_driver) ... ok
+test_mutations_require_post (test_security.TestSecurity.test_mutations_require_post) ... ok
+test_new_trip_cannot_forge_state_or_readings (test_security.TestSecurity.test_new_trip_cannot_forge_state_or_readings) ... ok
+test_nonmanager_cannot_approve_or_reject (test_security.TestSecurity.test_nonmanager_cannot_approve_or_reject) ... ok
+test_other_driver_cannot_start (test_security.TestSecurity.test_other_driver_cannot_start) ... ok
+test_private_receipt_is_required (test_security.TestSecurity.test_private_receipt_is_required) ... ok
+test_recurrence_conflict_rolls_back_seed_and_occurrences (test_security.TestSecurity.test_recurrence_conflict_rolls_back_seed_and_occurrences) ... ok
+test_report_date_range_is_bounded (test_security.TestSecurity.test_report_date_range_is_bounded) ... ok
+test_reports_never_bypass_get_list (test_security.TestSecurity.test_reports_never_bypass_get_list) ... ok
+test_requester_cannot_delete_fulfilled_service (test_security.TestSecurity.test_requester_cannot_delete_fulfilled_service) ... ok
+test_requester_only_edits_draft (test_security.TestSecurity.test_requester_only_edits_draft) ... ok
+test_service_fulfillment_is_manager_only (test_security.TestSecurity.test_service_fulfillment_is_manager_only) ... ok
+test_unassigned_trip_never_grants_operate_capability (test_security.TestSecurity.test_unassigned_trip_never_grants_operate_capability) ... ok
+test_v16_ptype_denies_driver_writes (test_security.TestSecurity.test_v16_ptype_denies_driver_writes) ... ok
+test_workspace_setup_preserves_existing_content (test_security.TestSecurity.test_workspace_setup_preserves_existing_content) ... ok
+test_changed_permissions_fail (test_snapshot_compare.TestSnapshotGate.test_changed_permissions_fail) ... ok
+test_lost_workspace_fails (test_snapshot_compare.TestSnapshotGate.test_lost_workspace_fails) ... ok
+test_same_count_but_changed_data_fails (test_snapshot_compare.TestSnapshotGate.test_same_count_but_changed_data_fails) ... ok
+test_unchanged_original_records_pass (test_snapshot_compare.TestSnapshotGate.test_unchanged_original_records_pass) ... ok
+test_cairo_wall_clock_recurrence_crosses_month (test_v2_rules.TestV2Rules.test_cairo_wall_clock_recurrence_crosses_month) ... ok
+test_daily_and_weekly_include_exact_count (test_v2_rules.TestV2Rules.test_daily_and_weekly_include_exact_count) ... ok
+test_float_overflow_is_rejected (test_v2_rules.TestV2Rules.test_float_overflow_is_rejected) ... ok
+test_invalid_recurrence_is_rejected (test_v2_rules.TestV2Rules.test_invalid_recurrence_is_rejected) ... ok
+test_positive_costs (test_v2_rules.TestV2Rules.test_positive_costs) ... ok
+
+----------------------------------------------------------------------
+Ran 42 tests in 0.175s
+
+OK

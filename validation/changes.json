@@ -1,0 +1,322 @@
+[
+  {
+    "path": ".github/workflows/unit-tests.yml",
+    "status": "modified"
+  },
+  {
+    "path": "CHANGELOG.md",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/deployment.py",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/eup_administration/doctype/adm_driver/adm_driver.py",
+    "status": "modified"
+  },
+  {
+    "path": "eup_administration/eup_administration/doctype/adm_fuel_log/adm_fuel_log.json",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/eup_administration/doctype/adm_fuel_log/adm_fuel_log.py",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/eup_administration/doctype/adm_fuel_log/__init__.py",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/eup_administration/doctype/adm_maintenance/adm_maintenance.js",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/eup_administration/doctype/adm_maintenance/adm_maintenance.json",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/eup_administration/doctype/adm_maintenance/adm_maintenance.py",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/eup_administration/doctype/adm_maintenance/__init__.py",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/eup_administration/doctype/adm_meeting_booking/adm_meeting_booking.js",
+    "status": "modified"
+  },
+  {
+    "path": "eup_administration/eup_administration/doctype/adm_meeting_booking/adm_meeting_booking.json",
+    "status": "modified"
+  },
+  {
+    "path": "eup_administration/eup_administration/doctype/adm_meeting_service/adm_meeting_service.json",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/eup_administration/doctype/adm_meeting_service/adm_meeting_service.py",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/eup_administration/doctype/adm_meeting_service/__init__.py",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/eup_administration/doctype/adm_trip/adm_trip.js",
+    "status": "modified"
+  },
+  {
+    "path": "eup_administration/eup_administration/doctype/adm_trip/adm_trip.json",
+    "status": "modified"
+  },
+  {
+    "path": "eup_administration/eup_administration/doctype/adm_trip/test_adm_trip.py",
+    "status": "modified"
+  },
+  {
+    "path": "eup_administration/eup_administration/doctype/adm_trip_expense/adm_trip_expense.json",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/eup_administration/doctype/adm_trip_expense/adm_trip_expense.py",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/eup_administration/doctype/adm_trip_expense/__init__.py",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/eup_administration/doctype/adm_vehicle/adm_vehicle.json",
+    "status": "modified"
+  },
+  {
+    "path": "eup_administration/eup_administration/doctype/adm_vehicle/adm_vehicle.py",
+    "status": "modified"
+  },
+  {
+    "path": "eup_administration/eup_administration/page/administration_dashboard/administration_dashboard.js",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/eup_administration/page/administration_dashboard/administration_dashboard.json",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/eup_administration/page/administration_dashboard/administration_dashboard.py",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/eup_administration/page/administration_dashboard/__init__.py",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/eup_administration/page/__init__.py",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/eup_administration/report/adm_fleet_costs/adm_fleet_costs.js",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/eup_administration/report/adm_fleet_costs/adm_fleet_costs.json",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/eup_administration/report/adm_fleet_costs/adm_fleet_costs.py",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/eup_administration/report/adm_fleet_costs/__init__.py",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/eup_administration/report/adm_meeting_utilization/adm_meeting_utilization.js",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/eup_administration/report/adm_meeting_utilization/adm_meeting_utilization.json",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/eup_administration/report/adm_meeting_utilization/adm_meeting_utilization.py",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/eup_administration/report/adm_meeting_utilization/__init__.py",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/eup_administration/report/adm_renewals_and_service/adm_renewals_and_service.js",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/eup_administration/report/adm_renewals_and_service/adm_renewals_and_service.json",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/eup_administration/report/adm_renewals_and_service/adm_renewals_and_service.py",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/eup_administration/report/adm_renewals_and_service/__init__.py",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/eup_administration/report/adm_trip_register/adm_trip_register.js",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/eup_administration/report/adm_trip_register/adm_trip_register.json",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/eup_administration/report/adm_trip_register/adm_trip_register.py",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/eup_administration/report/adm_trip_register/__init__.py",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/eup_administration/report/__init__.py",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/eup_administration/workspace/eup_administration_v2/eup_administration_v2.json",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/fleet.py",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/hooks.py",
+    "status": "modified"
+  },
+  {
+    "path": "eup_administration/install.py",
+    "status": "modified"
+  },
+  {
+    "path": "eup_administration/meetings.py",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/patches/v2_0/add_indexes.py",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/patches/v2_0/preserve_workspace.py",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/patches/v2_0/__init__.py",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/patches/__init__.py",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/patches.txt",
+    "status": "modified"
+  },
+  {
+    "path": "eup_administration/permissions.py",
+    "status": "modified"
+  },
+  {
+    "path": "eup_administration/reporting.py",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/rules.py",
+    "status": "modified"
+  },
+  {
+    "path": "eup_administration/services.py",
+    "status": "modified"
+  },
+  {
+    "path": "eup_administration/tests/base.py",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/tests/test_v2_integration.py",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/tests/__init__.py",
+    "status": "added"
+  },
+  {
+    "path": "eup_administration/__init__.py",
+    "status": "modified"
+  },
+  {
+    "path": "README.md",
+    "status": "modified"
+  },
+  {
+    "path": "STAGING_ACCEPTANCE.md",
+    "status": "added"
+  },
+  {
+    "path": "tests/fixtures/v0_1/adm_driver.json",
+    "status": "added"
+  },
+  {
+    "path": "tests/fixtures/v0_1/adm_meeting_booking.json",
+    "status": "added"
+  },
+  {
+    "path": "tests/fixtures/v0_1/adm_meeting_room.json",
+    "status": "added"
+  },
+  {
+    "path": "tests/fixtures/v0_1/adm_trip.json",
+    "status": "added"
+  },
+  {
+    "path": "tests/fixtures/v0_1/adm_vehicle.json",
+    "status": "added"
+  },
+  {
+    "path": "tests/test_schema.py",
+    "status": "added"
+  },
+  {
+    "path": "tests/test_security.py",
+    "status": "added"
+  },
+  {
+    "path": "tests/test_snapshot_compare.py",
+    "status": "added"
+  },
+  {
+    "path": "tests/test_v2_rules.py",
+    "status": "added"
+  },
+  {
+    "path": "tools/compare_snapshots.py",
+    "status": "added"
+  },
+  {
+    "path": "UPGRADE_AND_ROLLBACK.md",
+    "status": "added"
+  },
+  {
+    "path": "validation/javascript-checks.json",
+    "status": "added"
+  },
+  {
+    "path": "validation/local-tests.txt",
+    "status": "added"
+  },
+  {
+    "path": "VALIDATION.md",
+    "status": "added"
+  }
+]

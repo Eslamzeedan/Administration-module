@@ -1,0 +1,202 @@
+{
+  "doctype": "DocType",
+  "name": "ADM Trip",
+  "module": "EuP Administration",
+  "custom": 0,
+  "engine": "InnoDB",
+  "track_changes": 1,
+  "field_order": [
+    "purpose",
+    "company",
+    "requested_by",
+    "department",
+    "cost_center",
+    "origin",
+    "destination",
+    "planned_start",
+    "planned_end",
+    "passenger_count",
+    "vehicle",
+    "driver",
+    "status",
+    "gap_reason",
+    "start_odometer",
+    "end_odometer",
+    "distance_km",
+    "actual_start",
+    "actual_end",
+    "duration_minutes",
+    "approved_by"
+  ],
+  "fields": [
+    {
+      "fieldname": "purpose",
+      "label": "Purpose",
+      "fieldtype": "Data",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "company",
+      "label": "Company",
+      "fieldtype": "Link",
+      "options": "Company",
+      "reqd": 1
+    },
+    {
+      "fieldname": "requested_by",
+      "label": "Requested By",
+      "fieldtype": "Link",
+      "options": "User",
+      "read_only": 1
+    },
+    {
+      "fieldname": "department",
+      "label": "Department",
+      "fieldtype": "Link",
+      "options": "Department"
+    },
+    {
+      "fieldname": "cost_center",
+      "label": "Cost Center",
+      "fieldtype": "Link",
+      "options": "Cost Center"
+    },
+    {
+      "fieldname": "origin",
+      "label": "Origin",
+      "fieldtype": "Data",
+      "reqd": 1
+    },
+    {
+      "fieldname": "destination",
+      "label": "Destination",
+      "fieldtype": "Data",
+      "reqd": 1
+    },
+    {
+      "fieldname": "planned_start",
+      "label": "Planned Start",
+      "fieldtype": "Datetime",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "planned_end",
+      "label": "Planned End",
+      "fieldtype": "Datetime",
+      "reqd": 1
+    },
+    {
+      "fieldname": "passenger_count",
+      "label": "Passengers",
+      "fieldtype": "Int",
+      "default": "1"
+    },
+    {
+      "fieldname": "vehicle",
+      "label": "Vehicle",
+      "fieldtype": "Link",
+      "options": "ADM Vehicle"
+    },
+    {
+      "fieldname": "driver",
+      "label": "Driver",
+      "fieldtype": "Link",
+      "options": "ADM Driver"
+    },
+    {
+      "fieldname": "status",
+      "label": "Status",
+      "fieldtype": "Select",
+      "options": "Draft\nRequested\nAssigned\nIn Progress\nCompleted\nCancelled",
+      "default": "Draft",
+      "read_only": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "gap_reason",
+      "label": "Reason for Unrecorded Kilometers",
+      "fieldtype": "Small Text",
+      "read_only": 1
+    },
+    {
+      "fieldname": "start_odometer",
+      "label": "Start Odometer (km)",
+      "fieldtype": "Float",
+      "read_only": 1
+    },
+    {
+      "fieldname": "end_odometer",
+      "label": "End Odometer (km)",
+      "fieldtype": "Float",
+      "read_only": 1
+    },
+    {
+      "fieldname": "distance_km",
+      "label": "Distance (km)",
+      "fieldtype": "Float",
+      "read_only": 1
+    },
+    {
+      "fieldname": "actual_start",
+      "label": "Actual Start",
+      "fieldtype": "Datetime",
+      "read_only": 1
+    },
+    {
+      "fieldname": "actual_end",
+      "label": "Actual End",
+      "fieldtype": "Datetime",
+      "read_only": 1
+    },
+    {
+      "fieldname": "duration_minutes",
+      "label": "Duration (minutes)",
+      "fieldtype": "Float",
+      "read_only": 1
+    },
+    {
+      "fieldname": "approved_by",
+      "label": "Approved By",
+      "fieldtype": "Link",
+      "options": "User",
+      "read_only": 1
+    }
+  ],
+  "permissions": [
+    {
+      "role": "Administration Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "report": 1,
+      "export": 1
+    },
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "report": 1,
+      "export": 1
+    },
+    {
+      "role": "Administration User",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "report": 1,
+      "export": 1
+    },
+    {
+      "role": "Administration Driver",
+      "read": 1,
+      "write": 0,
+      "create": 0,
+      "report": 1,
+      "export": 1
+    }
+  ],
+  "autoname": "format:TRIP-{YYYY}-{#####}"
+}

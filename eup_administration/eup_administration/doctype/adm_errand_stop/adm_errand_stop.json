@@ -1,0 +1,34 @@
+{
+  "doctype": "DocType",
+  "name": "ADM Errand Stop",
+  "module": "EuP Administration",
+  "custom": 0,
+  "engine": "InnoDB",
+  "track_changes": 1,
+  "field_order": [
+    "location",
+    "instruction",
+    "reference"
+  ],
+  "fields": [
+    {
+      "fieldname": "location",
+      "label": "Location / Entity",
+      "fieldtype": "Data",
+      "reqd": 1
+    },
+    {
+      "fieldname": "instruction",
+      "label": "Required Action",
+      "fieldtype": "Small Text",
+      "reqd": 1
+    },
+    {
+      "fieldname": "reference",
+      "label": "Envelope / Internal Reference",
+      "fieldtype": "Data"
+    }
+  ],
+  "permissions": [],
+  "istable": 1
+}

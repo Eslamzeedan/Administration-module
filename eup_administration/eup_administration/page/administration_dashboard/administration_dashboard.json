@@ -1,0 +1,22 @@
+{
+  "doctype": "Page",
+  "name": "administration-dashboard",
+  "page_name": "administration-dashboard",
+  "title": "Administration Dashboard",
+  "module": "EuP Administration",
+  "standard": "Yes",
+  "roles": [
+    {
+      "role": "Administration Manager"
+    },
+    {
+      "role": "System Manager"
+    },
+    {
+      "role": "Administration User"
+    },
+    {
+      "role": "Administration Driver"
+    }
+  ]
+}

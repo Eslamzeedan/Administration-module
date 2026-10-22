@@ -1,0 +1,44 @@
+{
+  "doctype": "DocType",
+  "name": "ADM Meeting Service",
+  "module": "EuP Administration",
+  "custom": 0,
+  "engine": "InnoDB",
+  "track_changes": 1,
+  "field_order": [
+    "service_type",
+    "details",
+    "quantity",
+    "status"
+  ],
+  "fields": [
+    {
+      "fieldname": "service_type",
+      "label": "Service",
+      "fieldtype": "Select",
+      "options": "Hospitality\nIT\nEquipment\nOther",
+      "reqd": 1
+    },
+    {
+      "fieldname": "details",
+      "label": "Details",
+      "fieldtype": "Small Text"
+    },
+    {
+      "fieldname": "quantity",
+      "label": "Quantity",
+      "fieldtype": "Int",
+      "default": "1",
+      "reqd": 1
+    },
+    {
+      "fieldname": "status",
+      "label": "Fulfillment",
+      "fieldtype": "Select",
+      "options": "Requested\nReady\nDelivered\nCancelled",
+      "default": "Requested"
+    }
+  ],
+  "permissions": [],
+  "istable": 1
+}
