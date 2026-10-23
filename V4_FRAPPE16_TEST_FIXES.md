@@ -118,3 +118,35 @@ updating to the follow-up commit identified in PR #9. Live results for that foll
 remain pending; the earlier v4 result is evidence for df393bb only. The instructions
 above describe the original 7298268-to-df393bb update; for an already updated checkout,
 use the follow-up commands in the chat. Keep the original backup and rollback branch.
+
+
+## Full-suite follow-up after c1eb359
+
+The next user-supplied VM log shows targeted ADM Trip passed all 6 tests and the
+complete application suite ran 26 integration tests: 24 passed and 2 errors.
+All seven v4 tests passed again within that full-suite run. This is user-provided
+terminal evidence, not a live execution by this agent.
+
+The two errors exposed test setup assumptions:
+- TestV3GeneralFlow created enabled policies in multiple methods. Frappe v16's
+  transaction rollback occurs at class cleanup, so the self-approval test encountered
+  two policies before reaching the authorization check. Each method now uses a
+  savepoint, registered for rollback before fixture setup, so its policies/users/
+  requests/settings do not leak to the next method. Existing fixture data remains.
+  Self-approval still requires the actual authorization PermissionError, no decision
+  row, and a still-pending case/request. The exactly-one-policy guard is unchanged.
+- The protected-table smoke test queried Expense Claim unconditionally, although its
+  table is not installed on this VM. It now snapshots all 20 protected ERPNext tables,
+  records absence explicitly, and compares presence, counts and full-content hashes.
+  Existence uses cached=False so table creation/removal cannot be hidden by a stale
+  table list. The eight previously tracked core ERPNext tables remain mandatory;
+  missing optional tables are recorded rather than queried. Both administrative
+  setup actions still execute; the test is not skipped and no DocType is fabricated.
+
+Six offline regressions cover savepoint cleanup after an error and repeat execution,
+missing optional-table coverage, mandatory-table failure, same-count data mutation,
+and table creation/removal detection. No runtime v2-v4 behavior, financial write
+boundary, schema, permissions or ERPNext files are changed.
+
+The new patch's live v3 targeted tests and full-suite rerun remain pending with the
+user on the same disposable VM. The PR records the actual CI result and commit SHA.
