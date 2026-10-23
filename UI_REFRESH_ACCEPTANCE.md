@@ -38,8 +38,8 @@ plus agent-operated browser QA that found the defects. Those passes do not verif
 | General approvals | Existing self-approval tests; naming/cancellation regression | Two distinct actors in browser |
 | Administrative supplies/custody | Existing boundary/controller tests; scoped form styling | Storekeeper/requester/private-file/QR UI |
 | Nine v4 operations | Existing validation/scope/idempotency tests; state-aware actions | Matching active Employee/User company matrix |
-| Workflow designer | Template/preview/condition regressions; draft preservation | Save/run/revision/used-policy lifecycle |
-| Dashboards/portal | Promise/error/retry/context and portal-link tests; CSS/source review | Real data, denied/retry cases, mobile/RTL |
+| Workflow designer | Template/preview/condition regressions; live save/start/transition/details/feedback/freeze/disable lifecycle | Concurrent revisions and distinct approvers |
+| Dashboards/portal | Live company/count/rating/weekly report; invalid-range error and successful retry; 390px layout | Portal employee login, cross-company role matrix and RTL |
 | Registry migration | Idempotent repair tests and three real-site tests | Backup/migrate/hash comparison/repeat |
 | Notifications/scheduler | Existing opt-in guards; rebuild emits no events | Remain disabled unless separately tested |
 | Production | No access/change | Separate decision after acceptance |
@@ -83,6 +83,11 @@ remains Completed as acceptance evidence; no existing policy, role or Employee w
 This was a direct-transition test policy; it does not prove two-person approval acceptance.
 A frontend follow-up replaces only this app's intro banner when v16 appends repeated
 messages, preserving unrelated warnings. Its live installation/retest remains pending.
-The available viewport override did not produce a measured mobile viewport; no phone/RTL
-pass is claimed. Browser tests still require an appropriate employee login for the portal
-and independent approvers for the approval matrix. No production or financial write.
+After the viewport override settled, Chrome measured clientWidth=390 and scrollWidth=390.
+The command-center cards and controls fit without horizontal overflow. A reversed date
+range was rejected by the server, Refresh stayed enabled, and correcting the range then
+using Try again restored the original counts and single 5/5 response. The weekly-report
+action also loaded successfully. The temporary viewport override was reset; desktop
+measured 1440px again. RTL is still unverified. Browser tests still require an appropriate
+employee login for the portal and independent approvers for the approval matrix.
+No production or financial write.
