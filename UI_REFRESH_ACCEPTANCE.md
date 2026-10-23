@@ -1,4 +1,4 @@
-# Administration 4.0.0rc2 — staging UI and integrity review
+# Administration 4.0.0rc3 — staging UI and integrity review
 
 Release candidate on PR #9, based on d06175f. No production deployment or blanket claim
 of complete acceptance. Preserve the user's in-progress maintenance form.
@@ -9,6 +9,8 @@ of complete acceptance. Preserve the user's in-progress maintenance form.
   logical RTL spacing, reduced motion and loading/empty/error states.
 - New request hub, command center, fleet/meetings overview and portal presentation.
 - Native Promise wrapper makes existing form action calls compatible with v16 buttons.
+- Content-revision asset URLs on Desk and website prevent stale shared helpers after upgrades.
+  Form scripts tolerate the preceding helper revision; startup accepts an uninitialized route.
 - Workflow template removes automatic blank rows without overwriting configured drafts;
   preview/condition builder validates incomplete transitions and non-list JSON.
 - Session-bound employee context explains missing profiles without granting access.
@@ -23,7 +25,7 @@ of complete acceptance. Preserve the user's in-progress maintenance form.
 
 ## Evidence
 The PR records actual final-commit CI results. Local checks include all JavaScript syntax
-and ten executable frontend regressions. Python offline checks run in CI because this
+and thirteen executable frontend regressions. Python offline checks run in CI because this
 workstation has no installed Python. New Python regressions exercise v16 naming, repeated
 hooks, status changes, repair/idempotency, migration, notification suppression, approval
 cancellation, duplicate feedback and employee-context scope. Three live registry tests added.
@@ -82,7 +84,13 @@ the original title was restored and the test policy successfully disabled. The t
 remains Completed as acceptance evidence; no existing policy, role or Employee was modified.
 This was a direct-transition test policy; it does not prove two-person approval acceptance.
 A frontend follow-up replaces only this app's intro banner when v16 appends repeated
-messages, preserving unrelated warnings. Its live installation/retest remains pending.
+messages, preserving unrelated warnings. The user installed that follow-up at cc50356,
+but the real browser then exposed cached old shared assets versus fresh form scripts
+(intro is not a function), plus a null-route startup error. The rc3 follow-up adds content
+hashes to all shared asset URLs, supports older shared helpers in already-open tabs, and
+handles null/undefined initial routes before attaching router listeners. Two Python asset
+regressions and three frontend bootstrap/old-tab regressions cover these failures.
+The rc3 installation/retest is still pending; the failed cc50356 browser pass is not acceptance.
 After the viewport override settled, Chrome measured clientWidth=390 and scrollWidth=390.
 The command-center cards and controls fit without horizontal overflow. A reversed date
 range was rejected by the server, Refresh stayed enabled, and correcting the range then

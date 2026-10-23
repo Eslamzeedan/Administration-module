@@ -1,14 +1,19 @@
 // All mutations use POST; server permissions remain authoritative.
 function adm_operation_setup(frm) {
-    eup_administration.ui.intro(frm);
+    // An already-open Desk tab may still have the preceding shared asset revision.
+    const intro = (message, color) => {
+        if (typeof eup_administration.ui.intro === "function") eup_administration.ui.intro(frm, message, color);
+        else if (message) frm.set_intro(message, color);
+    };
+    intro();
     if (frm.is_new()) {
         eup_administration.ui.request("eup_administration.v4.dashboard.context").then(info => {
-            if (info.requires_employee) eup_administration.ui.intro(frm, __("An active employee linked to your company is required to create this request. Ask your administrator to complete your employee profile."), "yellow");
+            if (info.requires_employee) intro(__("An active employee linked to your company is required to create this request. Ask your administrator to complete your employee profile."), "yellow");
             else if (info.company) frm.set_value("company", info.company);
         }).catch(() => { /* The server still checks access when saving. */ });
         return;
     }
-    if (frm.doc.workflow_policy) eup_administration.ui.intro(frm, __("This request is in a protected workflow. Use the Workflow and Approval actions to move it forward."), "blue");
+    if (frm.doc.workflow_policy) intro(__("This request is in a protected workflow. Use the Workflow and Approval actions to move it forward."), "blue");
     const api = "eup_administration.v4.";
     const perform = (method, args) => eup_administration.ui.call({method: api + method, type: "POST", args})
         .then(() => frm.reload_doc());

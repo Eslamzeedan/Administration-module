@@ -96,9 +96,16 @@ has_permission["ADM Workflow Audit"] = "eup_administration.v4.security.master_pe
 permission_query_conditions["ADM Operation Feedback"] = "eup_administration.v4.security.master_query"
 has_permission["ADM Operation Feedback"] = "eup_administration.v4.security.master_permission"
 
-# Shared assets are visually scoped to administration routes.
-app_include_js = ["/assets/eup_administration/js/administration_ui.js"]
-app_include_css = ["/assets/eup_administration/css/administration.css"]
+# Content revisions keep long-lived browser caches consistent with form scripts.
+from hashlib import sha256 as _sha256
+from pathlib import Path as _Path
 
-web_include_js = ["/assets/eup_administration/js/administration_ui.js"]
-web_include_css = ["/assets/eup_administration/css/administration.css"]
+_ui_public = _Path(__file__).resolve().parent / "public"
+_ui_js_revision = _sha256((_ui_public / "js/administration_ui.js").read_bytes()).hexdigest()[:16]
+_ui_css_revision = _sha256((_ui_public / "css/administration.css").read_bytes()).hexdigest()[:16]
+
+# Shared assets are visually scoped to administration routes.
+app_include_js = [f"/assets/eup_administration/js/administration_ui.js?v={_ui_js_revision}"]
+app_include_css = [f"/assets/eup_administration/css/administration.css?v={_ui_css_revision}"]
+web_include_js = list(app_include_js)
+web_include_css = list(app_include_css)

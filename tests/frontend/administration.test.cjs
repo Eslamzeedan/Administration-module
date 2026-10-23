@@ -41,11 +41,11 @@ test("request rejection propagates and a later request succeeds",async()=>{
     assert.equal(seen[1].type,"GET");
 });
 
-function workflow(doc) {
+function workflow(doc, sharedUI = helper(()=>Promise.resolve({}))) {
     const buttons={}, messages=[], prompts=[];
     const context={
         __:identity,
-        eup_administration:{ui:helper(()=>Promise.resolve({}))},
+        eup_administration:{ui:sharedUI},
         frappe:{
             ui:{form:{on(_dt,handlers){context.handlers=handlers;}}},
             utils:{escape_html:value=>String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))},
@@ -210,4 +210,44 @@ test("refresh replaces only the administration intro and preserves other warning
     assert.equal(container.rows[1].color,"yellow");
     ui.intro(frm);
     assert.deepEqual(container.rows,[external]);
+});
+
+
+test("shared UI boots before the first route and follows later router changes",()=>{
+    let route=null, changed;
+    const classes=[];
+    const context={Promise,Intl,console,__ :identity,eup_administration:{ui:{}},
+        document:{documentElement:{lang:"en"},body:{classList:{toggle:(name,on)=>classes.push({name,on})}}},
+        $:value=>typeof value==="function"?value():{on(){}},
+        frappe:{provide(){},get_route:()=>route,router:{on(event,callback){assert.equal(event,"change");changed=callback;}}}};
+    assert.doesNotThrow(()=>vm.runInNewContext(source("eup_administration/public/js/administration_ui.js"),context));
+    assert.equal(typeof changed,"function");
+    assert.equal(classes.at(-1).on,false);
+    route=["Form","ADM Facility Ticket","QA-1"];changed();
+    assert.equal(classes.at(-1).on,true);
+    route=["List","User"];changed();assert.equal(classes.at(-1).on,false);
+    for(route of [undefined,null,"Form/ADM Facility Ticket"])assert.doesNotThrow(changed);
+});
+
+test("workflow designer remains usable in a tab with the preceding shared asset",()=>{
+    const w=workflow({states:[],transitions:[],approval_bands:[]},{});
+    assert.equal(typeof w.buttons["Load review template"],"function");
+    w.buttons["Preview flow"]();
+    assert.match(w.messages[0],/Add at least one named state/);
+});
+
+test("all operation forms tolerate an already-open tab without the new intro helper",async()=>{
+    const doctypes=["adm_facility_ticket","adm_driver_checklist","adm_preventive_plan","adm_parcel",
+        "adm_equipment_booking","adm_contract_register","adm_operational_incident","adm_recurring_task","adm_task_occurrence"];
+    for(const dt of doctypes){
+        const refreshers=[],messages=[];
+        const context={__:identity,eup_administration:{ui:{request:async()=>({requires_employee:true})}},
+            frappe:{ui:{form:{on(_name,handlers){refreshers.push(handlers.refresh);}}}}};
+        vm.runInNewContext(source("eup_administration/eup_administration/doctype/"+dt+"/"+dt+".js"),context);
+        const frm={is_new:()=>true,doc:{},set_intro:message=>messages.push(message)};
+        assert.doesNotThrow(()=>refreshers[0](frm),dt);
+        await Promise.resolve();await Promise.resolve();
+        assert.equal(messages.length,1,dt);
+        assert.match(messages[0],/active employee/,dt);
+    }
 });

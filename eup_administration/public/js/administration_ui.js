@@ -97,7 +97,8 @@ frappe.provide("eup_administration.ui");
         return window.location.assign("/desk/" + route + (name ? "/" + encodeURIComponent(name) : ""));
     };
     const scoped = () => {
-        const route = frappe.get_route ? frappe.get_route() : [];
+        const current = typeof frappe.get_route === "function" ? frappe.get_route() : [];
+        const route = Array.isArray(current) ? current : [];
         document.body.classList.toggle("adm-workspace", route.some(part =>
             /^ADM |^adm-|^administration/.test(String(part))));
     };
