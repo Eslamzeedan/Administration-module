@@ -21,6 +21,14 @@ frappe.provide("eup_administration.ui");
         return error && error.message && !/TypeError|Traceback/.test(error.message)
             ? error.message : __("We couldn't load this view. Check your access and try again.");
     };
+    ui.intro = (frm, message, color = "blue") => {
+        // v16 appends introductions. Replace only this app's own banner, keeping other warnings.
+        const container = frm.layout && frm.layout.message;
+        if (container) container.children(".adm-intro").remove();
+        if (!message) return;
+        frm.set_intro(message, color);
+        if (container) container.children(".form-message").last().addClass("adm-intro");
+    };
     ui.state = (root, title, description, kind = "empty", retry) => {
         root.empty();
         const box = $('<div class="adm-state"><span class="adm-state-mark" aria-hidden="true"></span><h3></h3><p></p></div>');

@@ -23,7 +23,7 @@ of complete acceptance. Preserve the user's in-progress maintenance form.
 
 ## Evidence
 The PR records actual final-commit CI results. Local checks include all JavaScript syntax
-and nine executable frontend regressions. Python offline checks run in CI because this
+and ten executable frontend regressions. Python offline checks run in CI because this
 workstation has no installed Python. New Python regressions exercise v16 naming, repeated
 hooks, status changes, repair/idempotency, migration, notification suppression, approval
 cancellation, duplicate feedback and employee-context scope. Three live registry tests added.
@@ -68,3 +68,21 @@ clean, switch --detach to that rollback branch, rebuild this app and clear only 
 site's cache. Code rollback does not undo the derived-index repair. Database rollback
 requires restoring the exact previous database/public/private-files backup to
 test-administration-v4.local only, after reviewing the paths. No production commands.
+
+## Subsequent live browser acceptance at 38972b2
+The user supplied the guarded updater success tail (OK, unchanged protected/legacy data,
+STAGING UPDATE PASSED). The tail omits Ran N tests, so the exact live count is unrecorded.
+The agent then tested the real staging UI in Chrome with the user-provided Administrator
+session: command-center company selection/counts, a distinct test policy and facility
+ticket, Start -> Draft -> Submit -> Review -> Complete -> Completed, operational details,
+feedback, a second feedback attempt from a stale tab, and policy immutability. The duplicate
+was rejected by the unique reference-key guard; dashboard still showed one response at 5/5.
+The request has three workflow audit records. Changing the used policy title was rejected;
+the original title was restored and the test policy successfully disabled. The test ticket
+remains Completed as acceptance evidence; no existing policy, role or Employee was modified.
+This was a direct-transition test policy; it does not prove two-person approval acceptance.
+A frontend follow-up replaces only this app's intro banner when v16 appends repeated
+messages, preserving unrelated warnings. Its live installation/retest remains pending.
+The available viewport override did not produce a measured mobile viewport; no phone/RTL
+pass is claimed. Browser tests still require an appropriate employee login for the portal
+and independent approvers for the approval matrix. No production or financial write.

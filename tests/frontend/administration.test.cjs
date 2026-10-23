@@ -45,6 +45,7 @@ function workflow(doc) {
     const buttons={}, messages=[], prompts=[];
     const context={
         __:identity,
+        eup_administration:{ui:helper(()=>Promise.resolve({}))},
         frappe:{
             ui:{form:{on(_dt,handlers){context.handlers=handlers;}}},
             utils:{escape_html:value=>String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))},
@@ -187,4 +188,26 @@ test("portal request links navigate to Desk without depending on the Desk router
     ui.open("ADM Facility Ticket","FAC-00001");
     assert.deepEqual(routes,[["Form","ADM Facility Ticket","FAC-00001"]]);
     assert.equal(navigations.length,2);
+});
+
+
+test("refresh replaces only the administration intro and preserves other warnings",()=>{
+    const external={classes:["form-message"],text:"Permission warning"};
+    const container={rows:[external],children(selector){
+        const found=this.rows.filter(row=>row.classes.includes(selector.slice(1)));
+        return {remove:()=>{this.rows=this.rows.filter(row=>!found.includes(row));},
+            last:()=>({addClass:name=>found.at(-1)?.classes.push(name)})};
+    }};
+    const frm={layout:{message:container},set_intro(text,color){
+        container.rows.push({classes:["form-message"],text,color});
+    }};
+    const ui=helper(()=>{});
+    ui.intro(frm,"Old workflow guidance");
+    ui.intro(frm,"Current workflow guidance","yellow");
+    assert.equal(container.rows.length,2);
+    assert.equal(container.rows[0],external);
+    assert.equal(container.rows[1].text,"Current workflow guidance");
+    assert.equal(container.rows[1].color,"yellow");
+    ui.intro(frm);
+    assert.deepEqual(container.rows,[external]);
 });

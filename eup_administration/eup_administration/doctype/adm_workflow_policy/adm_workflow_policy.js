@@ -1,6 +1,6 @@
 frappe.ui.form.on("ADM Workflow Policy", {
     refresh(frm) {
-        frm.set_intro(__("Design the stages and decisions for one administrative service. Used policies are protected; duplicate a policy to create a new version."), "blue");
+        eup_administration.ui.intro(frm, __("Design the stages and decisions for one administrative service. Used policies are protected; duplicate a policy to create a new version."), "blue");
         frm.add_custom_button(__("Preview flow"), () => {
             const esc = frappe.utils.escape_html;
             const states = (frm.doc.states || []).filter(s => s.state);
