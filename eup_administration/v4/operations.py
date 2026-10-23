@@ -3,9 +3,17 @@ from datetime import timedelta
 import frappe
 from frappe.model.document import Document
 from frappe.utils import get_datetime, getdate, now_datetime, today, add_days
-from eup_administration.v4.rules import positive
+from eup_administration.v4.rules import positive as _positive_rule
 from eup_administration.v4.security import require_company, manager
 from eup_administration.v4.workflow import _internal, _lock, save_internal, key
+
+
+def _positive(value, label, allow_zero=False):
+    """Expose business-rule failures as normal Frappe validation responses."""
+    try:
+        return _positive_rule(value, label, allow_zero=allow_zero)
+    except ValueError as error:
+        frappe.throw(str(error))
 
 
 class Operation(Document):
@@ -50,7 +58,7 @@ class Operation(Document):
         if self.doctype == "ADM Equipment Booking":
             self.validate_booking()
         elif self.doctype == "ADM Driver Checklist":
-            positive(self.odometer or 0, "Odometer", allow_zero=True)
+            _positive(self.odometer or 0, "Odometer", allow_zero=True)
             if getdate(self.check_date) > getdate(today()):
                 frappe.throw("Checklist cannot be future dated")
             if not all(self.get(f) for f in ("brakes_ok", "tires_ok", "lights_ok", "documents_ok")) and not self.defect_notes:
@@ -58,11 +66,11 @@ class Operation(Document):
         elif self.doctype == "ADM Contract Register":
             if getdate(self.expires_on) <= getdate(self.starts_on):
                 frappe.throw("Contract end must follow start")
-            positive(self.notice_days or 0, "Notice days", allow_zero=True)
+            _positive(self.notice_days or 0, "Notice days", allow_zero=True)
         elif self.doctype in {"ADM Recurring Task", "ADM Preventive Plan"}:
             if self.get("next_odometer") is not None:
-                positive(self.next_odometer, "Next odometer", allow_zero=True)
-            positive(self.interval_days, "Interval days")
+                _positive(self.next_odometer, "Next odometer", allow_zero=True)
+            _positive(self.interval_days, "Interval days")
             if int(self.interval_days) > 3660:
                 frappe.throw("Interval exceeds ten years")
         elif self.doctype == "ADM Parcel":
@@ -197,9 +205,9 @@ def update_details(doctype, name, values):
                 frappe.throw("Enabled must be zero or one")
             value = int(value)
         elif field == "interval_days":
-            value = int(positive(value, "Interval days"))
+            value = int(_positive(value, "Interval days"))
         elif field == "next_odometer":
-            value = positive(value, "Next odometer", allow_zero=True)
+            value = _positive(value, "Next odometer", allow_zero=True)
         elif not isinstance(value, str) or len(value) > 10000:
             frappe.throw("Detail text must be at most 10000 characters")
         doc.set(field, value)

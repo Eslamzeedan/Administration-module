@@ -108,7 +108,7 @@ horizontal overflow, then restored the original blank language preference and de
 viewport. The custom Administration copy remained English: this is a failed translation
 check, not complete Arabic acceptance.
 
-rc4 supplies 307 Arabic CSV translations using Frappe's normal app catalog mechanism.
+rc4 supplies 312 Arabic CSV translations using Frappe's normal app catalog mechanism.
 All 192 double-quoted translation literals in the app's JS/HTML, dynamic v4 operation
 names, administrative navigation, and workflow/operation labels are covered. Placeholder
 multisets were checked before writing the catalog. Identifiers, stored workflow states,
@@ -133,3 +133,36 @@ Additional agent-operated rc3 browser evidence on the isolated VM:
 - All test records are distinct QA records. No production or financial record was touched.
 
 Pending approvals now replace the generic workflow intro with specific requester/approver guidance, using the existing available response; server guards are unchanged. Shared ERPNext Delivery Note terminology is left to the upstream catalog. This follow-up still requires installation/retest.
+
+## Numeric validation boundary found in the rc3 browser
+
+A negative interval in an administrative preventive plan was correctly rejected, but the
+pure rule raised ValueError through the controller and Frappe displayed Server Error.
+The operation controller now converts that rule failure to the normal Frappe validation
+response. The same finite/positive/allow-zero checks still run in document validation and
+protected detail updates. No invalid value is accepted and no permissions are relaxed.
+Two offline regressions distinguish validation responses from raw ValueError, verify no
+save/value change for invalid numbers and preserve the allowed zero-odometer case.
+One real-site integration test checks rejected creation and detail update against database
+counts/original interval. Targeted v4 now expects eight tests; the full suite expects at
+least thirty. These counts need new user-supplied VM results; they are not live passes yet.
+
+Further actual rc3 browser evidence:
+- A synthetic vehicle was created Out of Service and left in that state.
+- Driver checklist rejected future dating and missing failed-check explanations, then
+  saved after correction.
+- The synthetic preventive plan saved and reloaded with valid dates/90-day interval.
+  A negative-interval edit reproduced the Server Error above; the stored interval was
+  restored/saved at 90. The corrected error presentation awaits rc4 installation.
+- A recurring task saved disabled; Configure schedule changed its interval from 7 to 14,
+  retaining its disabled flag. No scheduler/job was enabled and no occurrence was forced.
+- Recipient acknowledgement and the independent approval decision still need the existing
+  approver login. The user does not know that account's password; changing it is a manual
+  user step, never a password sent to the assistant.
+- The guarded update_v4_staging_fixes.sh verifies exact bench/site/app paths, branch,
+  clean/base commit, expected remote, target ancestry and stopped test port. It creates
+  code rollback and a full site backup, builds without migration, runs targeted v4 then
+  the full suite, rejects missing/skipped coverage and compares legacy/protected hashes.
+  It does not restore any database or access production. On failure retain logs and stop.
+
+The read-only Released check used a CSS selected class while its native checkbox was unchecked in the actual browser accessibility tree. Equipment refresh now synchronizes the native checked property from the stored released flag; no editability or booking authorization changed. Four ad-hoc checks cover numeric/string 0/1. Installed rendering remains to be retested.

@@ -21,3 +21,4 @@ jobs:
       - run: bash -n tools/run_v3_staging_acceptance.sh
       - run: bash -n tools/run_v4_staging_acceptance.sh
       - run: bash -n tools/update_ui_staging.sh
+      - run: bash -n tools/update_v4_staging_fixes.sh

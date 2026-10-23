@@ -13,6 +13,10 @@ function adm_operation_setup(frm) {
         }).catch(() => { /* The server still checks access when saving. */ });
         return;
     }
+    // v16 renders read-only checks using a CSS class; expose the real checked state too.
+    const releasedField = frm.get_field("released");
+    if (releasedField && releasedField.$wrapper) releasedField.$wrapper
+        .find('.disp-area input[type="checkbox"]').prop("checked", Number(frm.doc.released) === 1);
     if (frm.doc.workflow_policy) intro(__("This request is in a protected workflow. Use the Workflow and Approval actions to move it forward."), "blue");
     const api = "eup_administration.v4.";
     const perform = (method, args) => eup_administration.ui.call({method: api + method, type: "POST", args})

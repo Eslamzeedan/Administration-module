@@ -107,3 +107,53 @@ class TestOperationActions(unittest.TestCase):
         self.doc.assigned_to = "recipient"
         with self.assertRaises(ValueError):
             self.module.update_details("ADM Facility Ticket", "X", {"resolution": "x"*10001})
+
+    def _use_validation_errors(self):
+        class ValidationFailure(Exception):
+            pass
+        def throw(message, exc=ValidationFailure):
+            raise exc(message)
+        self.fake.throw = throw
+        return ValidationFailure
+
+    def test_invalid_operation_numbers_are_validation_errors(self):
+        validation_error = self._use_validation_errors()
+        self.module.manager = lambda company: True
+        cases = (
+            ("ADM Preventive Plan", {"interval_days": -2}, "Interval days"),
+            ("ADM Recurring Task", {"interval_days": -1}, "Interval days"),
+            ("ADM Preventive Plan", {"interval_days": 90, "next_odometer": float("nan")}, "Next odometer"),
+            ("ADM Driver Checklist", {"odometer": -1}, "Odometer"),
+            ("ADM Contract Register", {"starts_on": "2026-10-22",
+                "expires_on": "2026-10-23", "notice_days": -1}, "Notice days"),
+        )
+        for doctype, values, label in cases:
+            with self.subTest(doctype=doctype, field=label):
+                doc = self.module.Operation(doctype=doctype, company="A", **values)
+                doc.is_new = lambda: True
+                doc.get_doc_before_save = lambda: None
+                with self.assertRaisesRegex(validation_error, label):
+                    doc.validate()
+        self.assertFalse(self.saved)
+
+    def test_detail_number_validation_preserves_values_and_zero(self):
+        validation_error = self._use_validation_errors()
+        self.module.manager = lambda company: True
+        self.doc.doctype = "ADM Preventive Plan"
+        self.doc.next_odometer = 100
+        for value in (-1, float("nan"), float("inf"), "not-a-number"):
+            with self.subTest(value=value):
+                with self.assertRaises(validation_error):
+                    self.module.update_details(self.doc.doctype, self.doc.name, {"next_odometer": value})
+                self.assertEqual(self.doc.next_odometer, 100)
+                self.assertFalse(self.saved)
+        self.module.update_details(self.doc.doctype, self.doc.name, {"next_odometer": 0})
+        self.assertEqual(self.doc.next_odometer, 0)
+        self.assertEqual(len(self.saved), 1)
+        self.saved.clear()
+        self.doc.doctype = "ADM Recurring Task"
+        self.doc.interval_days = 7
+        with self.assertRaisesRegex(validation_error, "Interval days"):
+            self.module.update_details(self.doc.doctype, self.doc.name, {"interval_days": -1})
+        self.assertEqual(self.doc.interval_days, 7)
+        self.assertFalse(self.saved)

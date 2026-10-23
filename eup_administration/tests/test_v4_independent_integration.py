@@ -156,6 +156,21 @@ class TestIndependentV4(IntegrationTestCase):
         jobs.escalate()
         self.assertEqual(frappe.db.count("ADM SLA Escalation", {"reference_name": doc.name}), 1)
 
+
+    def test_invalid_operation_numbers_are_validation_errors(self):
+        fields = {"doctype": "ADM Recurring Task", "subject": "Isolated numeric validation QA",
+                  "company": self.company, "next_due": today(), "interval_days": -1, "enabled": 0}
+        before = frappe.db.count("ADM Recurring Task")
+        with self.assertRaisesRegex(frappe.ValidationError, "Interval days"):
+            frappe.get_doc(fields).insert()
+        self.assertEqual(frappe.db.count("ADM Recurring Task"), before)
+        fields["interval_days"] = 7
+        doc = frappe.get_doc(fields).insert()
+        with self.assertRaisesRegex(frappe.ValidationError, "Interval days"):
+            operations.update_details(doc.doctype, doc.name, {"interval_days": -1})
+        self.assertEqual(frappe.db.get_value(doc.doctype, doc.name, "interval_days"), 7)
+        self.assertEqual(frappe.db.count("ADM Recurring Task"), before + 1)
+
     def test_direct_audit_creation_forbidden(self):
         doc, policy = self.ticket(), self.policy()
         workflow.start(doc.doctype, doc.name, policy.name)
