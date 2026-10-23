@@ -1,4 +1,4 @@
-# Administration 4.0.0rc3 — staging UI and integrity review
+# Administration 4.0.0rc4 — staging UI and integrity review
 
 Release candidate on PR #9, based on d06175f. No production deployment or blanket claim
 of complete acceptance. Preserve the user's in-progress maintenance form.
@@ -90,12 +90,44 @@ but the real browser then exposed cached old shared assets versus fresh form scr
 hashes to all shared asset URLs, supports older shared helpers in already-open tabs, and
 handles null/undefined initial routes before attaching router listeners. Two Python asset
 regressions and three frontend bootstrap/old-tab regressions cover these failures.
-The rc3 installation/retest is still pending; the failed cc50356 browser pass is not acceptance.
+The user subsequently installed fe3873a (rc3). Live browser retest confirmed revised assets, one intro after two form reloads, restored preview tools, the existing completed request and single 5/5 dashboard response. The failed cc50356 pass remains documented.
 After the viewport override settled, Chrome measured clientWidth=390 and scrollWidth=390.
 The command-center cards and controls fit without horizontal overflow. A reversed date
 range was rejected by the server, Refresh stayed enabled, and correcting the range then
 using Try again restored the original counts and single 5/5 response. The weekly-report
 action also loaded successfully. The temporary viewport override was reset; desktop
-measured 1440px again. RTL is still unverified. Browser tests still require an appropriate
+measured 1440px again. Subsequent rc3 testing confirmed actual lang=ar/dir=rtl and 390px client/scroll widths. The custom English copy was still untranslated; rc4 adds the Arabic catalog, whose live rendering remains pending. Browser tests still require an appropriate
 employee login for the portal and independent approvers for the approval matrix.
 No production or financial write.
+
+## rc4 Arabic catalog and additional browser checks
+
+Actual rc3 browser testing switched only the staging Administrator language temporarily
+to Arabic, verified lang=ar and dir=rtl, measured 1440px desktop and 390px mobile without
+horizontal overflow, then restored the original blank language preference and desktop
+viewport. The custom Administration copy remained English: this is a failed translation
+check, not complete Arabic acceptance.
+
+rc4 supplies 306 Arabic CSV translations using Frappe's normal app catalog mechanism.
+All 190 double-quoted translation literals in the app's JS/HTML, dynamic v4 operation
+names, administrative navigation, and workflow/operation labels are covered. Placeholder
+multisets were checked before writing the catalog. Identifiers, stored workflow states,
+role names, policy data and permissions are unchanged. Full Arabic rendering after
+installation and remaining legacy form/server-message translation are not yet accepted.
+
+Additional agent-operated rc3 browser evidence on the isolated VM:
+- An explicitly marked synthetic incident saved Arabic content. Mandatory date rejection
+  was observed, then the completed fields saved. The protected details action persisted
+  the root-cause and corrective-action text.
+- A synthetic administrative contract register rejected an end date before its start,
+  then saved with a valid date range. It represents no real agreement.
+- A new shared-equipment fixture in the configured isolated company was booked.
+  A second overlapping booking was rejected. Releasing the first allowed that same
+  second booking to save. Both bookings were released and the synthetic equipment disabled.
+- A synthetic parcel for the existing active test approver saved in the configured
+  isolated company. Administrator is not its recipient and did not receive the
+  acknowledgement button. Recipient acknowledgement remains pending.
+- Read-only inspection found the previously configured test approver enabled with
+  Administration Manager and Employee roles. No user, Employee, role or credential
+  was added or changed. Distinct-user browser acceptance still needs that login.
+- All test records are distinct QA records. No production or financial record was touched.
