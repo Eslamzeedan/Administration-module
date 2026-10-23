@@ -33,8 +33,15 @@ class TestADMTrip(AdministrationIntegrationTestCase):
         self.assigned()
         second = self.new_trip()
         services.request_trip(second.name)
-        with self.assertRaises(frappe.ValidationError):
+        # new_trip() switches to the requester; assignment must run as a manager
+        # so this test reaches resource-conflict validation, not the role guard.
+        frappe.set_user('Administrator')
+        with self.assertRaisesRegex(frappe.ValidationError, 'conflicting or active trip'):
             services.assign_trip(second.name, self.vehicle.name, self.driver.name)
+        second.reload()
+        self.assertEqual(second.status, 'Requested')
+        self.assertFalse(second.vehicle)
+        self.assertFalse(second.driver)
 
     def test_assigned_driver_operates_without_write_permission(self):
         doc = self.assigned()

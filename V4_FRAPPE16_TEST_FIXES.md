@@ -95,5 +95,26 @@ GitHub Actions runs the offline unittest suite on Python 3.12 and 3.14, Python c
 JavaScript syntax checks and both acceptance-script shell syntax checks. See the PR update
 for the actual run result on the final commit. This workstation has no installed Python or
 Frappe/MariaDB, and direct shell network access to GitHub could not resolve its host.
-Live targeted v4, legacy trip and full-suite integration must be rerun by the user on the
-specified isolated VM. No claim of a successful live rerun is made here.
+The initial patch's live rerun results supplied by the user are recorded below.
+This agent has not connected to or executed commands on the VM.
+
+## Follow-up VM evidence and trip actor correction
+
+At df393bb6202347a6c3eff52295f460410f443768, the user supplied terminal output showing:
+- Backup with files succeeded and the disposable checkout fast-forwarded from 7298268.
+- All seven targeted v4 integration tests passed, including duplicate feedback and audit forgery.
+- Targeted ADM Trip ran six tests: five passed; test_conflicting_assignment errored
+  with PermissionError: Administration Manager role required.
+- The full suite did not start because the shell stopped on the targeted trip failure.
+
+The remaining test called new_trip(), which switches to the requester, then attempted
+manager-only assignment without restoring the manager actor. The follow-up switches
+explicitly to Administrator before the conflicting assignment, requires the actual
+resource-conflict ValidationError message, and verifies that the second trip remains
+Requested with no assigned vehicle/driver. No services/controller/permission changes.
+
+Re-run targeted ADM Trip and the complete application suite on the isolated VM after
+updating to the follow-up commit identified in PR #9. Live results for that follow-up
+remain pending; the earlier v4 result is evidence for df393bb only. The instructions
+above describe the original 7298268-to-df393bb update; for an already updated checkout,
+use the follow-up commands in the chat. Keep the original backup and rollback branch.
