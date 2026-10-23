@@ -3,7 +3,7 @@ frappe.ui.form.on("ADM General Service Request", {
     if (frm.is_new()) return;
     const method = "eup_administration.v3.general.";
     function run(action, args) {
-      frappe.call({method: method + action, type: "POST",
+      eup_administration.ui.call({method: method + action, type: "POST",
         args: Object.assign({name: frm.doc.name}, args || {}),
         callback: function() { frm.reload_doc(); }});
     }

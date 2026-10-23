@@ -8,7 +8,7 @@ frappe.ui.form.on('ADM Supply Request', {
         const isApprover = roles.includes('Administration Department Approver') || isManager;
         const isStore = roles.includes('Administration Storekeeper') || isManager;
         function invoke(action, args, label) {
-            frappe.call({
+            eup_administration.ui.call({
                 method: `eup_administration.consumables.${action}`,
                 args: { name: frm.doc.name, ...args },
                 freeze: true,
@@ -52,7 +52,7 @@ frappe.ui.form.on('ADM Supply Request', {
                         options: open.map(row => row.name).join('\n')},
                     {fieldtype:'Link',fieldname:'location',label:__('Admin Location'),options:'ADM Consumable Location',reqd:1},
                     {fieldtype:'Float',fieldname:'qty',label:__('Quantity'),reqd:1}
-                ], values => frappe.call({
+                ], values => eup_administration.ui.call({
                     method:'eup_administration.consumables.issue_consumables',
                     args:{request_name:frm.doc.name, ...values}, freeze:true,
                     callback: () => frm.reload_doc()

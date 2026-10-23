@@ -18,6 +18,17 @@ def _rows(doctype, filters, fields):
 
 
 @frappe.whitelist()
+def context():
+    """UI guidance only; all data/action endpoints still enforce company access."""
+    employee = frappe.db.get_value("Employee",
+        {"user_id": frappe.session.user, "status": "Active"}, ["company"], as_dict=True)
+    administrator = frappe.session.user == "Administrator"
+    company = employee.company if employee else None
+    return {"company": company, "requires_employee": not administrator and not employee,
+            "can_choose_company": administrator, "can_manage": bool(company and manager(company))}
+
+
+@frappe.whitelist()
 def inbox():
     employee = frappe.db.get_value("Employee", {"user_id": frappe.session.user, "status": "Active"},
                                     ["company", "department"], as_dict=True)

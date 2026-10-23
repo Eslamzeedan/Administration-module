@@ -95,3 +95,10 @@ permission_query_conditions["ADM Workflow Audit"] = "eup_administration.v4.secur
 has_permission["ADM Workflow Audit"] = "eup_administration.v4.security.master_permission"
 permission_query_conditions["ADM Operation Feedback"] = "eup_administration.v4.security.master_query"
 has_permission["ADM Operation Feedback"] = "eup_administration.v4.security.master_permission"
+
+# Shared assets are visually scoped to administration routes.
+app_include_js = ["/assets/eup_administration/js/administration_ui.js"]
+app_include_css = ["/assets/eup_administration/css/administration.css"]
+
+web_include_js = ["/assets/eup_administration/js/administration_ui.js"]
+web_include_css = ["/assets/eup_administration/css/administration.css"]

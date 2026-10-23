@@ -245,11 +245,17 @@ def available(doctype, name):
     run_name = frappe.db.get_value("ADM Workflow Run", {"reference_key": key(doctype, name)}, "name")
     if not run_name:
         policies = frappe.get_list("ADM Workflow Policy", filters={"company": doc.company, "target_doctype": doctype, "enabled": 1}, fields=["name", "policy_title"])
-        return {"policies": policies, "actions": []}
+        return {"policies": policies, "actions": [], "can_feedback": False}
     run = frappe.get_doc("ADM Workflow Run", run_name)
     policy = frappe.get_doc("ADM Workflow Policy", run.policy)
     step = next((s for s in policy.approval_bands if s.transition_action == run.pending_action and s.step_number == run.approval_step), None)
     return {"revision": run.revision, "state": run.current_state,
             "pending_action": run.pending_action,
             "can_decide": bool(step and _authorized(step, _case(doc), frappe.session.user)[0]),
+            "can_acknowledge": bool(doc.doctype == "ADM Parcel" and doc.recipient == frappe.session.user and not doc.delivered_at),
+            "can_release": bool(doc.doctype == "ADM Equipment Booking" and not doc.released and
+                                (doc.requested_by == frappe.session.user or manager(doc.company))),
+            "can_feedback": bool(doc.requested_by == frappe.session.user and
+                any(s.state == run.current_state and s.is_terminal for s in policy.states) and
+                not frappe.db.exists("ADM Operation Feedback", {"reference_key": key(doctype, name)})),
             "actions": [t.action for t in policy.transitions if not run.pending_action and t.from_state == run.current_state and t.allowed_role in roles() and matches(t.conditions, doc.as_dict())]}

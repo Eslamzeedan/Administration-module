@@ -1,12 +1,26 @@
 // All mutations use POST; server permissions remain authoritative.
 function adm_operation_setup(frm) {
-    if (frm.is_new()) return;
+    if (frm.is_new()) {
+        eup_administration.ui.request("eup_administration.v4.dashboard.context").then(info => {
+            if (info.requires_employee) frm.set_intro(__("An active employee linked to your company is required to create this request. Ask your administrator to complete your employee profile."), "yellow");
+            else if (info.company) frm.set_value("company", info.company);
+        }).catch(() => { /* The server still checks access when saving. */ });
+        return;
+    }
+    if (frm.doc.workflow_policy) frm.set_intro(__("This request is in a protected workflow. Use the Workflow and Approval actions to move it forward."), "blue");
     const api = "eup_administration.v4.";
-    const perform = (method, args) => frappe.call({method: api + method, type: "POST", args})
+    const perform = (method, args) => eup_administration.ui.call({method: api + method, type: "POST", args})
         .then(() => frm.reload_doc());
-    frappe.call({method: api + "workflow.available", args: {doctype: frm.doctype, name: frm.doc.name}})
+    eup_administration.ui.call({method: api + "workflow.available", args: {doctype: frm.doctype, name: frm.doc.name}})
         .then(({message: info}) => {
             if (!info) return;
+            if (info.can_feedback) {
+                frm.add_custom_button(__("Rate service"), () => frappe.prompt([
+                    {fieldname: "rating", fieldtype: "Select", options: "1\n2\n3\n4\n5", label: __("Rating"), reqd: 1},
+                    {fieldname: "comment", fieldtype: "Small Text", label: __("Comment")}
+                ], values => perform("operations.feedback", {doctype: frm.doctype, name: frm.doc.name, ...values})), __("Feedback"));
+            
+            }
             for (const policy of info.policies || []) {
                 frm.add_custom_button(__("Start: {0}", [policy.policy_title]),
                     () => perform("workflow.start", {doctype: frm.doctype, name: frm.doc.name, policy_name: policy.name}), __("Workflow"));
@@ -26,11 +40,7 @@ function adm_operation_setup(frm) {
                 }
             }
         });
-    frm.add_custom_button(__("Rate service"), () => frappe.prompt([
-        {fieldname: "rating", fieldtype: "Select", options: "1\n2\n3\n4\n5", label: __("Rating"), reqd: 1},
-        {fieldname: "comment", fieldtype: "Small Text", label: __("Comment")}
-    ], values => perform("operations.feedback", {doctype: frm.doctype, name: frm.doc.name, ...values})), __("Feedback"));
-    if (frm.doctype === "ADM Parcel" && !frm.doc.delivered_at)
+    if (frm.doctype === "ADM Parcel" && !frm.doc.delivered_at && frm.doc.recipient === frappe.session.user)
         frm.add_custom_button(__("Acknowledge receipt"), () => perform("operations.acknowledge_parcel", {name: frm.doc.name}));
     if (frm.doctype === "ADM Equipment Booking" && !frm.doc.released)
         frm.add_custom_button(__("Release reservation"), () => perform("operations.release_booking", {name: frm.doc.name}));
@@ -38,6 +48,6 @@ function adm_operation_setup(frm) {
 
 frappe.ui.form.on("ADM Operational Incident", {refresh: adm_operation_setup});
 
-frappe.ui.form.on("ADM Operational Incident", {refresh(frm) { if (!frm.is_new()) frm.add_custom_button(__("Update operational details"), () => frappe.prompt([{"fieldname":"root_cause","fieldtype":"Small Text","label":"Root cause"},{"fieldname":"corrective_action","fieldtype":"Small Text","label":"Corrective action"}], values => frappe.call({method:"eup_administration.v4.operations.update_details", type:"POST", args:{doctype:frm.doctype,name:frm.doc.name,values}}).then(() => frm.reload_doc()))); }});
+frappe.ui.form.on("ADM Operational Incident", {refresh(frm) { if (!frm.is_new()) frm.add_custom_button(__("Update operational details"), () => frappe.prompt([{"fieldname":"root_cause","fieldtype":"Small Text","label":"Root cause"},{"fieldname":"corrective_action","fieldtype":"Small Text","label":"Corrective action"}], values => eup_administration.ui.call({method:"eup_administration.v4.operations.update_details", type:"POST", args:{doctype:frm.doctype,name:frm.doc.name,values}}).then(() => frm.reload_doc()))); }});
 
-frappe.ui.form.on("ADM Operational Incident", {refresh(frm) { if (!frm.is_new()) frm.add_custom_button(__("Assign operator"), () => frappe.prompt([{fieldname:"assigned_to",fieldtype:"Link",options:"User",label:__("Operator"),reqd:1}], values => frappe.call({method:"eup_administration.v4.operations.assign_operator",type:"POST",args:{doctype:frm.doctype,name:frm.doc.name,...values}}).then(() => frm.reload_doc()))); }});
+frappe.ui.form.on("ADM Operational Incident", {refresh(frm) { if (!frm.is_new()) frm.add_custom_button(__("Assign operator"), () => frappe.prompt([{fieldname:"assigned_to",fieldtype:"Link",options:"User",label:__("Operator"),reqd:1}], values => eup_administration.ui.call({method:"eup_administration.v4.operations.assign_operator",type:"POST",args:{doctype:frm.doctype,name:frm.doc.name,...values}}).then(() => frm.reload_doc()))); }});

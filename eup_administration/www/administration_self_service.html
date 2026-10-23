@@ -1,12 +1,21 @@
 {% extends "templates/web.html" %}
 {% block page_content %}
-<div class="adm-self-service">
-  <h1>{{ _("Administration Self-Service") }}</h1>
-  <p>{{ _("Request office services, track your requests, and rate completed services.") }}</p>
-  <p><strong>{{ company | e }}</strong></p>
+<main class="adm-self-service" data-employee-ready="{{ 0 if requires_employee else 1 }}">
+  <section class="adm-hero">
+    <div>
+      <span class="adm-eyebrow">{{ _("EMPLOYEE SERVICES") }}</span>
+      <h1>{{ _("Your workplace, made simpler") }}</h1>
+      <p>{{ _("Request a service, follow its progress and share your feedback in one place.") }}</p>
+      {% if company %}<p class="mt-2">{{ company | e }}</p>{% endif %}
+    </div>
+    <span class="adm-hero-orbit" aria-hidden="true"></span>
+  </section>
+  <div class="adm-toolbar">
+    <button id="adm-new-request" class="btn btn-primary" type="button">{{ _("New request") }}</button>
+    <button id="adm-refresh" class="btn btn-default" type="button">{{ _("Refresh") }}</button>
+    <a class="btn btn-default" href="/desk/administration-v3">{{ _("Administration workspace") }}</a>
+  </div>
   <div id="adm-portal-status" role="status" aria-live="polite"></div>
-  <button id="adm-new-request" class="btn btn-primary">{{ _("New request") }}</button>
-  <button id="adm-refresh" class="btn btn-default">{{ _("Refresh") }}</button>
-  <div id="adm-portal-list" class="mt-4"></div>
-</div>
+  <div id="adm-portal-list" class="adm-portal-grid"></div>
+</main>
 {% endblock %}

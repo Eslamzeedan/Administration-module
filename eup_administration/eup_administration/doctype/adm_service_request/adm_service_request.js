@@ -2,7 +2,7 @@
 frappe.ui.form.on('ADM Service Request', {
   refresh(frm) {
     if (frm.is_new()) return;
-    frappe.call({method:'eup_administration.runner.capabilities', args:{name:frm.doc.name}})
+    eup_administration.ui.call({method:'eup_administration.runner.capabilities', args:{name:frm.doc.name}})
       .then(({message: c}) => {
         if (!c) return;
         const actions = [
@@ -50,6 +50,6 @@ frappe.ui.form.on('ADM Service Request', {
   }
 });
 function invoke(frm, method, values) {
-  return frappe.call({method:`eup_administration.runner.${method}`,type:'POST',
+  return eup_administration.ui.call({method:`eup_administration.runner.${method}`,type:'POST',
     args:{name:frm.doc.name,...values},freeze:true}).then(() => frm.reload_doc());
 }
