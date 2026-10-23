@@ -65,7 +65,7 @@ button.adm-metric:hover{border-color:#8dc7c7;background:#f8fdfc}
 .adm-self-service{max-width:1150px;margin:auto;padding:24px;color:var(--adm-ink)}
 .adm-self-service .adm-hero{margin-top:12px}
 .adm-portal-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:16px}
-.adm-portal-card{padding:22px;border:1px solid var(--adm-line);border-radius:14px;background:#fff;box-shadow:var(--adm-shadow)}
+.adm-portal-card{padding:22px;border:1px solid var(--adm-line);border-radius:14px;background:var(--adm-surface);box-shadow:var(--adm-shadow)}
 .adm-portal-card h3{font-size:17px;font-weight:650;line-height:1.6}
 .adm-portal-card .adm-toolbar{margin:16px 0 0}
 .adm-dialog{border:1px solid var(--adm-line);border-radius:16px;padding:26px;width:540px;max-width:calc(100vw - 28px);max-height:90dvh;overflow:auto;color:var(--adm-ink)}
@@ -83,3 +83,6 @@ button.adm-metric:hover{border-color:#8dc7c7;background:#f8fdfc}
 [data-theme=dark] .adm-workspace .adm-request-row,[data-theme=dark] .adm-workspace .adm-panel-body{border-color:var(--adm-line)}
 
 .adm-self-service .adm-hero h1{font-size:clamp(25px,4vw,36px);font-weight:700;letter-spacing:-.035em;margin:0 0 12px;line-height:1.2;color:#fff}
+
+[data-theme=dark] .adm-workspace .list-row:hover,[data-theme=dark] .adm-workspace button.adm-metric:hover{background:#254541}
+[data-theme=dark] .adm-workspace .adm-section-heading,[data-theme=dark] .adm-workspace .adm-request-row{border-color:var(--adm-line)}

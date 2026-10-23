@@ -82,7 +82,12 @@ frappe.provide("eup_administration.ui");
         const dialog = new frappe.ui.Dialog({title, fields:[{fieldname:"body",fieldtype:"HTML"}]});
         dialog.fields_dict.body.$wrapper.append(content); dialog.show(); return dialog;
     };
-    ui.open = (doctype, name) => frappe.set_route(name ? "Form" : "List", doctype, ...(name ? [name] : []));
+    ui.open = (doctype, name) => {
+        if (frappe.router && typeof frappe.set_route === "function")
+            return frappe.set_route(name ? "Form" : "List", doctype, ...(name ? [name] : []));
+        const route = encodeURIComponent(String(doctype).toLowerCase().replace(/ /g, "-"));
+        return window.location.assign("/desk/" + route + (name ? "/" + encodeURIComponent(name) : ""));
+    };
     const scoped = () => {
         const route = frappe.get_route ? frappe.get_route() : [];
         document.body.classList.toggle("adm-workspace", route.some(part =>

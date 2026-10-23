@@ -169,3 +169,22 @@ test("missing employee is explained without querying company data",async()=>{
     assert.equal(reads,0);
     assert.equal(center.states.at(-1).title,"Connect your employee profile");
 });
+
+
+test("portal request links navigate to Desk without depending on the Desk router",()=>{
+    const navigations=[], routes=[];
+    const context={Promise,Intl,console, __:identity, $:()=>chain(),
+        document:{documentElement:{lang:"en"},body:{classList:{toggle(){}}}},
+        window:{location:{assign:url=>navigations.push(url)}},
+        eup_administration:{ui:{}},frappe:{provide(){},call(){}}};
+    vm.runInNewContext(source("eup_administration/public/js/administration_ui.js"),context);
+    const ui=context.eup_administration.ui;
+    ui.open("ADM Facility Ticket","TICKET/a?b#c");
+    ui.open("ADM Equipment Booking");
+    assert.deepEqual(navigations,["/desk/adm-facility-ticket/TICKET%2Fa%3Fb%23c","/desk/adm-equipment-booking"]);
+    context.frappe.router={on(){}};
+    context.frappe.set_route=(...args)=>routes.push(args);
+    ui.open("ADM Facility Ticket","FAC-00001");
+    assert.deepEqual(routes,[["Form","ADM Facility Ticket","FAC-00001"]]);
+    assert.equal(navigations.length,2);
+});

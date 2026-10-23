@@ -23,7 +23,7 @@ of complete acceptance. Preserve the user's in-progress maintenance form.
 
 ## Evidence
 The PR records actual final-commit CI results. Local checks include all JavaScript syntax
-and eight executable frontend regressions. Python offline checks run in CI because this
+and nine executable frontend regressions. Python offline checks run in CI because this
 workstation has no installed Python. New Python regressions exercise v16 naming, repeated
 hooks, status changes, repair/idempotency, migration, notification suppression, approval
 cancellation, duplicate feedback and employee-context scope. Three live registry tests added.
@@ -39,7 +39,7 @@ plus agent-operated browser QA that found the defects. Those passes do not verif
 | Administrative supplies/custody | Existing boundary/controller tests; scoped form styling | Storekeeper/requester/private-file/QR UI |
 | Nine v4 operations | Existing validation/scope/idempotency tests; state-aware actions | Matching active Employee/User company matrix |
 | Workflow designer | Template/preview/condition regressions; draft preservation | Save/run/revision/used-policy lifecycle |
-| Dashboards/portal | Promise/error/retry/context tests; layout preview | Real data, denied/retry cases, mobile/RTL |
+| Dashboards/portal | Promise/error/retry/context and portal-link tests; CSS/source review | Real data, denied/retry cases, mobile/RTL |
 | Registry migration | Idempotent repair tests and three real-site tests | Backup/migrate/hash comparison/repeat |
 | Notifications/scheduler | Existing opt-in guards; rebuild emits no events | Remain disabled unless separately tested |
 | Production | No access/change | Separate decision after acceptance |
