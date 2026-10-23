@@ -2,6 +2,14 @@ import frappe
 from eup_administration.tests.base import AdministrationIntegrationTestCase
 from eup_administration import services
 
+# These tests create their own ADM documents/users and use the configured existing
+# Company. Do not recursively generate ERPNext's Company/Cost Center dependency
+# graph (which can reach optional payments DocTypes on Frappe v16).
+# This is Frappe's supported fixture-discovery override, not a test skip.
+IGNORE_TEST_RECORD_DEPENDENCIES = (
+    "Company", "User", "Department", "Cost Center", "ADM Vehicle", "ADM Driver",
+)
+
 class TestADMTrip(AdministrationIntegrationTestCase):
     def test_start_end(self):
         doc = self.assigned()

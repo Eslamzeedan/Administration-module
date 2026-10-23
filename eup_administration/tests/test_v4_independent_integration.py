@@ -3,6 +3,7 @@ import hashlib
 import json
 import frappe
 from frappe.tests import IntegrationTestCase
+from frappe.exceptions import UniqueValidationError
 from frappe.utils import now_datetime, add_to_date, add_days, today
 from eup_administration.v4 import workflow, operations, jobs
 
@@ -81,9 +82,18 @@ class TestIndependentV4(IntegrationTestCase):
         self.assertEqual(result["state"], "Done")
         frappe.set_user("Administrator")
         self.assertEqual(frappe.db.count("ADM Workflow Audit", {"reference_name": doc.name}), 3)
-        operations.feedback(doc.doctype, doc.name, 5, "Completed")
-        with self.assertRaises(frappe.DuplicateEntryError):
-            operations.feedback(doc.doctype, doc.name, 5)
+        feedback_filters = {"reference_key": workflow.key(doc.doctype, doc.name)}
+        total_before = frappe.db.count("ADM Operation Feedback")
+        created = operations.feedback(doc.doctype, doc.name, 5, "Completed")
+        self.assertEqual(frappe.db.count("ADM Operation Feedback", feedback_filters), 1)
+        self.assertEqual(frappe.db.count("ADM Operation Feedback"), total_before + 1)
+        # Frappe v16 distinguishes a unique field collision from a duplicate name.
+        with self.assertRaises((frappe.DuplicateEntryError, UniqueValidationError)):
+            operations.feedback(doc.doctype, doc.name, 1, "Duplicate attempt")
+        self.assertEqual(frappe.db.count("ADM Operation Feedback", feedback_filters), 1)
+        self.assertEqual(frappe.db.count("ADM Operation Feedback"), total_before + 1)
+        self.assertEqual(frappe.db.get_value("ADM Operation Feedback", created["feedback"],
+                                           ["rating", "comment"]), (5, "Completed"))
         with self.assertRaises(frappe.ValidationError):
             workflow.decide(doc.doctype, doc.name, "Approved", result["revision"])
 
@@ -147,6 +157,20 @@ class TestIndependentV4(IntegrationTestCase):
         self.assertEqual(frappe.db.count("ADM SLA Escalation", {"reference_name": doc.name}), 1)
 
     def test_direct_audit_creation_forbidden(self):
-        with self.assertRaises(frappe.PermissionError):
-            frappe.get_doc({"doctype": "ADM Workflow Audit", "reference_doctype": "ADM Facility Ticket",
-                "reference_name": "FORGED", "policy": "FORGED", "company": self.company}).insert(ignore_permissions=True)
+        doc, policy = self.ticket(), self.policy()
+        workflow.start(doc.doctype, doc.name, policy.name)
+        filters = {"reference_doctype": doc.doctype, "reference_name": doc.name}
+        before = frappe.get_all("ADM Workflow Audit", filters=filters, pluck="name", order_by="name")
+        self.assertEqual(len(before), 1)  # The protected workflow action really created an audit.
+        total_before = frappe.db.count("ADM Workflow Audit")
+        forged = frappe.get_doc({"doctype": "ADM Workflow Audit", "reference_doctype": doc.doctype,
+            "reference_name": doc.name, "policy": policy.name, "company": self.company,
+            "actor": "Administrator", "action": "FORGED", "from_state": "Draft",
+            "to_state": "Done", "revision": "999"})
+        with self.assertRaisesRegex(frappe.PermissionError, "Use protected workflow actions"):
+            forged.insert(ignore_permissions=True)
+        self.assertEqual(frappe.db.count("ADM Workflow Audit"), total_before)
+        self.assertEqual(frappe.get_all("ADM Workflow Audit", filters=filters,
+                                       pluck="name", order_by="name"), before)
+        self.assertFalse(frappe.db.exists("ADM Workflow Audit",
+                                        dict(filters, action="FORGED")))
