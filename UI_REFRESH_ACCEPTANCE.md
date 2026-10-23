@@ -108,8 +108,8 @@ horizontal overflow, then restored the original blank language preference and de
 viewport. The custom Administration copy remained English: this is a failed translation
 check, not complete Arabic acceptance.
 
-rc4 supplies 306 Arabic CSV translations using Frappe's normal app catalog mechanism.
-All 190 double-quoted translation literals in the app's JS/HTML, dynamic v4 operation
+rc4 supplies 307 Arabic CSV translations using Frappe's normal app catalog mechanism.
+All 192 double-quoted translation literals in the app's JS/HTML, dynamic v4 operation
 names, administrative navigation, and workflow/operation labels are covered. Placeholder
 multisets were checked before writing the catalog. Identifiers, stored workflow states,
 role names, policy data and permissions are unchanged. Full Arabic rendering after
@@ -131,3 +131,5 @@ Additional agent-operated rc3 browser evidence on the isolated VM:
   Administration Manager and Employee roles. No user, Employee, role or credential
   was added or changed. Distinct-user browser acceptance still needs that login.
 - All test records are distinct QA records. No production or financial record was touched.
+
+Pending approvals now replace the generic workflow intro with specific requester/approver guidance, using the existing available response; server guards are unchanged. Shared ERPNext Delivery Note terminology is left to the upstream catalog. This follow-up still requires installation/retest.

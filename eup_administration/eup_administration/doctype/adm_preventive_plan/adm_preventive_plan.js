@@ -20,6 +20,9 @@ function adm_operation_setup(frm) {
     eup_administration.ui.call({method: api + "workflow.available", args: {doctype: frm.doctype, name: frm.doc.name}})
         .then(({message: info}) => {
             if (!info) return;
+            if (info.pending_action) intro(info.can_decide
+                ? __("This request is waiting for your approval. Use the Approval actions to approve or reject it.")
+                : __("This request is waiting for approval. An eligible approver must decide before it can continue."), "yellow");
             if (info.can_feedback) {
                 frm.add_custom_button(__("Rate service"), () => frappe.prompt([
                     {fieldname: "rating", fieldtype: "Select", options: "1\n2\n3\n4\n5", label: __("Rating"), reqd: 1},
