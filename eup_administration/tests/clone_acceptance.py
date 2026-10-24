@@ -54,7 +54,7 @@ def fingerprint():
 
 def restore_snapshot():
     """Read-only source/clone comparison, including actual public/private file bytes."""
-    if (Path.cwd().resolve() != BENCH or frappe.local.site not in
+    if (Path.cwd().resolve() not in (BENCH, BENCH / 'sites') or frappe.local.site not in
             ('test-administration-v4.local', CLONE) or
             Path(frappe.get_site_path()).resolve() != BENCH / 'sites' / frappe.local.site):
         raise AssertionError('Read-only restore snapshot requires the exact test bench/site')

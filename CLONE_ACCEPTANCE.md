@@ -89,3 +89,11 @@ Frappe integration, actual restore or authenticated browser-delivery evidence.
 Live restore/matrix/race and real-time acceptance remain pending user-run VM logs
 and the subsequent browser check. Accessibility, the remaining operation-specific
 UI cases and an ordinary-user browser login are still tracked separately.
+
+First real operator run reached 4c58d41, created the source backup and stopped at
+the read-only source snapshot guard before any clone was created. The guard had
+accepted only the bench root, whereas bench execute runs from its sites directory.
+The follow-up accepts only these two exact named staging directories, retaining
+the strict resolved-site/database/config checks. An offline regression checks the
+sites working directory and rejects the primary bench and unrelated paths. This
+failed first attempt is not restore/matrix/race acceptance; retain its logs/backup.

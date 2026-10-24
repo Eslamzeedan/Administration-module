@@ -5,6 +5,10 @@ CLONE = 'test-administration-v4-restore.local'
 
 
 def validate_clone_environment(bench, site, site_path, config):
+    # bench execute invokes Frappe from the bench's sites directory; standalone
+    # worker interpreters run from the bench root. Both are exact named paths.
+    if bench == BENCH + '/sites':
+        bench = BENCH
     if bench != BENCH or site != CLONE or site_path != BENCH + '/sites/' + CLONE:
         raise AssertionError('Only the exact disposable clone path is allowed')
     for flag in ('adm_acceptance_clone', 'adm_allow_integration_tests', 'pause_scheduler', 'mute_emails'):

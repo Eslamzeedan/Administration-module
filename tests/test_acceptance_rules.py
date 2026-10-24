@@ -32,6 +32,12 @@ class CloneSafetyTests(unittest.TestCase):
                 with self.subTest(flag=flag, value=value), self.assertRaises(AssertionError):
                     self.check(**{flag: value})
 
+    def test_bench_execute_sites_cwd_is_supported_without_other_paths(self):
+        validate_clone_environment(BENCH + '/sites', CLONE, BENCH + '/sites/' + CLONE, self.config)
+        for cwd in ('/home/frappe/frappe-bench/sites', BENCH + '/sites/other', '/tmp'):
+            with self.subTest(cwd=cwd), self.assertRaises(AssertionError):
+                validate_clone_environment(cwd, CLONE, BENCH + '/sites/' + CLONE, self.config)
+
     def test_enabled_jobs_and_shared_database_are_rejected(self):
         for changes in ({'adm_v4_jobs_enabled': 1}, {'adm_v4_jobs_enabled': '0'},
                         {'db_name': 'source_fixture_db'}, {'db_name': None},
