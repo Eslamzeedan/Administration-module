@@ -16,9 +16,10 @@ jobs:
           node-version: '24'
       - run: python -m unittest discover -s tests -v
       - run: node --test tests/frontend/*.test.cjs
-      - run: python -m compileall -q eup_administration
+      - run: python -m compileall -q eup_administration tools
       - run: find eup_administration -name '*.js' -exec node --check {} \;
       - run: bash -n tools/run_v3_staging_acceptance.sh
       - run: bash -n tools/run_v4_staging_acceptance.sh
       - run: bash -n tools/update_ui_staging.sh
       - run: bash -n tools/update_v4_staging_fixes.sh
+      - run: bash -n tools/restore_v4_acceptance_clone.sh

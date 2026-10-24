@@ -1,5 +1,12 @@
 # Administration 4.0.0rc4 — staging UI and integrity review
 
+Current follow-up: see [clone and remaining release acceptance](CLONE_ACCEPTANCE.md).
+The later user-run rc4 VM logs prove 8/8 targeted v4 and 30/30 full-app tests;
+subsequent real Chrome checks prove the scoped independent decisions/receipt/portal,
+Arabic rendering and stale-revision behavior described there. Earlier pending notes
+below are historical. Restore, genuine simultaneous races and the expanded role/file
+matrix are newly executable on a separate restored clone, with no VM pass claimed yet.
+
 Release candidate on PR #9, based on d06175f. No production deployment or blanket claim
 of complete acceptance. Preserve the user's in-progress maintenance form.
 
