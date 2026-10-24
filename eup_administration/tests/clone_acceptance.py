@@ -466,9 +466,9 @@ def worker_main(payload):
     """Separate interpreter/DB transaction. Invoked only by the clone coordinator."""
     payload = json.loads(payload)
     frappe.init(site=CLONE, sites_path=str(BENCH / 'sites'))
+    guard()  # Validate exact paths/config/distinct DB before opening a connection.
     frappe.connect()
     try:
-        guard()
         frappe.set_user(payload.get('user', 'Administrator'))
         # Deliberately establish a consistent-read snapshot before the row lock.
         # This reproduces real requests that read user/metadata before an action.
@@ -516,7 +516,8 @@ def race(kind, payload):
             processes.append(subprocess.Popen([sys.executable, '-c',
                 'from eup_administration.tests.clone_acceptance import worker_main; '
                 'import sys; worker_main(sys.argv[1])', json.dumps(data, default=str)],
-                cwd=BENCH, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True))
+                # Frappe's logger resolves site/logs and ../logs from sites cwd.
+                cwd=BENCH / 'sites', stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True))
         deadline = time.monotonic() + 20
         while not all((control / ('ready-' + str(n))).exists() for n in (0, 1)):
             if time.monotonic() > deadline or any(p.poll() is not None for p in processes):

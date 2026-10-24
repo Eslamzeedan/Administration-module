@@ -129,3 +129,38 @@ snapshot. It reruns all ten cases and four races and compares source hashes agai
 Only a fully successful run reopens the source test site. If it stops after race
 fixtures were committed, keep the logs/clone and diagnose; do not rerun recovery
 or a site-creation/restore command.
+
+## Verified matrix and race-startup correction
+
+The user installed 84e8ddd and ran the guarded resume (log
+adm-resume-acceptance-1P3IXl). Source hashes matched. The original two synthetic
+files were retained as evidence, all ten real-role cases passed again in 5.885s,
+and MATRIX INTEGRITY PASS confirmed the exact original data/file hashes after
+cleanup. This supersedes the earlier matrix-integrity-pending state above.
+
+The first race then stopped before either worker reached its barrier. Both logs
+in adm-clone-race-1ad_anfv show FileNotFoundError during frappe.connect: the logger
+tried bench/clone/logs/database.log rather than bench/sites/clone/logs/database.log.
+Frappe v16 logger paths are relative to the sites working directory, even when
+frappe.init receives an absolute sites_path. This was a harness startup error,
+not a concurrency pass or evidence of a controller defect. The committed synthetic
+equipment fixture is retained on the clone; no booking outcome was produced.
+
+The correction launches both race children with cwd=BENCH/sites and validates
+clone paths/config/distinct DB before connect. The test web child also changes
+from its validated bench root to sites before importing/serving Frappe, preventing
+the same relative logging failure. No directories, symlinks, framework settings,
+logging bypasses or production services are added. Offline regressions exercise
+two real child processes writing relative site/bench logs and synchronizing,
+startup-failure log retention, rejection before DB connect and web runtime cwd.
+These tests do not emulate a successful live DB race.
+
+Use tools/resume_v4_races.sh BASE TARGET RESTORE_LOG MATRIX_LOG for the existing
+clone after this known startup failure. It checks original restore/full-suite/
+completed-matrix snapshots, current source hashes and clone HR/security/protected/
+file hashes. It retains earlier synthetic race rows, creates no site/database,
+performs no restore or fixture-file recovery, and reruns the four strict races.
+Only successful races and the final unchanged-source comparison reopen the source
+test site. Failures retain logs/clone and stop; no race success is claimed yet.
+
+Logger reference: https://github.com/frappe/frappe/blob/v16.31.0/frappe/utils/logger.py

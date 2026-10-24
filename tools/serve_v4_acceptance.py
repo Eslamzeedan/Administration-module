@@ -30,6 +30,8 @@ def check_paths():
 
 def web():
     check_paths()
+    # Match bench's sites cwd: Frappe log handlers use site/logs and ../logs.
+    os.chdir(BENCH / 'sites')
     import frappe.app
     from werkzeug.serving import run_simple
     frappe.app._site = SITE

@@ -24,3 +24,4 @@ jobs:
       - run: bash -n tools/update_v4_staging_fixes.sh
       - run: bash -n tools/restore_v4_acceptance_clone.sh
       - run: bash -n tools/resume_v4_acceptance_clone.sh
+      - run: bash -n tools/resume_v4_races.sh
