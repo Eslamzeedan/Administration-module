@@ -7,6 +7,7 @@ from pathlib import Path
 import tempfile
 from types import SimpleNamespace
 import unittest
+from unittest.mock import patch
 
 from eup_administration.acceptance_rules import matrix_file_cleanup_plan
 
@@ -27,6 +28,8 @@ class MatrixQuarantineTests(unittest.TestCase):
         self.references = set()
         source = Path(__file__).resolve().parents[1] / 'eup_administration/tests/clone_acceptance.py'
         tree = ast.parse(source.read_text())
+        self.source_tree = tree
+        self.source_path = source
         function = next(node for node in tree.body if isinstance(node, ast.FunctionDef)
                         and node.name == 'quarantine_matrix_files')
         namespace = {'Path': Path, 'hashlib': hashlib, 'json': json, 'tempfile': tempfile,
@@ -38,6 +41,20 @@ class MatrixQuarantineTests(unittest.TestCase):
                                             filters['file_url'] in self.references))}
         exec(compile(ast.Module(body=[function], type_ignores=[]), str(source), 'exec'), namespace)
         self.quarantine = namespace['quarantine_matrix_files']
+
+    def test_real_snapshot_shape_matches_json_saved_by_bench_execute(self):
+        function = next(node for node in self.source_tree.body if isinstance(node, ast.FunctionDef)
+                        and node.name == 'restore_snapshot')
+        namespace = {'Path': Path, 'BENCH': self.bench, 'CLONE': 'clone',
+                     'json': json, 'hashlib': hashlib,
+                     'fingerprint': lambda: {'protected': {'GL Entry': (0, 'hash')}, 'records': {}},
+                     'frappe': SimpleNamespace(local=SimpleNamespace(site='clone'),
+                         get_site_path=lambda: str(self.site), set_user=lambda user: None)}
+        exec(compile(ast.Module(body=[function], type_ignores=[]), str(self.source_path), 'exec'), namespace)
+        with patch.object(Path, 'cwd', return_value=self.bench):
+            actual = namespace['restore_snapshot']()
+        self.assertEqual(actual, json.loads(json.dumps(actual)))
+        self.assertEqual(actual['data']['protected']['GL Entry'], [0, 'hash'])
 
     def snapshot(self):
         files = {}

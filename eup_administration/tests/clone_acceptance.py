@@ -74,7 +74,9 @@ def restore_snapshot():
                 if not file.resolve().is_relative_to(site_root):
                     raise AssertionError('File escaped the test site')
                 files[str(file.relative_to(site_root))] = hashlib.sha256(file.read_bytes()).hexdigest()
-    return {'data': fingerprint(), 'files': files}
+    # CLI snapshots are JSON. Keep the in-process shape identical when recovery
+    # compares a freshly read snapshot with one loaded from the original log.
+    return {'data': json.loads(json.dumps(fingerprint())), 'files': files}
 
 
 class CloneMatrix(unittest.TestCase):
