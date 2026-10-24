@@ -45,8 +45,12 @@ again, then explicitly runs ten additional real-permission tests:
 
 Five temporary User/Employee identities use existing Company/Gender/Role masters;
 they receive no password/welcome email. They exist only inside the clone matrix
-transaction and are rolled back. Frappe file rollback removes generated test bytes;
-full hashes verify that app/HR/security/protected rows and files are unchanged.
+transaction and are rolled back. After DB rollback, any remaining new synthetic
+fixture bytes are moved into a private evidence directory under bench/logs. Every
+DB hash and every original file must already match; only the exact generated
+filename/content/hash pattern is eligible, and any persisted File reference blocks
+cleanup. No existing file is removed. The complete original snapshot must then
+match exactly.
 No dummy ERPNext/financial DocTypes or master data are generated.
 
 Four further races use separate Python processes and database connections. Both
@@ -97,3 +101,31 @@ The follow-up accepts only these two exact named staging directories, retaining
 the strict resolved-site/database/config checks. An offline regression checks the
 sites working directory and rejects the primary bench and unrelated paths. This
 failed first attempt is not restore/matrix/race acceptance; retain its logs/backup.
+
+## Real clone run and explicit resume
+
+The user-run retry at 685eabd successfully restored DB/public/private files and
+matched all original hashes. All 30 application tests passed without skips and
+left restored app/HR/security/protected data and file hashes unchanged. All ten
+real-role cases passed, but their final integrity assertion failed. A subsequent
+read-only diagnostic on log adm-complete-acceptance-FnpkNi proved: no changed
+tables, protected data unchanged, exactly two added files, no removed files and
+no changed original bytes. The fixture file rollback had left the synthetic
+private/public pair on disk. This is a failed cleanup gate, not a matrix integrity
+pass. No races ran and no real-time success is claimed.
+
+The correction retains every integrity condition and quarantines only provable
+new synthetic orphan bytes after full DB rollback. Seven offline regressions
+reject changed rows/protected data, removed/modified originals, unrelated paths,
+non-fixture bytes, changed hashes and incomplete inventories.
+
+For the already existing clone, use tools/resume_v4_acceptance_clone.sh BASE TARGET
+adm-complete-acceptance-FnpkNi. It refuses a dirty/wrong checkout, active test
+ports, unpaused sites, mismatched original restore/full-suite evidence or a
+changed source snapshot. It never creates/restores/drops a site or database. The
+one-time recovery requires exactly one private and one public fixture file,
+retains the bytes and manifest outside site files, then verifies the exact old
+snapshot. It reruns all ten cases and four races and compares source hashes again.
+Only a fully successful run reopens the source test site. If it stops after race
+fixtures were committed, keep the logs/clone and diagnose; do not rerun recovery
+or a site-creation/restore command.

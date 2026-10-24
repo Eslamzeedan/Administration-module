@@ -1,4 +1,7 @@
 """Pure fail-closed checks for the operator-only disposable-clone harness."""
+import hashlib
+import re
+
 BENCH = '/home/frappe/frappe-bench-v4'
 SOURCE = 'test-administration-v4.local'
 CLONE = 'test-administration-v4-restore.local'
@@ -32,3 +35,25 @@ def require_one_success(results, expected_errors):
                for kind, text in expected_errors):
         raise AssertionError('Unexpected race failure: ' + repr(loser))
     return next(r for r in results if r.get('ok') is True)
+
+
+def matrix_file_cleanup_plan(before, after, contents):
+    """Accept only newly generated fixture bytes after every DB row rolled back."""
+    if before['data'] != after['data']:
+        raise AssertionError('Matrix changed persisted app/HR/security/protected data')
+    original, current = before['files'], after['files']
+    if any(current.get(name) != digest for name, digest in original.items()):
+        raise AssertionError('Matrix removed or changed a pre-existing file')
+    added = sorted(set(current) - set(original))
+    if set(contents) != set(added):
+        raise AssertionError('Cleanup content inventory differs from added files')
+    for name in added:
+        if not re.fullmatch(r'(public|private)/files/ADM-CLONE-[0-9a-f]{32}\.txt', name):
+            raise AssertionError('Cleanup refuses an unrelated file path')
+        prefix = b'Synthetic clone QA ' if name.startswith('private/') else b'Synthetic public QA '
+        content = contents[name]
+        if not re.fullmatch(re.escape(prefix) + rb'[0-9a-f]{32}', content):
+            raise AssertionError('Cleanup refuses non-fixture file contents')
+        if hashlib.sha256(content).hexdigest() != current[name]:
+            raise AssertionError('Fixture file hash changed during cleanup')
+    return added

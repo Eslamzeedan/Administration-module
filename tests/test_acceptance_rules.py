@@ -1,7 +1,10 @@
+import copy
+import hashlib
 import unittest
 
 from eup_administration.acceptance_rules import (BENCH, CLONE, SOURCE,
-                                                require_one_success, validate_clone_environment)
+                                                matrix_file_cleanup_plan, require_one_success,
+                                                validate_clone_environment)
 
 
 class CloneSafetyTests(unittest.TestCase):
@@ -44,6 +47,73 @@ class CloneSafetyTests(unittest.TestCase):
                         {'adm_acceptance_source_db': None}, {'adm_acceptance_source_site': 'production'}):
             with self.subTest(changes=changes), self.assertRaises(AssertionError):
                 self.check(**changes)
+
+
+class MatrixFileCleanupTests(unittest.TestCase):
+    def setUp(self):
+        self.before = {'data': {'records': {'User': [3, 'unchanged']},
+                                'protected': {'GL Entry': [0, 'unchanged']}},
+                       'files': {'private/files/original.pdf': 'original-hash'}}
+        self.contents = {
+            'private/files/ADM-CLONE-' + 'a' * 32 + '.txt': b'Synthetic clone QA ' + b'b' * 32,
+            'public/files/ADM-CLONE-' + 'c' * 32 + '.txt': b'Synthetic public QA ' + b'd' * 32}
+        self.after = copy.deepcopy(self.before)
+        self.after['files'].update({name: hashlib.sha256(value).hexdigest()
+                                    for name, value in self.contents.items()})
+
+    def check(self):
+        return matrix_file_cleanup_plan(self.before, self.after, self.contents)
+
+    def test_only_new_exact_synthetic_orphans_are_selected(self):
+        self.assertEqual(self.check(), sorted(self.contents))
+        self.assertEqual(matrix_file_cleanup_plan(self.before, self.before, {}), [])
+
+    def test_database_and_protected_changes_block_all_cleanup(self):
+        for section in ('records', 'protected'):
+            with self.subTest(section=section):
+                after = copy.deepcopy(self.after)
+                after['data'][section]['changed'] = [1, 'different']
+                with self.assertRaises(AssertionError):
+                    matrix_file_cleanup_plan(self.before, after, self.contents)
+
+    def test_changed_or_removed_original_file_blocks_cleanup(self):
+        for value in (None, 'changed'):
+            after = copy.deepcopy(self.after)
+            if value is None:
+                del after['files']['private/files/original.pdf']
+            else:
+                after['files']['private/files/original.pdf'] = value
+            with self.subTest(value=value), self.assertRaises(AssertionError):
+                matrix_file_cleanup_plan(self.before, after, self.contents)
+
+    def test_unrelated_traversal_nested_or_renamed_file_is_refused(self):
+        for name in ('private/files/report.pdf', '../ADM-CLONE-' + 'a' * 32 + '.txt',
+                     'public/files/nested/ADM-CLONE-' + 'a' * 32 + '.txt',
+                     'private/files/ADM-CLONE-' + 'a' * 31 + '.txt'):
+            after = copy.deepcopy(self.before)
+            content = b'Synthetic clone QA ' + b'b' * 32
+            after['files'][name] = hashlib.sha256(content).hexdigest()
+            with self.subTest(name=name), self.assertRaises(AssertionError):
+                matrix_file_cleanup_plan(self.before, after, {name: content})
+
+    def test_non_fixture_bytes_and_wrong_public_private_identity_are_refused(self):
+        name = next(iter(self.contents))
+        for value in (b'business data', b'Synthetic public QA ' + b'b' * 32,
+                      b'Synthetic clone QA ' + b'b' * 32 + b'extra'):
+            after = copy.deepcopy(self.before)
+            after['files'][name] = hashlib.sha256(value).hexdigest()
+            with self.subTest(value=value), self.assertRaises(AssertionError):
+                matrix_file_cleanup_plan(self.before, after, {name: value})
+
+    def test_changed_hash_is_refused(self):
+        self.after['files'][next(iter(self.contents))] = 'changed-after-snapshot'
+        with self.assertRaises(AssertionError):
+            self.check()
+
+    def test_missing_or_extra_content_inventory_is_refused(self):
+        for contents in ({}, dict(self.contents, extra=b'unknown')):
+            with self.subTest(keys=list(contents)), self.assertRaises(AssertionError):
+                matrix_file_cleanup_plan(self.before, self.after, contents)
 
 
 class RaceEvidenceTests(unittest.TestCase):
