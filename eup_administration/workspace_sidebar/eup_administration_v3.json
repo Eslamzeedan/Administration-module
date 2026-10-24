@@ -8,6 +8,13 @@
   "header_icon": "building-2",
   "items": [
     {
+      "label": "Command Center / Self Service",
+      "type": "Link",
+      "link_type": "Page",
+      "link_to": "administration-command-center",
+      "child": 0
+    },
+    {
       "label": "Home",
       "type": "Link",
       "link_type": "Page",
@@ -236,6 +243,90 @@
       "link_type": "DocType",
       "link_to": "ADM Settings",
       "child": 1
+    },
+    {
+      "label": "Administration Workflow Designer",
+      "type": "Link",
+      "link_type": "DocType",
+      "link_to": "ADM Workflow Policy",
+      "child": 0
+    },
+    {
+      "label": "Facility Ticket",
+      "type": "Link",
+      "link_type": "DocType",
+      "link_to": "ADM Facility Ticket",
+      "child": 0
+    },
+    {
+      "label": "Driver Checklist",
+      "type": "Link",
+      "link_type": "DocType",
+      "link_to": "ADM Driver Checklist",
+      "child": 0
+    },
+    {
+      "label": "Preventive Plan",
+      "type": "Link",
+      "link_type": "DocType",
+      "link_to": "ADM Preventive Plan",
+      "child": 0
+    },
+    {
+      "label": "Parcel",
+      "type": "Link",
+      "link_type": "DocType",
+      "link_to": "ADM Parcel",
+      "child": 0
+    },
+    {
+      "label": "Equipment Booking",
+      "type": "Link",
+      "link_type": "DocType",
+      "link_to": "ADM Equipment Booking",
+      "child": 0
+    },
+    {
+      "label": "Contract Register",
+      "type": "Link",
+      "link_type": "DocType",
+      "link_to": "ADM Contract Register",
+      "child": 0
+    },
+    {
+      "label": "Operational Incident",
+      "type": "Link",
+      "link_type": "DocType",
+      "link_to": "ADM Operational Incident",
+      "child": 0
+    },
+    {
+      "label": "Recurring Task",
+      "type": "Link",
+      "link_type": "DocType",
+      "link_to": "ADM Recurring Task",
+      "child": 0
+    },
+    {
+      "label": "Task Occurrence",
+      "type": "Link",
+      "link_type": "DocType",
+      "link_to": "ADM Task Occurrence",
+      "child": 0
+    },
+    {
+      "label": "Shared Equipment",
+      "type": "Link",
+      "link_type": "DocType",
+      "link_to": "ADM Shared Equipment",
+      "child": 0
+    },
+    {
+      "label": "SLA Escalation",
+      "type": "Link",
+      "link_type": "DocType",
+      "link_to": "ADM SLA Escalation",
+      "child": 0
     }
   ]
 }

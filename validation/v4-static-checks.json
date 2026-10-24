@@ -1,0 +1,19 @@
+{
+  "javascript": {
+    "files": 30,
+    "errors": []
+  },
+  "python": {
+    "stdout": "",
+    "stderr": ""
+  },
+  "schemaFiles": 54,
+  "schemaCheck": {
+    "count": 54,
+    "errors": []
+  },
+  "shellSyntax": {
+    "local": "not run: Windows denied Git Bash initialization",
+    "ci": "bash -n tools/run_v4_staging_acceptance.sh"
+  }
+}

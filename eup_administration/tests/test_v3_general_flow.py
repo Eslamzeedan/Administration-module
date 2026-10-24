@@ -6,6 +6,10 @@ from eup_administration.v3 import general, approval
 
 class TestV3GeneralFlow(AdministrationIntegrationTestCase):
     def setUp(self):
+        # Frappe v16 rolls back at class cleanup, not between test methods.
+        # Keep each test's policies/users/requests inside its own savepoint.
+        frappe.db.savepoint("adm_v3_general_flow")
+        self.addCleanup(frappe.db.rollback, save_point="adm_v3_general_flow")
         super().setUp()
         frappe.set_user("Administrator")
         previous = frappe.db.get_single_value("ADM Settings", "enable_v3_requests")
@@ -56,5 +60,12 @@ class TestV3GeneralFlow(AdministrationIntegrationTestCase):
         self.make_policy("System Manager")
         request = self.new_request()
         case = general.submit(request.name)["approval_case"]
-        with self.assertRaises(frappe.PermissionError):
+        self.assertEqual(request.requested_by, frappe.session.user)
+        self.assertIn("System Manager", frappe.get_roles(frappe.session.user))
+        before = frappe.db.count("ADM Approval Decision", {"approval_case": case})
+        with self.assertRaisesRegex(frappe.PermissionError, "Not authorized to decide this step"):
             approval.decide(case, "Approved")
+        self.assertEqual(frappe.db.count("ADM Approval Decision", {"approval_case": case}), before)
+        self.assertEqual(frappe.db.get_value("ADM Approval Case", case, "status"), "Pending")
+        request.reload()
+        self.assertEqual(request.status, "Pending Approval")

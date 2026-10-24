@@ -6,7 +6,7 @@ frappe.ui.form.on('ADM Consumable Item', {
         const store = manager || roles.includes('Administration Storekeeper');
         if (!store) return;
         function promptQty(title, action, fields) {
-            frappe.prompt(fields, values => frappe.call({
+            frappe.prompt(fields, values => eup_administration.ui.call({
                 method: `eup_administration.consumables.${action}`,
                 args: {item:frm.doc.name, ...values}, freeze:true,
                 callback: response => frappe.msgprint({title, message: JSON.stringify(response.message || {}), indicator:'green'})
@@ -18,7 +18,7 @@ frappe.ui.form.on('ADM Consumable Item', {
             {fieldname:'reference',fieldtype:'Data',label:__('Receipt / Supplier Reference'),reqd:1},
             {fieldname:'remarks',fieldtype:'Small Text',label:__('Notes')}
         ]));
-        frm.add_custom_button(__('Check Balance'), () => frappe.prompt([locationField], values => frappe.call({
+        frm.add_custom_button(__('Check Balance'), () => frappe.prompt([locationField], values => eup_administration.ui.call({
             method:'eup_administration.consumables.get_consumable_balance',
             args:{item:frm.doc.name,...values}, callback:r => frappe.msgprint(__('Current balance: {0}', [(r.message||{}).balance]))
         }), __('Administrative Stock Balance'), __('Check')));

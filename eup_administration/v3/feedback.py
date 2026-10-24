@@ -15,6 +15,9 @@ def submit_feedback(reference_doctype, reference_name, rating, comments=None):
         frappe.throw("Rating must be an integer between 1 and 5")
     if value not in (1, 2, 3, 4, 5):
         frappe.throw("Rating must be between 1 and 5")
+    # Serialize submissions for one source; also recognize legacy hash-named responses.
+    frappe.db.sql("SELECT name FROM `tab" + reference_doctype + "` WHERE name=%s FOR UPDATE",
+                  (reference_name,))
     from eup_administration.v3.registry import registry_key
     ref = frappe.get_doc("ADM Request Registry", registry_key(reference_doctype, reference_name))
     ref.check_permission("read")
@@ -23,11 +26,12 @@ def submit_feedback(reference_doctype, reference_name, rating, comments=None):
     if ref.source_status not in {"Completed", "Closed", "Fulfilled", "Returned"}:
         frappe.throw("Feedback is available only after completion")
     key = "ADMFB-" + sha256((reference_doctype + ":" + reference_name + ":" + frappe.session.user).encode()).hexdigest()[:32]
-    if frappe.db.exists("ADM Request Feedback", key):
+    if frappe.db.exists("ADM Request Feedback", {"reference_doctype": reference_doctype,
+            "reference_name": reference_name, "submitted_by": frappe.session.user}):
         frappe.throw("Feedback has already been submitted")
     return frappe.get_doc({
         "doctype": "ADM Request Feedback", "name": key,
         "reference_doctype": reference_doctype, "reference_name": reference_name,
         "submitted_by": frappe.session.user, "rating": value,
         "comments": (comments or "")[:1000], "submitted_at": now_datetime()
-    }).insert(ignore_permissions=True).name
+    }).insert(ignore_permissions=True, set_name=key).name

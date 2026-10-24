@@ -1,9 +1,9 @@
 frappe.ui.form.on('ADM Trip', {
     async refresh(frm) {
         if (frm.is_new()) return;
-        const capabilities = (await frappe.call({method: 'eup_administration.services.trip_capabilities', args: {name: frm.doc.name}})).message;
+        const capabilities = (await eup_administration.ui.call({method: 'eup_administration.services.trip_capabilities', args: {name: frm.doc.name}})).message;
         const manager = capabilities.manager;
-        const call = (method, args = {}) => frappe.call({method: 'eup_administration.services.' + method, args: {name: frm.doc.name, ...args}, freeze: true, callback: () => frm.reload_doc()});
+        const call = (method, args = {}) => eup_administration.ui.call({method: 'eup_administration.services.' + method, args: {name: frm.doc.name, ...args}, freeze: true, callback: () => frm.reload_doc()});
         const promptReading = method => frappe.prompt([
             {fieldname: 'odometer', label: __('Odometer (km)'), fieldtype: 'Float', reqd: 1},
             ...(method === 'start_trip' ? [{fieldname: 'gap_reason', label: __('Explain any kilometers since the last trip'), fieldtype: 'Small Text'}] : [])

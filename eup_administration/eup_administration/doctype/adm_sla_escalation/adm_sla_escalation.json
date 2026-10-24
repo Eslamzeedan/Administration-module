@@ -1,0 +1,103 @@
+{
+  "doctype": "DocType",
+  "name": "ADM SLA Escalation",
+  "module": "EuP Administration",
+  "custom": 0,
+  "engine": "InnoDB",
+  "autoname": "hash",
+  "track_changes": 1,
+  "field_order": [
+    "reference_doctype",
+    "reference_name",
+    "company",
+    "escalation_role",
+    "state",
+    "due_at",
+    "escalation_key"
+  ],
+  "fields": [
+    {
+      "fieldname": "reference_doctype",
+      "label": "Reference Doctype",
+      "fieldtype": "Select",
+      "options": "ADM Facility Ticket\nADM Driver Checklist\nADM Preventive Plan\nADM Parcel\nADM Equipment Booking\nADM Contract Register\nADM Operational Incident\nADM Recurring Task\nADM Task Occurrence",
+      "reqd": 1
+    },
+    {
+      "fieldname": "reference_name",
+      "label": "Reference Name",
+      "fieldtype": "Data",
+      "reqd": 1
+    },
+    {
+      "fieldname": "company",
+      "label": "Company",
+      "fieldtype": "Link",
+      "options": "Company",
+      "reqd": 1
+    },
+    {
+      "fieldname": "escalation_role",
+      "label": "Escalation Role",
+      "fieldtype": "Link",
+      "options": "Role",
+      "reqd": 1
+    },
+    {
+      "fieldname": "state",
+      "label": "State",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "due_at",
+      "label": "Due At",
+      "fieldtype": "Datetime"
+    },
+    {
+      "fieldname": "escalation_key",
+      "label": "Escalation Key",
+      "fieldtype": "Data",
+      "unique": 1
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "create": 0,
+      "write": 0,
+      "report": 1
+    },
+    {
+      "role": "Administration Manager",
+      "read": 1,
+      "create": 0,
+      "write": 0,
+      "report": 1
+    },
+    {
+      "role": "Administration User",
+      "read": 1
+    },
+    {
+      "role": "Administration Requester",
+      "read": 1
+    },
+    {
+      "role": "Administration Coordinator",
+      "read": 1
+    },
+    {
+      "role": "Administration Driver",
+      "read": 1
+    },
+    {
+      "role": "Administration Runner",
+      "read": 1
+    },
+    {
+      "role": "Administration Storekeeper",
+      "read": 1
+    }
+  ]
+}

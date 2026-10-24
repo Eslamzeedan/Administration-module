@@ -1,0 +1,41 @@
+{
+  "doctype": "DocType",
+  "name": "ADM Workflow State",
+  "module": "EuP Administration",
+  "custom": 0,
+  "engine": "InnoDB",
+  "track_changes": 1,
+  "field_order": [
+    "state",
+    "is_terminal",
+    "sla_hours",
+    "escalation_role"
+  ],
+  "fields": [
+    {
+      "fieldname": "state",
+      "label": "State",
+      "fieldtype": "Data",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "is_terminal",
+      "label": "Is Terminal",
+      "fieldtype": "Check"
+    },
+    {
+      "fieldname": "sla_hours",
+      "label": "Sla Hours",
+      "fieldtype": "Float"
+    },
+    {
+      "fieldname": "escalation_role",
+      "label": "Escalation Role",
+      "fieldtype": "Link",
+      "options": "Role"
+    }
+  ],
+  "permissions": [],
+  "istable": 1
+}

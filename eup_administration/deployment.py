@@ -120,3 +120,23 @@ def snapshot():
                 'content_sha256':hashlib.sha256((doc.content or '').encode('utf-8')).hexdigest(),
                 'shortcuts':[{'label':r.label,'type':r.type,'link_to':r.link_to} for r in doc.shortcuts]}
     return result
+
+
+def ui_snapshot():
+    """Read-only source/permission/protected-table gate for the staging UI update."""
+    original = snapshot()
+    protected = {}
+    doctypes = (
+        "GL Entry", "Journal Entry", "Payment Entry", "Payment Request", "Expense Claim",
+        "Purchase Invoice", "Purchase Order", "Purchase Receipt", "Material Request",
+        "Stock Entry", "Stock Ledger Entry", "Bin", "Asset", "Asset Movement", "Asset Repair",
+        "Asset Capitalization", "Item", "Warehouse", "Sales Invoice", "Delivery Note",
+    )
+    for doctype in doctypes:
+        if not frappe.db.table_exists(doctype, cached=False):
+            protected[doctype] = {"exists": False}
+            continue
+        rows = frappe.db.sql("SELECT * FROM `tab" + doctype + "` ORDER BY name", as_dict=True)
+        protected[doctype] = {"exists": True, "count": len(rows), "sha256": hashlib.sha256(
+            json.dumps(rows, sort_keys=True, default=str, ensure_ascii=False).encode()).hexdigest()}
+    return {key: original[key] for key in ("site", "legacy", "permissions", "workspace")} | {"protected": protected}
