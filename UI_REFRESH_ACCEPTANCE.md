@@ -1,4 +1,10 @@
-# Administration 4.0.0rc4 — staging UI and integrity review
+# Administration 4.0.0rc5 — staging UI and integrity review
+
+RC5 status: a real two-process restored-clone run at ff2214f committed two
+overlapping equipment bookings. The strict race failed. RC5 changes locking
+reads in the controllers; full app/real-role/race revalidation on the VM is
+pending. Existing rc4 browser evidence below is historical, not an installed
+rc5 acceptance claim. See CLONE_ACCEPTANCE.md.
 
 Current follow-up: see [clone and remaining release acceptance](CLONE_ACCEPTANCE.md).
 The later user-run rc4 VM logs prove 8/8 targeted v4 and 30/30 full-app tests;

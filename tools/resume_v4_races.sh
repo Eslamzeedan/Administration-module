@@ -73,6 +73,23 @@ for name in ('User', 'Employee', 'Has Role', 'Role', 'User Permission', 'DocPerm
 print('MATRIX EVIDENCE PASS: prior complete matrix verified; clone files/security/HR/protected data unchanged.')
 print('Earlier synthetic race records are retained on this clone only; no cleanup or restore performed.')
 PY
+bench --site "$clone_site" run-tests --app eup_administration 2>&1 | tee "$retry/00-full-suite.log"
+./env/bin/python - "$retry/00-full-suite.log" <<'PY'
+import re, sys
+text = re.sub(r'\x1b\[[0-9;]*m', '', open(sys.argv[1]).read())
+counts = re.findall(r'Ran (\d+) tests?', text)
+assert counts and int(counts[-1]) >= 30 and re.search(r'^OK\s*$', text, re.M)
+assert not re.search(r'FAILED|skipped[=: ]+[1-9]|[1-9]\d* skipped', text, re.I)
+print('FULL SUITE PASS: controller update passed all application tests without skips.')
+PY
+bench --site "$clone_site" execute eup_administration.tests.clone_acceptance.run_matrix \
+  2>&1 | tee "$retry/01-real-role-matrix.log"
+bench --site "$clone_site" execute eup_administration.tests.clone_acceptance.restore_snapshot > "$retry/clone-after-revalidation.json"
+./env/bin/python - "$retry/clone-before-races.json" "$retry/clone-after-revalidation.json" <<'PY'
+import json, sys
+assert json.load(open(sys.argv[1])) == json.load(open(sys.argv[2])), 'Controller revalidation changed retained clone data/files'
+print('REVALIDATION INTEGRITY PASS: full suite/matrix preserved all retained clone data and original files.')
+PY
 bench --site "$clone_site" execute eup_administration.tests.clone_acceptance.run_races \
   2>&1 | tee "$retry/02-simultaneous-races.log"
 bench --site "$source_site" execute eup_administration.tests.clone_acceptance.restore_snapshot > "$retry/source-after.json"

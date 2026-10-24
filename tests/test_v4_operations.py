@@ -32,7 +32,7 @@ class TestOperationActions(unittest.TestCase):
         fake.whitelist = lambda **kw: lambda f: f
         fake.throw = lambda message, exc=ValueError: (_ for _ in ()).throw(exc(message))
         fake.parse_json = __import__("json").loads
-        fake.get_doc = lambda *a: self.doc
+        fake.get_doc = lambda *a, **kw: self.doc
         model = types.ModuleType("frappe.model.document")
         model.Document = Row
         utils = types.ModuleType("frappe.utils")
@@ -67,6 +67,61 @@ class TestOperationActions(unittest.TestCase):
         with self.assertRaises(PermissionError):
             self.module.acknowledge_parcel("PARCEL")
         self.assertFalse(self.saved)
+
+    def test_acknowledgement_uses_current_delivery_after_waiting_for_lock(self):
+        current = Row(self.doc, delivered_at=datetime(2026, 10, 22, 9))
+        self.fake.get_doc = lambda *a, **kw: current if kw.get('for_update') else self.doc
+        with self.assertRaisesRegex(PermissionError, 'acknowledge once'):
+            self.module.acknowledge_parcel('PARCEL')
+        self.assertFalse(self.saved)
+        self.assertEqual(current.delivered_at, datetime(2026, 10, 22, 9))
+
+    def test_acknowledgement_uses_current_recipient_after_waiting_for_lock(self):
+        current = Row(self.doc, recipient='different-recipient')
+        self.fake.get_doc = lambda *a, **kw: current if kw.get('for_update') else self.doc
+        with self.assertRaises(PermissionError):
+            self.module.acknowledge_parcel('PARCEL')
+        self.assertFalse(self.saved)
+
+    def booking(self):
+        return self.module.Operation(doctype='ADM Equipment Booking', name='NEW', company='A',
+            equipment='EQUIPMENT', starts_at='2026-10-22 10:00:00',
+            ends_at='2026-10-22 11:00:00', released=0)
+
+    def test_booking_rejects_current_conflict_hidden_by_old_snapshot(self):
+        equipment = Row(enabled=1, company='A')
+        self.fake.get_doc = lambda *a, **kw: equipment
+        self.fake.get_all = lambda *a, **kw: []  # Old consistent-read snapshot.
+        calls = []
+        def sql(query, values):
+            calls.append((query, values))
+            return [('WINNING-BOOKING',)] if 'FOR UPDATE' in query else []
+        self.fake.db = types.SimpleNamespace(sql=sql)
+        with self.assertRaisesRegex(ValueError, 'already reserved'):
+            self.booking().validate_booking()
+        self.assertEqual(len(calls), 1)
+        self.assertFalse(self.saved)
+
+    def test_booking_current_equipment_availability_is_enforced(self):
+        self.fake.get_doc = lambda *a, **kw: Row(enabled=0 if kw.get('for_update') else 1, company='A')
+        self.fake.db = types.SimpleNamespace(sql=lambda *a: self.fail('Unavailable equipment must stop first'))
+        with self.assertRaisesRegex(ValueError, 'Equipment unavailable'):
+            self.booking().validate_booking()
+
+    def test_booking_conflict_query_binds_identity_and_half_open_interval(self):
+        self.fake.get_doc = lambda *a, **kw: Row(enabled=1, company='A')
+        calls = []
+        self.fake.db = types.SimpleNamespace(sql=lambda *args: calls.append(args) or [])
+        doc = self.booking()
+        doc.name = "x'; DELETE FROM tabUser;--"
+        doc.validate_booking()
+        query, values = calls[0]
+        self.assertEqual(values, ('EQUIPMENT', doc.name, doc.ends_at, doc.starts_at))
+        self.assertNotIn('DELETE', query)
+        self.assertIn('starts_at<%s', query)
+        self.assertIn('ends_at>%s', query)
+        self.assertIn('released=0', query)
+        self.assertIn('FOR UPDATE', query)
 
     def test_operator_can_record_resolution(self):
         self.doc.doctype = "ADM Facility Ticket"

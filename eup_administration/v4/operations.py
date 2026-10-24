@@ -88,17 +88,19 @@ class Operation(Document):
 
     def validate_booking(self):
         _lock("ADM Shared Equipment", self.equipment)
-        equipment = frappe.get_doc("ADM Shared Equipment", self.equipment)
+        equipment = frappe.get_doc("ADM Shared Equipment", self.equipment, for_update=True)
         if not equipment.enabled or equipment.company != self.company:
             frappe.throw("Equipment unavailable in this company")
         if get_datetime(self.ends_at) <= get_datetime(self.starts_at):
             frappe.throw("Booking end must follow start")
         # All saved bookings reserve time, including drafts. Explicit release required.
-        conflicts = frappe.get_all("ADM Equipment Booking", filters={
-            "equipment": self.equipment, "name": ["!=", self.name or ""],
-            "starts_at": ["<", self.ends_at], "ends_at": [">", self.starts_at],
-            "released": 0
-        }, pluck="name", limit_page_length=1)
+        # The equipment lock serializes reservations, but a normal SELECT can
+        # still see a pre-lock repeatable-read snapshot. Use a current locking
+        # read so the waiter sees the reservation committed by the first actor.
+        conflicts = frappe.db.sql("""SELECT name FROM `tabADM Equipment Booking`
+            WHERE equipment=%s AND name!=%s AND starts_at<%s AND ends_at>%s
+              AND released=0 LIMIT 1 FOR UPDATE""",
+            (self.equipment, self.name or "", self.ends_at, self.starts_at))
         if not self.get("released") and conflicts:
             frappe.throw("Equipment is already reserved in this interval")
 
@@ -112,7 +114,7 @@ class Operation(Document):
 @frappe.whitelist(methods=["POST"])
 def acknowledge_parcel(name):
     _lock("ADM Parcel", name)
-    doc = frappe.get_doc("ADM Parcel", name)
+    doc = frappe.get_doc("ADM Parcel", name, for_update=True)
     require_company(doc.company)
     if frappe.session.user != doc.recipient or doc.delivered_at:
         frappe.throw("Only recipient may acknowledge once", frappe.PermissionError)
@@ -124,7 +126,7 @@ def acknowledge_parcel(name):
 @frappe.whitelist(methods=["POST"])
 def release_booking(name):
     _lock("ADM Equipment Booking", name)
-    doc = frappe.get_doc("ADM Equipment Booking", name)
+    doc = frappe.get_doc("ADM Equipment Booking", name, for_update=True)
     require_company(doc.company)
     doc.check_permission("read")
     if not manager(doc.company) and frappe.session.user != doc.requested_by:
@@ -138,7 +140,7 @@ def release_booking(name):
 def feedback(doctype, name, rating, comment=None):
     key(doctype, name)
     _lock(doctype, name)
-    doc = frappe.get_doc(doctype, name)
+    doc = frappe.get_doc(doctype, name, for_update=True)
     require_company(doc.company)
     if doc.requested_by != frappe.session.user or int(rating) not in range(1, 6):
         frappe.throw("Requester and rating 1 through 5 required", frappe.PermissionError)
@@ -159,7 +161,7 @@ def recurring():
         return
     for item in frappe.get_all("ADM Recurring Task", filters={"enabled": 1, "next_due": ["<=", today()]}, pluck="name"):
         _lock("ADM Recurring Task", item)
-        task = frappe.get_doc("ADM Recurring Task", item)
+        task = frappe.get_doc("ADM Recurring Task", item, for_update=True)
         if not task.enabled or getdate(task.next_due) > getdate(today()):
             continue
         occurrence_key = key(task.doctype, task.name) + ":" + str(task.next_due)
@@ -186,7 +188,7 @@ EDITABLE = {
 def update_details(doctype, name, values):
     key(doctype, name)
     _lock(doctype, name)
-    doc = frappe.get_doc(doctype, name)
+    doc = frappe.get_doc(doctype, name, for_update=True)
     require_company(doc.company)
     if not manager(doc.company) and frappe.session.user != doc.assigned_to:
         frappe.throw("Assigned operator or administration manager required", frappe.PermissionError)
@@ -219,7 +221,7 @@ def update_details(doctype, name, values):
 def assign_operator(doctype, name, assigned_to):
     key(doctype, name)
     _lock(doctype, name)
-    doc = frappe.get_doc(doctype, name)
+    doc = frappe.get_doc(doctype, name, for_update=True)
     if not manager(doc.company):
         frappe.throw("Company administration manager required", frappe.PermissionError)
     doc.assigned_to = assigned_to

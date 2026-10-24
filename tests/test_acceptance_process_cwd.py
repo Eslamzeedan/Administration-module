@@ -2,6 +2,7 @@
 import ast
 import json
 import os
+import re
 from pathlib import Path
 import subprocess
 import sys
@@ -32,6 +33,14 @@ class AcceptanceProcessCwdTests(unittest.TestCase):
         (self.bench / 'logs').mkdir()
         (self.bench / 'sites' / CLONE / 'logs').mkdir(parents=True)
         self.rollbacks = []
+
+    def test_resume_embedded_python_compiles(self):
+        file = ROOT / 'tools/resume_v4_races.sh'
+        blocks = re.findall(r"<<'PY'\n(.*?)^PY$", file.read_text(), re.M | re.S)
+        self.assertGreaterEqual(len(blocks), 5)
+        for index, source in enumerate(blocks):
+            with self.subTest(block=index):
+                compile(source, str(file) + f':python-block-{index}', 'exec')
 
     def race(self, child_code):
         def launch(command, **kwargs):

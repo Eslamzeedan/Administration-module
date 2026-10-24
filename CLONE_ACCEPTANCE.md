@@ -164,3 +164,39 @@ Only successful races and the final unchanged-source comparison reopen the sourc
 test site. Failures retain logs/clone and stop; no race success is claimed yet.
 
 Logger reference: https://github.com/frappe/frappe/blob/v16.31.0/frappe/utils/logger.py
+
+## rc5 — actual simultaneous booking defect
+
+The user installed ff2214f and reran from adm-resume-races-BrOK6w. Source hashes
+and prior complete-matrix evidence matched; clone files/security/HR/protected
+data were unchanged. Both independent workers then committed overlapping
+bookings (slld2r0aid and sllaotiikp). The strict exactly-one-success gate failed.
+This is an actual application concurrency defect, not a harness startup error.
+Both synthetic rows are retained on the restored clone for evidence. The later
+workflow/feedback/parcel races did not run.
+
+rc5 fixes the equipment controller conflict read with a bound SELECT FOR UPDATE
+while holding the existing equipment mutex. An ordinary SELECT after a name-only
+lock can still read the transaction's older consistent-read snapshot. Equipment
+availability is read with Frappe get_doc(for_update=True). The same locked-read
+review changes protected operation/recurring-task loads and workflow document/run
+loads to current reads, including run lookup and approval-attempt history. Used
+policy structure remains frozen; all existing company/role/requester/revision
+checks and unique feedback constraints remain intact. No global transaction
+isolation change, commit, permission relaxation, financial write or ERPNext edit.
+
+Offline regressions model a stale snapshot that hides a committed booking,
+revision, current recipient or delivered timestamp. They execute the real
+controller functions and require the intended denial with no save; query identity
+and strict half-open overlap parameters stay bound. They are not live DB race
+evidence. The original four strict simultaneous races are unchanged.
+
+Because controllers changed, resume_v4_races.sh now reruns the full app suite
+(at least 30, no skips) and all ten real-role cases before the races. It compares
+the complete retained clone snapshot before/after this revalidation, including
+the earlier synthetic conflicting booking evidence. No existing booking is
+automatically deleted, released or repaired. Source hashes are compared again
+only after all strict races pass; the source test server stays closed on failure.
+The revised resume and rc5 live results remain pending operator execution.
+
+Frappe locking-load reference: https://github.com/frappe/frappe/blob/v16.31.0/frappe/model/document.py

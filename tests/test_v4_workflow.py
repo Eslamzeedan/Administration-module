@@ -42,7 +42,7 @@ class TestWorkflowEngine(unittest.TestCase):
         def throw(message, exc=ValueError):
             raise exc(message)
         self.frappe.throw = throw
-        self.frappe.get_doc = lambda value, *a: Row(value) if isinstance(value, dict) else None
+        self.frappe.get_doc = lambda value, *a, **kw: Row(value) if isinstance(value, dict) else None
         self.frappe.get_all = lambda *a, **kw: []
         utils = types.ModuleType("frappe.utils")
         utils.now_datetime = lambda: datetime(2026, 10, 22, 10)
@@ -187,13 +187,34 @@ class TestWorkflowEngine(unittest.TestCase):
 
     def test_stale_revision_is_rejected_by_locked_load(self):
         self.db.get_value = lambda *a, **kw: "RUN"
-        self.frappe.get_doc = lambda dt, name: self.doc if dt == self.doc.doctype else self.run
+        self.frappe.get_doc = lambda dt, name, **kw: self.doc if dt == self.doc.doctype else self.run
         with self.assertRaises(ValueError):
             self.original_load(self.doc.doctype, self.doc.name, 0)
 
     def test_valid_revision_load_returns_policy(self):
         self.db.get_value = lambda *a, **kw: "RUN"
-        self.frappe.get_doc = lambda dt, name: (self.doc if dt == self.doc.doctype else
+        self.frappe.get_doc = lambda dt, name, **kw: (self.doc if dt == self.doc.doctype else
             self.run if dt == "ADM Workflow Run" else self.policy)
         doc, run, policy = self.original_load(self.doc.doctype, self.doc.name, 1)
         self.assertEqual(policy.name, "POLICY")
+
+    def test_prelock_snapshot_cannot_hide_a_committed_revision(self):
+        current = Row(self.run, revision=2, current_state='Done')
+        self.db.get_value = lambda *a, **kw: 'RUN'
+        def get_doc(dt, name, **kw):
+            if dt == self.doc.doctype:
+                return self.doc
+            if dt == 'ADM Workflow Run':
+                return current if kw.get('for_update') else self.run
+            return self.policy
+        self.frappe.get_doc = get_doc
+        with self.assertRaisesRegex(ValueError, 'Reload'):
+            self.original_load(self.doc.doctype, self.doc.name, 1)
+        self.assertFalse(self.records)
+
+    def test_locked_load_sees_run_created_after_old_snapshot(self):
+        self.db.get_value = lambda *a, **kw: 'RUN' if kw.get('for_update') else None
+        self.frappe.get_doc = lambda dt, name, **kw: (self.doc if dt == self.doc.doctype else
+            self.run if dt == 'ADM Workflow Run' else self.policy)
+        self.assertEqual(self.original_load(self.doc.doctype, self.doc.name, 1),
+                         (self.doc, self.run, self.policy))

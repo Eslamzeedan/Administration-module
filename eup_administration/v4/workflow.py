@@ -101,13 +101,14 @@ def _lock(doctype, name):
 def _load(doctype, name, expected_revision=None):
     key(doctype, name)
     _lock(doctype, name)
-    doc = frappe.get_doc(doctype, name)
+    # Locking only name does not refresh later ordinary snapshot reads.
+    doc = frappe.get_doc(doctype, name, for_update=True)
     require_company(doc.company)
-    run_name = frappe.db.get_value("ADM Workflow Run", {"reference_key": key(doctype, name)}, "name")
+    run_name = frappe.db.get_value("ADM Workflow Run", {"reference_key": key(doctype, name)}, "name", for_update=True)
     if not run_name:
         frappe.throw("Start the workflow first")
     _lock("ADM Workflow Run", run_name)
-    run = frappe.get_doc("ADM Workflow Run", run_name)
+    run = frappe.get_doc("ADM Workflow Run", run_name, for_update=True)
     if expected_revision is not None and int(expected_revision) != int(run.revision):
         frappe.throw("Workflow changed. Reload before continuing.")
     policy = frappe.get_doc("ADM Workflow Policy", run.policy)
@@ -143,13 +144,13 @@ def _set_state(doc, run, policy, state):
 def start(doctype, name, policy_name):
     key(doctype, name)
     _lock(doctype, name)
-    doc = frappe.get_doc(doctype, name)
+    doc = frappe.get_doc(doctype, name, for_update=True)
     require_company(doc.company)
     doc.check_permission("write")
     if doc.workflow_policy or frappe.db.exists("ADM Workflow Run", {"reference_key": key(doctype, name)}):
         frappe.throw("Workflow already started")
     _lock("ADM Workflow Policy", policy_name)
-    policy = frappe.get_doc("ADM Workflow Policy", policy_name)
+    policy = frappe.get_doc("ADM Workflow Policy", policy_name, for_update=True)
     if not policy.enabled or policy.target_doctype != doctype or policy.company != doc.company:
         frappe.throw("Policy is not enabled for this document")
     run = save_internal(frappe.get_doc({
@@ -211,12 +212,12 @@ def decide(doctype, name, decision, expected_revision, comment=None):
     previous = frappe.get_all("ADM Workflow Audit", filters={
         "reference_doctype": doctype, "reference_name": name,
         "action": t.action, "decision": "Approved"
-    }, fields=["actor", "delegated_from", "revision"])
+    }, fields=["actor", "delegated_from", "revision"], for_update=True)
     # A person or their delegator may approve only one step in the current attempt.
     last_request = frappe.db.get_value("ADM Workflow Audit", {
         "reference_doctype": doctype, "reference_name": name,
         "action": t.action, "decision": "Requested"
-    }, "revision", order_by="creation desc")
+    }, "revision", order_by="creation desc", for_update=True)
     identities = {frappe.session.user, delegation} - {None}
     if any(int(x.revision or 0) >= int(last_request or 0) and identities & {x.actor, x.delegated_from} for x in previous):
         frappe.throw("A different approver is required for each step")
