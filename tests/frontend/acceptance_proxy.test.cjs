@@ -12,6 +12,7 @@ async function listen(server) {
 }
 
 async function fixtures(t) {
+  const upgraded = new Set();
   const web = http.createServer((req, res) => {
     let body = '';
     req.on('data', data => body += data);
@@ -21,6 +22,9 @@ async function fixtures(t) {
   const socket = http.createServer((req, res) => res.end(JSON.stringify({ via: 'socket',
     site: req.headers['x-frappe-site-name'], origin: req.headers.origin, cookie: req.headers.cookie })));
   socket.on('upgrade', (req, client, head) => {
+    upgraded.add(client);
+    client.on('close', () => upgraded.delete(client));
+    client.on('end', () => client.end());
     client.write('HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\n\r\n');
     if (head.length) client.write(head);
     client.on('data', data => client.write(data));
@@ -29,7 +33,8 @@ async function fixtures(t) {
   const webTarget = await listen(web), socketTarget = await listen(socket);
   const proxy = createProxy({ webTarget, socketTarget, site: 'test-administration-v4.local' });
   const target = await listen(proxy);
-  t.after(() => { proxy.closeAllConnections(); web.closeAllConnections(); socket.closeAllConnections();
+  t.after(() => { for (const client of upgraded) client.destroy();
+    proxy.closeAllConnections(); web.closeAllConnections(); socket.closeAllConnections();
     proxy.close(); web.close(); socket.close(); });
   return target;
 }

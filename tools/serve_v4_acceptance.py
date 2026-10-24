@@ -72,8 +72,11 @@ def main():
                FRAPPE_REDIS_QUEUE=config['redis_queue'], FRAPPE_REDIS_CACHE=config['redis_cache'])
     processes = []
     handles = []
+    stopping = False
 
     def stop(_signum=None, _frame=None):
+        nonlocal stopping
+        stopping = True
         for process in reversed(processes):
             if process.poll() is None:
                 process.terminate()
@@ -100,7 +103,7 @@ def main():
         print('Private runtime logs: ' + str(runtime), flush=True)
         while all(p.poll() is None for p in processes):
             time.sleep(0.5)
-        if any(p.returncode not in (None, 0, -signal.SIGTERM) for p in processes):
+        if not stopping:
             raise RuntimeError('A staging child stopped unexpectedly; inspect runtime logs')
     finally:
         stop()

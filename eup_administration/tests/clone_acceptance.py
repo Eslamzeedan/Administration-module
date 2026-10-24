@@ -423,7 +423,7 @@ def worker_main(payload):
         else:
             raise AssertionError('Unknown race case')
         frappe.db.commit()
-        result = {'ok': True, 'value': value}
+        result = {'ok': True, 'value': value, 'index': payload['index']}
     except Exception as error:
         frappe.db.rollback()
         result = {'ok': False, 'type': type(error).__name__, 'error': str(error)}
@@ -461,10 +461,14 @@ def race(kind, payload):
             results.append(json.loads(lines[0].split('=', 1)[1]))
         return results
     finally:
-        for process in processes:
+        for index, process in enumerate(processes):
             if process.poll() is None:
                 process.terminate()
                 process.wait(timeout=10)
+            log = control / ('worker-' + str(index) + '.log')
+            if not log.exists():
+                out, err = process.communicate(timeout=5)
+                log.write_text(out + '\n' + err)
         # Any locks/snapshots in the coordinating connection must be refreshed.
         frappe.db.rollback()
 
@@ -507,12 +511,16 @@ def run_races():
 
     frappe.db.commit()
     results = race('feedback', {'doctype': doc.doctype, 'name': doc.name})
-    winner = require_one_success(results, [('UniqueValidationError', 'unique'),
+    winner = require_one_success(results, [('UniqueValidationError', ''),
                                            ('DuplicateEntryError', '')])
     if frappe.db.count('ADM Operation Feedback', {'reference_name': doc.name}) != 1:
         raise AssertionError('Feedback race produced multiple rows')
     if not frappe.db.exists('ADM Operation Feedback', winner['value']['feedback']):
         raise AssertionError('Winning feedback was not persisted')
+    expected_rating = 5 if winner['index'] == 0 else 1
+    if frappe.db.get_value('ADM Operation Feedback', winner['value']['feedback'],
+                           ['rating', 'comment']) != (expected_rating, 'CLONE RACE QA'):
+        raise AssertionError('Duplicate attempt changed the original feedback')
     print('RACE PASS: feedback unique constraint under simultaneous requests')
 
     recipient = frappe.conf.adm_test_approver
