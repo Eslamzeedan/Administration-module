@@ -200,3 +200,24 @@ only after all strict races pass; the source test server stays closed on failure
 The revised resume and rc5 live results remain pending operator execution.
 
 Frappe locking-load reference: https://github.com/frappe/frappe/blob/v16.31.0/frappe/model/document.py
+
+## First installed rc5 run: audit-query compatibility failure
+
+The user installed 24ede82 from ff2214f and ran the guarded revalidation
+(log adm-resume-races-HwkKSF). Source and previous-matrix integrity checks
+passed. The full suite ran 30 cases with one error in workflow.decide: v16.31
+get_all uses the compatibility DatabaseQuery.execute API, which does not accept
+for_update. The earlier offline stub accepted this unsupported keyword. The
+remaining tests passed, but the full-suite gate correctly stopped; the new
+real-role matrix and all races did not run. This is not rc5 acceptance.
+
+The follow-up replaces that audit-history read with bound SQL SELECT FOR UPDATE
+returning dictionaries. It keeps current-read semantics and all actor/delegator/
+revision rules instead of falling back to an unlocked snapshot. A regression
+executes the real decision with a get_all boundary that rejects the unsupported
+API and verifies bound document/action values, locked history and a successful
+approval. Existing duplicate-actor/delegator tests now supply history through
+the actual SQL boundary and still require rejection. Full suite/matrix/races
+must be rerun on the same retained clone with the new pinned commit.
+
+Compatibility API: https://github.com/frappe/frappe/blob/v16.31.0/frappe/model/qb_query.py

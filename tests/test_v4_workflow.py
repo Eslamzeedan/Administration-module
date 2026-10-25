@@ -30,9 +30,10 @@ class Row(dict):
 class TestWorkflowEngine(unittest.TestCase):
     def setUp(self):
         self.records = []
+        self.history = []
         self.db = types.SimpleNamespace(
             get_value=lambda *a, **kw: None, exists=lambda *a: False,
-            sql=lambda *a, **kw: [("record",)])
+            sql=lambda query, *a, **kw: self.history if 'FROM `tabADM Workflow Audit`' in query else [("record",)])
         self.frappe = types.ModuleType("frappe")
         self.frappe.db = self.db
         self.frappe.session = Row(user="approver@example.com")
@@ -146,14 +147,14 @@ class TestWorkflowEngine(unittest.TestCase):
 
     def test_same_person_cannot_approve_two_steps(self):
         self.request()
-        self.frappe.get_all = lambda *a, **kw: [Row(actor="approver@example.com", revision="2")]
+        self.history = [Row(actor="approver@example.com", revision="2")]
         self.db.get_value = lambda *a, **kw: "2"
         with self.assertRaises(ValueError):
             self.engine.decide(self.doc.doctype, self.doc.name, "Approved", 2)
 
     def test_delegator_cannot_repeat_under_a_delegate(self):
         self.request()
-        self.frappe.get_all = lambda *a, **kw: [Row(actor="original@example.com", revision="2")]
+        self.history = [Row(actor="original@example.com", revision="2")]
         self.db.get_value = lambda *a, **kw: "2"
         self.engine._authorized = lambda *a: (True, "original@example.com")
         with self.assertRaises(ValueError):
@@ -164,6 +165,22 @@ class TestWorkflowEngine(unittest.TestCase):
         self.request()
         self.assertEqual(self.run.current_state, "Done")
         self.assertEqual(self.records[-1]["action"], "Complete")
+
+    def test_approval_history_lock_works_without_get_all_for_update(self):
+        def unsupported(*args, **kwargs):
+            raise TypeError('get_all compatibility query does not accept for_update')
+        self.frappe.get_all = unsupported
+        calls = []
+        self.db.sql = lambda query, values, **kw: calls.append((query, values, kw)) or []
+        self.doc.name = "X'; DELETE FROM tabUser;--"
+        self.request()
+        result = self.engine.decide(self.doc.doctype, self.doc.name, 'Approved', 2)
+        self.assertEqual(result['state'], 'Done')
+        query, values, options = calls[0]
+        self.assertIn('FOR UPDATE', query)
+        self.assertNotIn('DELETE', query)
+        self.assertEqual(values, (self.doc.doctype, self.doc.name, 'Complete', 'Approved'))
+        self.assertTrue(options['as_dict'])
 
     def test_protected_audit_cannot_be_forged(self):
         with self.assertRaises(PermissionError):

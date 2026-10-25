@@ -209,10 +209,12 @@ def decide(doctype, name, decision, expected_revision, comment=None):
         frappe.throw("Not authorized for this approval step", frappe.PermissionError)
     if decision == "Rejected" and not (comment or "").strip():
         frappe.throw("Rejection reason required")
-    previous = frappe.get_all("ADM Workflow Audit", filters={
-        "reference_doctype": doctype, "reference_name": name,
-        "action": t.action, "decision": "Approved"
-    }, fields=["actor", "delegated_from", "revision"], for_update=True)
+    # v16 get_all's compatibility query does not accept for_update. Keep this
+    # a current locking read, with every record/action value bound separately.
+    previous = frappe.db.sql("""SELECT actor, delegated_from, revision
+        FROM `tabADM Workflow Audit`
+        WHERE reference_doctype=%s AND reference_name=%s AND action=%s
+          AND decision=%s FOR UPDATE""", (doctype, name, t.action, "Approved"), as_dict=True)
     # A person or their delegator may approve only one step in the current attempt.
     last_request = frappe.db.get_value("ADM Workflow Audit", {
         "reference_doctype": doctype, "reference_name": name,
