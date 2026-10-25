@@ -57,6 +57,16 @@ function adm_operation_setup(frm) {
 
 frappe.ui.form.on("ADM Operational Incident", {refresh: adm_operation_setup});
 
-frappe.ui.form.on("ADM Operational Incident", {refresh(frm) { if (!frm.is_new()) frm.add_custom_button(__("Update operational details"), () => frappe.prompt([{"fieldname":"root_cause","fieldtype":"Small Text","label":"Root cause"},{"fieldname":"corrective_action","fieldtype":"Small Text","label":"Corrective action"}], values => eup_administration.ui.call({method:"eup_administration.v4.operations.update_details", type:"POST", args:{doctype:frm.doctype,name:frm.doc.name,values}}).then(() => frm.reload_doc()))); }});
+frappe.ui.form.on("ADM Operational Incident", {refresh(frm) {
+    if (frm.is_new()) return;
+    frm.add_custom_button(__("Update operational details"), () => frappe.prompt([
+            {fieldname: "root_cause", fieldtype: "Small Text", label: __("Root cause"), default: frm.doc.root_cause ?? ""},
+            {fieldname: "corrective_action", fieldtype: "Small Text", label: __("Corrective action"), default: frm.doc.corrective_action ?? ""}
+        ], values => eup_administration.ui.call({
+            method: "eup_administration.v4.operations.update_details", type: "POST",
+            args: {doctype: frm.doctype, name: frm.doc.name,
+                values: {root_cause: values.root_cause ?? "", corrective_action: values.corrective_action ?? ""}}
+        }).then(() => frm.reload_doc())));
+}});
 
 frappe.ui.form.on("ADM Operational Incident", {refresh(frm) { if (!frm.is_new()) frm.add_custom_button(__("Assign operator"), () => frappe.prompt([{fieldname:"assigned_to",fieldtype:"Link",options:"User",label:__("Operator"),reqd:1}], values => eup_administration.ui.call({method:"eup_administration.v4.operations.assign_operator",type:"POST",args:{doctype:frm.doctype,name:frm.doc.name,...values}}).then(() => frm.reload_doc()))); }});

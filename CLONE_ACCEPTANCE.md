@@ -252,3 +252,30 @@ verification after this bridge fix.
 
 Proxy reference: https://github.com/frappe/bench/blob/develop/bench/config/templates/nginx.conf
 Namespace check: https://github.com/frappe/frappe/blob/v16.31.0/realtime/middlewares/authenticate.js
+
+## Proven authenticated real-time delivery and optional-text dialog defect
+
+The user installed 605e3e7 (rollback branch adm-before-realtime-origin-20261025-080018)
+and restarted only the foreground helper (runtime adm-realtime-h60pwuxq). In
+connected Chrome, the agent opened the existing synthetic Facility ticket
+c9ovnhtu1q in two separate tabs as the existing test approver. A protected
+operational-details update in the first tab appeared automatically in the second
+without navigation/reload. The receiving tab had no captured warning/error.
+Version asccgktubj records the synthetic text change. This establishes scoped
+authenticated document-event delivery through the test bridge, not every
+notification/job path.
+
+Returning the optional Resolution to blank exposed another actual UI defect:
+Frappe prompt omitted empty optional values, so the request sent an empty values
+object and the server correctly rejected it with Unsupported detail fields. The
+synthetic QA text remains until the installed browser retest clears it.
+The follow-up prefills existing text and sends explicit permitted blank strings
+for Facility Resolution, Parcel Delivery note, and Incident root/corrective text.
+It uses the same POST action and unchanged server allowlist/authorization; no
+shared-helper API/cache dependency is added. Four frontend tests execute all
+three forms' registered callbacks: prefill/allowed fields, omitted blank values,
+preservation of the other incident value and rejected-save behavior. They passed
+locally. The Delivery note label receives a distinct Arabic translation; upstream
+ERPNext Delivery Note terminology is unchanged. Python/controllers/schemas and
+previous backend/race results are unchanged. Installed blank-clear/prefill retest
+and the broader remaining UI/accessibility scope are still pending.

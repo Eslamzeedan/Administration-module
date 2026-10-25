@@ -57,6 +57,15 @@ function adm_operation_setup(frm) {
 
 frappe.ui.form.on("ADM Parcel", {refresh: adm_operation_setup});
 
-frappe.ui.form.on("ADM Parcel", {refresh(frm) { if (!frm.is_new()) frm.add_custom_button(__("Update operational details"), () => frappe.prompt([{"fieldname":"delivery_note","fieldtype":"Small Text","label":"Delivery note"}], values => eup_administration.ui.call({method:"eup_administration.v4.operations.update_details", type:"POST", args:{doctype:frm.doctype,name:frm.doc.name,values}}).then(() => frm.reload_doc()))); }});
+frappe.ui.form.on("ADM Parcel", {refresh(frm) {
+    if (frm.is_new()) return;
+    frm.add_custom_button(__("Update operational details"), () => frappe.prompt([
+            {fieldname: "delivery_note", fieldtype: "Small Text", label: __("Delivery note"), default: frm.doc.delivery_note ?? ""}
+        ], values => eup_administration.ui.call({
+            method: "eup_administration.v4.operations.update_details", type: "POST",
+            args: {doctype: frm.doctype, name: frm.doc.name,
+                values: {delivery_note: values.delivery_note ?? ""}}
+        }).then(() => frm.reload_doc())));
+}});
 
 frappe.ui.form.on("ADM Parcel", {refresh(frm) { if (!frm.is_new()) frm.add_custom_button(__("Assign operator"), () => frappe.prompt([{fieldname:"assigned_to",fieldtype:"Link",options:"User",label:__("Operator"),reqd:1}], values => eup_administration.ui.call({method:"eup_administration.v4.operations.assign_operator",type:"POST",args:{doctype:frm.doctype,name:frm.doc.name,...values}}).then(() => frm.reload_doc()))); }});
