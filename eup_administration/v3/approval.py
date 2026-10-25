@@ -45,7 +45,7 @@ def create_case(doc):
         frappe.throw("The v3 service request feature is disabled")
     policy, steps = _policy(doc)
     key = case_name(doc.doctype, doc.name)
-    if frappe.db.exists("ADM Approval Case", key):
+    if frappe.db.exists("ADM Approval Case", {"reference_doctype": doc.doctype, "reference_name": doc.name}):
         frappe.throw("Approval case already exists for this request")
     return frappe.get_doc({
         "doctype": "ADM Approval Case", "name": key,
@@ -53,7 +53,7 @@ def create_case(doc):
         "policy": policy.name, "company": doc.company, "department": doc.department,
         "requested_by": doc.requested_by, "status": "Pending",
         "current_step": 1, "created_on": now_datetime()
-    }).insert(ignore_permissions=True)
+    }).insert(ignore_permissions=True, set_name=key)
 
 
 def _authorized(step, case, actor):
@@ -137,11 +137,16 @@ def decide(case_id, decision, comment=None):
 
 
 def cancel_case(doc):
-    key = case_name(doc.doctype, doc.name)
-    if not frappe.db.exists("ADM Approval Case", key):
+    # Find legacy hash-named cases as well as newly deterministic ones.
+    cases = frappe.get_all("ADM Approval Case", filters={
+        "reference_doctype": doc.doctype, "reference_name": doc.name, "status": "Pending"
+    }, pluck="name")
+    if not cases:
         return
-    frappe.db.sql("SELECT name FROM `tabADM Approval Case` WHERE name=%s FOR UPDATE", (key,))
-    case = frappe.get_doc("ADM Approval Case", key)
+    if len(cases) != 1:
+        frappe.throw("Multiple pending approval cases; administrator review required")
+    frappe.db.sql("SELECT name FROM `tabADM Approval Case` WHERE name=%s FOR UPDATE", (cases[0],))
+    case = frappe.get_doc("ADM Approval Case", cases[0])
     if case.status == "Pending":
         case.status = "Cancelled"
         case.save(ignore_permissions=True)

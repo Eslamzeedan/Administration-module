@@ -2,6 +2,14 @@ import frappe
 from eup_administration.tests.base import AdministrationIntegrationTestCase
 from eup_administration import services
 
+# These tests create their own ADM documents/users and use the configured existing
+# Company. Do not recursively generate ERPNext's Company/Cost Center dependency
+# graph (which can reach optional payments DocTypes on Frappe v16).
+# This is Frappe's supported fixture-discovery override, not a test skip.
+IGNORE_TEST_RECORD_DEPENDENCIES = (
+    "Company", "User", "Department", "Cost Center", "ADM Vehicle", "ADM Driver",
+)
+
 class TestADMTrip(AdministrationIntegrationTestCase):
     def test_start_end(self):
         doc = self.assigned()
@@ -25,8 +33,15 @@ class TestADMTrip(AdministrationIntegrationTestCase):
         self.assigned()
         second = self.new_trip()
         services.request_trip(second.name)
-        with self.assertRaises(frappe.ValidationError):
+        # new_trip() switches to the requester; assignment must run as a manager
+        # so this test reaches resource-conflict validation, not the role guard.
+        frappe.set_user('Administrator')
+        with self.assertRaisesRegex(frappe.ValidationError, 'conflicting or active trip'):
             services.assign_trip(second.name, self.vehicle.name, self.driver.name)
+        second.reload()
+        self.assertEqual(second.status, 'Requested')
+        self.assertFalse(second.vehicle)
+        self.assertFalse(second.driver)
 
     def test_assigned_driver_operates_without_write_permission(self):
         doc = self.assigned()

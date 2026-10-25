@@ -1,0 +1,58 @@
+{
+  "doctype": "DocType",
+  "name": "ADM Workflow Transition",
+  "module": "EuP Administration",
+  "custom": 0,
+  "engine": "InnoDB",
+  "track_changes": 1,
+  "field_order": [
+    "action",
+    "from_state",
+    "to_state",
+    "allowed_role",
+    "conditions",
+    "approval_required"
+  ],
+  "fields": [
+    {
+      "fieldname": "action",
+      "label": "Action",
+      "fieldtype": "Data",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "from_state",
+      "label": "From State",
+      "fieldtype": "Data",
+      "reqd": 1
+    },
+    {
+      "fieldname": "to_state",
+      "label": "To State",
+      "fieldtype": "Data",
+      "reqd": 1
+    },
+    {
+      "fieldname": "allowed_role",
+      "label": "Allowed Role",
+      "fieldtype": "Link",
+      "options": "Role",
+      "reqd": 1
+    },
+    {
+      "fieldname": "conditions",
+      "label": "Conditions",
+      "fieldtype": "Code",
+      "options": "JSON",
+      "default": "[]"
+    },
+    {
+      "fieldname": "approval_required",
+      "label": "Approval Required",
+      "fieldtype": "Check"
+    }
+  ],
+  "permissions": [],
+  "istable": 1
+}

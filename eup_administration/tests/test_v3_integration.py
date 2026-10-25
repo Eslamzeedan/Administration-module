@@ -1,6 +1,37 @@
 """Real-bench schema smoke tests; guarded to avoid touching a live site."""
+import hashlib
+import json
 import frappe
 from eup_administration.tests.base import AdministrationIntegrationTestCase
+
+
+PROTECTED = (
+    "GL Entry", "Journal Entry", "Payment Entry", "Payment Request", "Expense Claim",
+    "Purchase Invoice", "Purchase Order", "Purchase Receipt", "Material Request",
+    "Stock Entry", "Stock Ledger Entry", "Bin", "Asset", "Asset Movement", "Asset Repair",
+    "Asset Capitalization", "Item", "Warehouse", "Sales Invoice", "Delivery Note",
+)
+REQUIRED_ERP_TABLES = (
+    "GL Entry", "Journal Entry", "Payment Entry", "Purchase Invoice",
+    "Stock Ledger Entry", "Stock Entry", "Material Request", "Purchase Order",
+)
+
+
+def protected_snapshot():
+    """Include table absence so setup cannot silently create an optional table."""
+    result = {}
+    for doctype in PROTECTED:
+        if not frappe.db.table_exists(doctype, cached=False):
+            result[doctype] = {"exists": False}
+            continue
+        # Identifiers come only from PROTECTED; rows include all persisted fields.
+        rows = frappe.db.sql("SELECT * FROM `tab" + doctype + "` ORDER BY name", as_dict=True)
+        result[doctype] = {
+            "exists": True, "count": len(rows),
+            "sha256": hashlib.sha256(
+                json.dumps(rows, sort_keys=True, default=str).encode()).hexdigest(),
+        }
+    return result
 
 
 class TestV3Integration(AdministrationIntegrationTestCase):
@@ -23,13 +54,13 @@ class TestV3Integration(AdministrationIntegrationTestCase):
 
     def test_financial_and_procurement_tables_unchanged_by_admin_setup(self):
         """All financial records are outside Administration's write boundary."""
-        tracked = ("GL Entry", "Journal Entry", "Payment Entry", "Expense Claim",
-                   "Purchase Invoice", "Stock Ledger Entry", "Stock Entry",
-                   "Material Request", "Purchase Order")
-        before = {dt: frappe.db.count(dt) for dt in tracked}
+        before = protected_snapshot()
+        for doctype in REQUIRED_ERP_TABLES:
+            self.assertTrue(before[doctype]["exists"],
+                            "Required ERPNext fixture table is missing: " + doctype)
         from eup_administration.v3.bootstrap import configure
         from eup_administration.v3.registry import rebuild_registry
         configure()
         rebuild_registry()
-        after = {dt: frappe.db.count(dt) for dt in tracked}
+        after = protected_snapshot()
         self.assertEqual(after, before)

@@ -1,7 +1,7 @@
 frappe.ui.form.on('ADM Maintenance', {
     refresh(frm) {
         if (frm.is_new()) return;
-        const act = (status, args = {}) => frappe.call({method: 'eup_administration.fleet.maintenance_action', args: {name: frm.doc.name, status, ...args}, freeze: true}).then(() => frm.reload_doc());
+        const act = (status, args = {}) => eup_administration.ui.call({method: 'eup_administration.fleet.maintenance_action', args: {name: frm.doc.name, status, ...args}, freeze: true}).then(() => frm.reload_doc());
         if (frm.doc.status === 'Scheduled') {
             frm.add_custom_button(__('Start Maintenance'), () => act('In Progress'));
             frm.add_custom_button(__('Cancel Maintenance'), () => frappe.confirm(__('Cancel this maintenance?'), () => act('Cancelled')));

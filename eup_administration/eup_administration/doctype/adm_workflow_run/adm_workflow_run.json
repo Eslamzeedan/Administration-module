@@ -1,0 +1,105 @@
+{
+  "doctype": "DocType",
+  "name": "ADM Workflow Run",
+  "module": "EuP Administration",
+  "custom": 0,
+  "engine": "InnoDB",
+  "autoname": "hash",
+  "track_changes": 1,
+  "field_order": [
+    "reference_doctype",
+    "reference_name",
+    "reference_key",
+    "policy",
+    "current_state",
+    "pending_action",
+    "approval_step",
+    "revision",
+    "due_at",
+    "escalated",
+    "company"
+  ],
+  "fields": [
+    {
+      "fieldname": "reference_doctype",
+      "label": "Reference Doctype",
+      "fieldtype": "Select",
+      "options": "ADM Facility Ticket\nADM Driver Checklist\nADM Preventive Plan\nADM Parcel\nADM Equipment Booking\nADM Contract Register\nADM Operational Incident\nADM Recurring Task\nADM Task Occurrence",
+      "reqd": 1
+    },
+    {
+      "fieldname": "reference_name",
+      "label": "Reference Name",
+      "fieldtype": "Data",
+      "reqd": 1
+    },
+    {
+      "fieldname": "reference_key",
+      "label": "Reference Key",
+      "fieldtype": "Data",
+      "unique": 1,
+      "reqd": 1
+    },
+    {
+      "fieldname": "policy",
+      "label": "Policy",
+      "fieldtype": "Link",
+      "options": "ADM Workflow Policy",
+      "reqd": 1
+    },
+    {
+      "fieldname": "current_state",
+      "label": "Current State",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "pending_action",
+      "label": "Pending Action",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "approval_step",
+      "label": "Approval Step",
+      "fieldtype": "Int"
+    },
+    {
+      "fieldname": "revision",
+      "label": "Revision",
+      "fieldtype": "Int"
+    },
+    {
+      "fieldname": "due_at",
+      "label": "Due At",
+      "fieldtype": "Datetime"
+    },
+    {
+      "fieldname": "escalated",
+      "label": "Escalated",
+      "fieldtype": "Check"
+    },
+    {
+      "fieldname": "company",
+      "label": "Company",
+      "fieldtype": "Link",
+      "options": "Company",
+      "read_only": 1,
+      "reqd": 1
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "create": 0,
+      "write": 0,
+      "report": 1
+    },
+    {
+      "role": "Administration Manager",
+      "read": 1,
+      "create": 0,
+      "write": 0,
+      "report": 1
+    }
+  ]
+}

@@ -4,14 +4,24 @@ from frappe.tests import IntegrationTestCase
 PRODUCTION_SITE = 'erpnext-v16.eup-cairo.local'
 
 class AdministrationIntegrationTestCase(IntegrationTestCase):
+    @classmethod
+    def setUpClass(cls):
+        # Frappe commits generated dependencies in setUpClass, before setUp runs.
+        # Refuse unsafe sites before calling into that lifecycle.
+        if (frappe.local.site == PRODUCTION_SITE or
+                not frappe.local.site.startswith(('test-', 'staging-')) or
+                not frappe.conf.get('adm_allow_integration_tests')):
+            raise AssertionError('Use an isolated test-/staging- site with adm_allow_integration_tests=1')
+        super().setUpClass()
+
     def setUp(self):
-        if frappe.local.site == PRODUCTION_SITE or not frappe.conf.get('adm_allow_integration_tests'):
-            self.skipTest('Run only on a disposable staging site with adm_allow_integration_tests=1')
+        super().setUp()
         frappe.set_user('Administrator')
         self.addCleanup(frappe.set_user, 'Administrator')
-        self.company = frappe.db.get_value('Company', {}, 'name')
-        if not self.company:
-            self.skipTest('Create a company on the staging site first')
+        self.company = frappe.conf.get('adm_test_company')
+        self.assertTrue(self.company, 'Set adm_test_company to an existing isolated fixture Company')
+        self.assertTrue(frappe.db.exists('Company', self.company),
+                        'adm_test_company must name an existing Company; tests never generate ERPNext fixtures')
         from eup_administration.install import ensure_roles
         ensure_roles()
         suffix = frappe.generate_hash(length=10)

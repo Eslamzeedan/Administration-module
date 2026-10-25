@@ -1,0 +1,121 @@
+{
+  "doctype": "DocType",
+  "name": "ADM Workflow Policy",
+  "module": "EuP Administration",
+  "custom": 0,
+  "engine": "InnoDB",
+  "autoname": "hash",
+  "track_changes": 1,
+  "field_order": [
+    "policy_title",
+    "target_doctype",
+    "company",
+    "enabled",
+    "initial_state",
+    "states",
+    "transitions",
+    "approval_bands",
+    "enabled_key"
+  ],
+  "fields": [
+    {
+      "fieldname": "policy_title",
+      "label": "Policy Title",
+      "fieldtype": "Data",
+      "reqd": 1
+    },
+    {
+      "fieldname": "target_doctype",
+      "label": "Target Doctype",
+      "fieldtype": "Select",
+      "options": "ADM Facility Ticket\nADM Driver Checklist\nADM Preventive Plan\nADM Parcel\nADM Equipment Booking\nADM Contract Register\nADM Operational Incident\nADM Recurring Task\nADM Task Occurrence",
+      "reqd": 1
+    },
+    {
+      "fieldname": "company",
+      "label": "Company",
+      "fieldtype": "Link",
+      "options": "Company",
+      "reqd": 1
+    },
+    {
+      "fieldname": "enabled",
+      "label": "Enabled",
+      "fieldtype": "Check"
+    },
+    {
+      "fieldname": "initial_state",
+      "label": "Initial State",
+      "fieldtype": "Data",
+      "reqd": 1
+    },
+    {
+      "fieldname": "states",
+      "label": "States",
+      "fieldtype": "Table",
+      "options": "ADM Workflow State",
+      "reqd": 1
+    },
+    {
+      "fieldname": "transitions",
+      "label": "Transitions",
+      "fieldtype": "Table",
+      "options": "ADM Workflow Transition",
+      "reqd": 1
+    },
+    {
+      "fieldname": "approval_bands",
+      "label": "Approval Bands",
+      "fieldtype": "Table",
+      "options": "ADM Workflow Band"
+    },
+    {
+      "fieldname": "enabled_key",
+      "label": "Enabled Key",
+      "fieldtype": "Data",
+      "read_only": 1,
+      "hidden": 1,
+      "unique": 1
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "report": 1
+    },
+    {
+      "role": "Administration Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "report": 1
+    },
+    {
+      "role": "Administration User",
+      "read": 1
+    },
+    {
+      "role": "Administration Requester",
+      "read": 1
+    },
+    {
+      "role": "Administration Coordinator",
+      "read": 1
+    },
+    {
+      "role": "Administration Driver",
+      "read": 1
+    },
+    {
+      "role": "Administration Runner",
+      "read": 1
+    },
+    {
+      "role": "Administration Storekeeper",
+      "read": 1
+    }
+  ]
+}

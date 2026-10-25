@@ -3,3 +3,4 @@ eup_administration.patches.v2_0.preserve_workspace
 
 [post_model_sync]
 eup_administration.patches.v2_0.add_indexes
+eup_administration.patches.v4_1.repair_request_registry
