@@ -221,3 +221,34 @@ the actual SQL boundary and still require rejection. Full suite/matrix/races
 must be rerun on the same retained clone with the new pinned commit.
 
 Compatibility API: https://github.com/frappe/frappe/blob/v16.31.0/frappe/model/qb_query.py
+
+## Proven rc5 VM pass and remaining real-time bridge check
+
+The user installed 6e239b6 and supplied log adm-resume-races-C57pVS:
+30/30 application integration tests passed in 11.959s; all ten real-role cases
+passed in 7.127s; the complete retained-clone data/file snapshot was unchanged.
+All four independent-transaction races passed: equipment overlap, workflow
+revision/exact audit count, unique feedback/original values and one-time parcel
+receipt. Protected data stayed unchanged and final source data/file hashes
+matched the original. Old synthetic conflict rows remain on the clone only.
+The optional foreground helper started at port 8004; no scheduler/worker or
+production service was started. These are user-run VM results, not agent shell
+execution. They supersede the rc5-backend-pending notes above.
+
+Agent-operated Chrome then showed a fresh Socket.io Invalid origin error after
+reload. This is not accepted real-time delivery. The bridge had forwarded missing
+Origin on same-origin polling GETs. Bench's nginx normally supplies Origin from
+scheme/host; Frappe's namespace middleware checks Origin against Host. The bridge
+follow-up validates a single fixed public origin/Host. It preserves an existing
+matching Origin, rejects foreign/null/missing-unverifiable values and cross-site
+fetch metadata, and supplies missing Origin only after checking a same-origin
+Referer. Cookie/namespace/user authorization remain Frappe's responsibility and
+are unchanged. No global CORS/auth bypass or framework/service configuration edit.
+HTTP and WebSocket regressions cover forwarding and rejection paths. The helper
+update changes tools/tests/docs only; the passed application controllers remain
+unchanged. Stop only the foreground helper with Ctrl+C before a pinned clean
+code update/restart. An authenticated two-tab live update still needs browser
+verification after this bridge fix.
+
+Proxy reference: https://github.com/frappe/bench/blob/develop/bench/config/templates/nginx.conf
+Namespace check: https://github.com/frappe/frappe/blob/v16.31.0/realtime/middlewares/authenticate.js
