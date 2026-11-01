@@ -185,7 +185,9 @@ class TripStopsTests(unittest.TestCase):
 
     def test_stop_limit_blank_address_and_long_purpose(self):
         for rows in ([self.stop(str(i), "Office") for i in range(31)],
-                     [self.stop("S", " ")], [Row(self.stop("S", "Office"), purpose="x"*2001)]):
+                     [self.stop("S", " ")], [self.stop("S", 123)],
+                     [Row(self.stop("S", "Office"), purpose={"bad": "value"})],
+                     [Row(self.stop("S", "Office"), purpose="x"*2001)]):
             self.doc.stops = rows
             with self.assertRaises(ValueError):
                 self.module.validate_stops(self.doc)

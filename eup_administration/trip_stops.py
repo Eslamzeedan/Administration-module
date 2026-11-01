@@ -19,9 +19,9 @@ def validate_stops(doc, internal=False):
     if len(rows) > 30:
         frappe.throw("A trip supports at most 30 stops")
     for row in rows:
-        if not str(row.get("location") or "").strip() or len(row.location) > 140:
+        if not isinstance(row.get("location"), str) or not row.location.strip() or len(row.location) > 140:
             frappe.throw("Each stop requires an address of at most 140 characters")
-        if len(str(row.get("purpose") or "")) > 2000:
+        if (row.get("purpose") is not None and not isinstance(row.get("purpose"), str)) or len(row.get("purpose") or "") > 2000:
             frappe.throw("Stop purpose must be at most 2000 characters")
         try:
             wait = float(row.get("expected_wait_minutes") or 0)
