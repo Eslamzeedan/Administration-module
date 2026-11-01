@@ -13,6 +13,7 @@
     "cost_center",
     "origin",
     "destination",
+    "stops",
     "planned_start",
     "planned_end",
     "passenger_count",
@@ -28,7 +29,9 @@
     "duration_minutes",
     "approved_by",
     "rejection_reason",
-    "rejected_by"
+    "rejected_by",
+    "destination_arrived_at",
+    "destination_arrived_by"
   ],
   "fields": [
     {
@@ -174,6 +177,27 @@
     {
       "fieldname": "rejected_by",
       "label": "Rejected By",
+      "fieldtype": "Link",
+      "options": "User",
+      "read_only": 1
+    },
+    {
+      "fieldname": "stops",
+      "label": "Trip Stops",
+      "fieldtype": "Table",
+      "options": "ADM Trip Stop",
+      "description": "Ordered visits including the final destination. Leave empty for a single-destination trip.",
+      "read_only_depends_on": "eval:doc.status != \"Draft\""
+    },
+    {
+      "fieldname": "destination_arrived_at",
+      "label": "Destination Arrived At",
+      "fieldtype": "Datetime",
+      "read_only": 1
+    },
+    {
+      "fieldname": "destination_arrived_by",
+      "label": "Destination Arrived By",
       "fieldtype": "Link",
       "options": "User",
       "read_only": 1

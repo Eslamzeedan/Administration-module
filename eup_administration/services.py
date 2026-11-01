@@ -54,6 +54,8 @@ def validate_trip(doc):
             frappe.throw('Use the trip action buttons to change trip state or readings')
         if not _action.get() and old.status != 'Draft':
             frappe.throw('Submitted trips are immutable; cancel and create a replacement')
+    from eup_administration.trip_stops import validate_stops
+    validate_stops(doc, internal=_action.get())
     period(doc.planned_start, doc.planned_end)
     if (doc.passenger_count or 0) < 1:
         frappe.throw('Passenger count must be positive')
@@ -176,6 +178,8 @@ def end_trip(name, odometer=None):
     driver_check(doc)
     if doc.status != 'In Progress':
         frappe.throw('Only an active trip can be completed')
+    from eup_administration.trip_stops import require_finished
+    require_finished(doc)
     lock('ADM Vehicle', doc.vehicle)
     lock('ADM Driver', doc.driver)
     current = validation(reading, odometer)
