@@ -1,0 +1,25 @@
+{% extends "templates/web.html" %}
+{% block page_content %}
+<main class="adm-self-service adm-trips">
+  <section class="adm-hero"><div>
+    <span class="adm-eyebrow">{{ _("ADMINISTRATION") }}</span>
+    <h1>{{ _("Vehicle requests and driver trips") }}</h1>
+    <p>{{ _("Request a vehicle with ordered stops and follow arrival and departure progress.") }}</p>
+  </div></section>
+  <div class="adm-toolbar">
+    <button id="adm-trip-mine" type="button" class="btn btn-default">{{ _("My vehicle requests") }}</button>
+    <button id="adm-trip-driver" type="button" class="btn btn-default" hidden>{{ _("My driving trips") }}</button>
+    <button id="adm-trip-new" type="button" class="btn btn-primary" hidden>{{ _("Request a vehicle") }}</button>
+    <button id="adm-trip-refresh" type="button" class="btn btn-default">{{ _("Refresh") }}</button>
+    <a class="btn btn-default" href="/administration_self_service">{{ _("Employee services") }}</a>
+  </div>
+  <p>{{ _("Times follow your configured site time zone. Progress refreshes every 30 seconds while this page is visible.") }}</p>
+  <div id="adm-trip-alert" role="status" aria-live="polite"></div>
+  <div id="adm-trip-status" role="status" aria-live="polite"></div>
+  <div id="adm-trip-list" class="adm-portal-grid"></div>
+  <div class="adm-toolbar">
+    <button id="adm-trip-previous" type="button" class="btn btn-default">{{ _("Previous") }}</button>
+    <button id="adm-trip-next" type="button" class="btn btn-default">{{ _("Next") }}</button>
+  </div>
+</main>
+{% endblock %}

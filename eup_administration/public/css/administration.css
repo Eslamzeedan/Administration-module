@@ -86,3 +86,19 @@ button.adm-metric:hover{border-color:#8dc7c7;background:#f8fdfc}
 
 [data-theme=dark] .adm-workspace .list-row:hover,[data-theme=dark] .adm-workspace button.adm-metric:hover{background:#254541}
 [data-theme=dark] .adm-workspace .adm-section-heading,[data-theme=dark] .adm-workspace .adm-request-row{border-color:var(--adm-line)}
+
+/* Trip portal: native semantic controls, touch targets and narrow-screen layout. */
+.adm-trips [hidden] { display: none !important; }
+.adm-trips .adm-portal-card h2 { font-size: 1.25rem; overflow-wrap: anywhere; }
+.adm-trips .adm-portal-card p, .adm-trips li { overflow-wrap: anywhere; }
+.adm-trips button { min-height: 44px; margin-block: 4px; }
+.adm-trips label { display: block; margin-block: 12px; }
+.adm-trips fieldset { border: 1px solid var(--adm-line, #d9e1e9); border-radius: 8px; padding: 12px; margin-block: 12px; }
+.adm-trips legend { font-size: 1rem; width: auto; padding-inline: 6px; }
+.adm-trips ol { padding-inline-start: 24px; }
+.adm-trips li { margin-block: 16px; }
+.adm-trips .adm-toolbar { flex-wrap: wrap; }
+@media (max-width: 600px) {
+    .adm-trips .adm-toolbar > button, .adm-trips .adm-toolbar > a { flex: 1 1 100%; }
+    dialog.adm-trips { width: calc(100% - 24px); max-width: none; padding: 16px; }
+}

@@ -8,6 +8,7 @@ frappe.pages["administration-v3"].on_page_load = function(wrapper) {
     ui.action(shortcuts,__("Command center"),()=>frappe.set_route("administration-command-center"));
     ui.action(shortcuts,__("Meeting bookings"),()=>ui.open("ADM Meeting Booking"));
     ui.action(shortcuts,__("Fleet overview"),()=>frappe.set_route("administration-dashboard"));
+    ui.action(shortcuts,__("Vehicle requests and driver trips"),()=>window.location.assign("/administration_trips"));
     const metrics = $('<div class="adm-metrics"></div>').appendTo(root);
     const columns = $('<div class="adm-columns"></div>').appendTo(root);
     const left = $("<div></div>").appendTo(columns), right = $("<div></div>").appendTo(columns);

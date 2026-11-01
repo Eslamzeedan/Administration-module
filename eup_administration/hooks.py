@@ -109,3 +109,9 @@ app_include_js = [f"/assets/eup_administration/js/administration_ui.js?v={_ui_js
 app_include_css = [f"/assets/eup_administration/css/administration.css?v={_ui_css_revision}"]
 web_include_js = list(app_include_js)
 web_include_css = list(app_include_css)
+
+# Trip progress is a user-scoped in-page event, with polling fallback.
+doc_events["ADM Trip"]["on_update"] = [
+    "eup_administration.v3.registry.sync_document",
+    "eup_administration.trip_stops.publish_progress",
+]
