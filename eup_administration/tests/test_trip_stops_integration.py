@@ -66,6 +66,9 @@ class TestTripStopsIntegration(AdministrationIntegrationTestCase):
 
     def test_requester_and_other_driver_cannot_operate(self):
         doc = self.route()
+        frappe.set_user("Administrator")
+        frappe.get_doc({"doctype": "ADM Driver", "driver_name": "Unassigned trip QA",
+            "user": self.other_user, "enabled": 1}).insert()
         for actor in (self.requester_user, self.other_user):
             frappe.set_user(actor)
             with self.assertRaises(frappe.PermissionError):
