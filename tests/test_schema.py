@@ -25,7 +25,8 @@ class TestAdditiveSchema(unittest.TestCase):
     def test_source_backed_v2_workspace(self):
         source = ROOT/'eup_administration/eup_administration/workspace/eup_administration_v2/eup_administration_v2.json'
         doc = json.loads(source.read_text())
-        self.assertEqual(doc['standard'], 1)
+        self.assertNotIn('standard', doc)  # Workspace has no standard field on Frappe 16.31.0
+        self.assertEqual(doc['name'], 'EuP Administration v2')
         self.assertIsInstance(json.loads(doc['content']), list)
         self.assertEqual(len({r['label'] for r in doc['shortcuts']}), len(doc['shortcuts']))
     def test_new_permissions_do_not_grant_driver_submission(self):

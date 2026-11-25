@@ -115,3 +115,6 @@ doc_events["ADM Trip"]["on_update"] = [
     "eup_administration.v3.registry.sync_document",
     "eup_administration.trip_stops.publish_progress",
 ]
+
+# Preserve site-specific Workspace content during normal and forced imports.
+doc_events["Workspace"] = {"before_import": "eup_administration.workspaces.preserve_on_import"}

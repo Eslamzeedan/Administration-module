@@ -1,0 +1,51 @@
+{
+  "doctype": "Workspace",
+  "name": "EuP Administration",
+  "label": "EuP Administration",
+  "title": "EuP Administration",
+  "module": "EuP Administration",
+  "app": "eup_administration",
+  "type": "Workspace",
+  "public": 1,
+  "is_hidden": 0,
+  "modified": "2000-01-01 00:00:00",
+  "content": "[{\"id\":\"adm-title\",\"type\":\"header\",\"data\":{\"text\":\"EuP Administration\",\"col\":12}},{\"id\":\"adm-0\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Vehicles\",\"col\":4}},{\"id\":\"adm-1\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Drivers\",\"col\":4}},{\"id\":\"adm-2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Trips\",\"col\":4}},{\"id\":\"adm-3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Meeting Rooms\",\"col\":4}},{\"id\":\"adm-4\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Meetings\",\"col\":4}}]",
+  "shortcuts": [
+    {
+      "label": "Vehicles",
+      "type": "DocType",
+      "link_to": "ADM Vehicle"
+    },
+    {
+      "label": "Drivers",
+      "type": "DocType",
+      "link_to": "ADM Driver"
+    },
+    {
+      "label": "Trips",
+      "type": "DocType",
+      "link_to": "ADM Trip"
+    },
+    {
+      "label": "Meeting Rooms",
+      "type": "DocType",
+      "link_to": "ADM Meeting Room"
+    },
+    {
+      "label": "Meetings",
+      "type": "DocType",
+      "link_to": "ADM Meeting Booking"
+    }
+  ],
+  "roles": [
+    {
+      "role": "Administration Manager"
+    },
+    {
+      "role": "Administration User"
+    },
+    {
+      "role": "Administration Driver"
+    }
+  ]
+}

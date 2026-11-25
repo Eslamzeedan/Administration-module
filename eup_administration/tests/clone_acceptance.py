@@ -485,6 +485,13 @@ def worker_main(payload):
         kind = payload['kind']
         if kind == 'booking':
             value = {'name': frappe.get_doc(payload['document']).insert().name}
+        elif kind == 'trip_stop':
+            from eup_administration.trip_stops import mark_stop
+            value = mark_stop(payload['name'], payload['stop_name'], payload['event'])
+        elif kind in ('trip_start', 'trip_end'):
+            from eup_administration import services
+            action = services.start_trip if kind == 'trip_start' else services.end_trip
+            value = action(payload['name'], payload['odometer'])
         elif kind == 'workflow':
             value = workflow.transition(payload['doctype'], payload['name'], 'Complete', 1)
         elif kind == 'parcel':
@@ -615,3 +622,63 @@ def run_races():
     print('RACE PASS: recipient acknowledges exactly once')
     return {'race_cases': 4, 'passed': True, 'protected_unchanged': True,
             'scope': 'QA rows retained on restored clone only'}
+
+
+def run_trip_races():
+    """Real assigned-driver races; synthetic fixtures stay on the guarded clone."""
+    guard()
+    frappe.set_user('Administrator')
+    from eup_administration import services
+    before = protected_snapshot()
+    suffix = uuid4().hex[:12]
+    company = frappe.conf.adm_test_company
+    user = frappe.get_doc({'doctype': 'User', 'email': 'adm-race-driver-' + suffix + '@example.test',
+        'first_name': 'Synthetic race driver', 'enabled': 1, 'send_welcome_email': 0,
+        'roles': [{'role': 'Administration Driver'}]}).insert()
+    driver = frappe.get_doc({'doctype': 'ADM Driver', 'driver_name': 'CLONE RACE ' + suffix,
+        'user': user.name, 'enabled': 1}).insert()
+    vehicle = frappe.get_doc({'doctype': 'ADM Vehicle', 'plate_number': 'RACE-' + suffix,
+        'company': company, 'initial_odometer': 12500}).insert()
+    start = add_to_date(now_datetime(), days=60)
+    trip = frappe.get_doc({'doctype': 'ADM Trip', 'company': company, 'purpose': 'CLONE RACE QA',
+        'origin': 'Synthetic office', 'destination': 'Synthetic destination',
+        'planned_start': start, 'planned_end': add_to_date(start, hours=2), 'passenger_count': 1,
+        'stops': [{'location': 'Synthetic destination', 'purpose': 'Race acceptance'}]}).insert()
+    services.request_trip(trip.name)
+    services.assign_trip(trip.name, vehicle.name, driver.name)
+    frappe.db.commit()
+    if frappe.has_permission('ADM Trip', 'write', doc=trip, user=user.name):
+        raise AssertionError('Race actor must be a read-only assigned driver')
+    results = race('trip_start', {'name': trip.name, 'odometer': 12500, 'user': user.name})
+    require_one_success(results, [('ValidationError', 'assigned before starting')])
+    trip.reload()
+    if trip.status != 'In Progress' or trip.start_odometer != 12500:
+        raise AssertionError('Start race did not persist exactly one valid active trip')
+    print('RACE PASS: assigned driver starts exactly once')
+    stop = trip.stops[0].name
+    for event, message, field in [('arrive', 'already been recorded', 'arrived_at'),
+                                  ('depart', 'no longer current', 'departed_at')]:
+        results = race('trip_stop', {'name': trip.name, 'stop_name': stop,
+                                    'event': event, 'user': user.name})
+        winner = require_one_success(results, [('ValidationError', message)])
+        trip.reload()
+        stored = trip.stops[0]
+        expected = winner['value']['stops'][0]
+        if not stored.get(field) or str(stored.get(field)) != str(expected[field]):
+            raise AssertionError('Losing request changed the winning milestone')
+        actor_field = 'arrived_by' if event == 'arrive' else 'departed_by'
+        if stored.get(actor_field) != user.name:
+            raise AssertionError('Wrong milestone actor')
+        print('RACE PASS: stop ' + event + ' committed once with winning timestamp')
+    results = race('trip_end', {'name': trip.name, 'odometer': 12585, 'user': user.name})
+    require_one_success(results, [('ValidationError', 'active trip can be completed')])
+    trip.reload()
+    if trip.status != 'Completed' or trip.distance_km != 85:
+        raise AssertionError('End race must complete exactly 85 km')
+    if frappe.db.get_value('ADM Vehicle', vehicle.name, 'last_odometer') != 12585:
+        raise AssertionError('Vehicle odometer differs from completed trip')
+    if protected_snapshot() != before:
+        raise AssertionError('Trip races changed protected data')
+    print('RACE PASS: assigned driver ends exactly once; 85 km and vehicle reading verified')
+    return {'race_cases': 4, 'passed': True, 'protected_unchanged': True,
+            'scope': 'Synthetic fixtures retained on guarded clone only'}

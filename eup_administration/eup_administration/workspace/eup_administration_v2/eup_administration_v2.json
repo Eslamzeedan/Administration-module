@@ -6,7 +6,6 @@
   "module": "EuP Administration",
   "type": "Workspace",
   "public": 1,
-  "standard": 1,
   "is_hidden": 0,
   "content": "[{\"id\":\"adm-v2-title\",\"type\":\"header\",\"data\":{\"text\":\"EuP Administration v2\",\"col\":12}},{\"id\":\"adm-v2-0\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Dashboard\",\"col\":4}},{\"id\":\"adm-v2-1\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Vehicles\",\"col\":4}},{\"id\":\"adm-v2-2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Drivers\",\"col\":4}},{\"id\":\"adm-v2-3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Trips\",\"col\":4}},{\"id\":\"adm-v2-4\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Fuel\",\"col\":4}},{\"id\":\"adm-v2-5\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Expenses\",\"col\":4}},{\"id\":\"adm-v2-6\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Maintenance\",\"col\":4}},{\"id\":\"adm-v2-7\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Meeting Rooms\",\"col\":4}},{\"id\":\"adm-v2-8\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Meetings\",\"col\":4}},{\"id\":\"adm-v2-9\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"ADM Trip Register\",\"col\":4}},{\"id\":\"adm-v2-10\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"ADM Fleet Costs\",\"col\":4}},{\"id\":\"adm-v2-11\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"ADM Meeting Utilization\",\"col\":4}},{\"id\":\"adm-v2-12\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"ADM Renewals and Service\",\"col\":4}},{\"id\":\"adm-v2-14\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Supply Requests\",\"col\":4}},{\"id\":\"adm-v2-15\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Consumables\",\"col\":4}},{\"id\":\"adm-v2-16\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Admin Stores\",\"col\":4}},{\"id\":\"adm-v2-17\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Movements\",\"col\":4}},{\"id\":\"adm-v2-18\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Admin Custody\",\"col\":4}},{\"id\":\"adm-v2-19\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Low Stock\",\"col\":4}},{\"id\":\"adm-v2-20\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Department Consumption\",\"col\":4}}]",
   "shortcuts": [
@@ -133,5 +132,6 @@
     {
       "role": "Administration Storekeeper"
     }
-  ]
+  ],
+  "modified": "2000-01-01 00:00:00"
 }

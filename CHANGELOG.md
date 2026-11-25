@@ -1,3 +1,10 @@
+# 4.0.0rc6 — 2026-11-25
+
+- Fix legacy Workspace orphan deletion and preserve customized forced imports.
+- Add opt-in single Administration entry point.
+- Add real assigned-driver concurrency and Workspace/navigation regressions.
+- Document actual VM evidence and outstanding acceptance gates in RC6_ACCEPTANCE.md.
+
 # 4.0.0rc1 — independent administration staging candidate
 
 18 additive DocTypes, workflow designer, authenticated self-service, command center, operational dispatch/maintenance/parcel/equipment/contract/incident/task features and isolated acceptance tests. No financial bridge. See V4_IMPLEMENTATION_AND_ACCEPTANCE.md for exact scope and untested gates.
