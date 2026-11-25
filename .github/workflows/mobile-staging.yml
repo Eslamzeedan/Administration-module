@@ -18,6 +18,7 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
+          flutter-version: '3.50.1'
           cache: true
       - run: bash mobile/prepare.sh "$RUNNER_TEMP/eup_mobile"
       - uses: actions/upload-artifact@v4

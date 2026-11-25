@@ -8,7 +8,7 @@ cd "$out"
 cp "$src/lib/main.dart" lib/main.dart
 rm test/widget_test.dart
 cp "$src/test/mobile_test.dart" test/
-flutter pub add webview_flutter:4.14.1
+flutter pub add webview_flutter:4.14.1 material_ui
 python3 - <<'PY'
 from pathlib import Path
 main=Path('android/app/src/main/AndroidManifest.xml')

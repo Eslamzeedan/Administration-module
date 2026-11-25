@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 void main() => runApp(const FleetApp());
@@ -68,9 +68,9 @@ class _PortalState extends State<Portal> {
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setNavigationDelegate(NavigationDelegate(
         onNavigationRequest: (r) => sameSite(widget.site,r.url) ? NavigationDecision.navigate : NavigationDecision.prevent,
-        onPageStarted: (_) { if (mounted) setState(() { failed=false; progress=0; }); },
-        onProgress: (p) { if (mounted) setState(() => progress=p); },
-        onWebResourceError: (e) { if (mounted && e.isForMainFrame == true) setState(() => failed=true); },
+        onPageStarted: (_) { if (mounted) { setState(() { failed=false; progress=0; }); } },
+        onProgress: (p) { if (mounted) { setState(() => progress=p); } },
+        onWebResourceError: (e) { if (mounted && e.isForMainFrame == true) { setState(() => failed=true); } },
       ))
       ..loadRequest(widget.site.resolve(widget.route));
   }
@@ -84,7 +84,7 @@ class _PortalState extends State<Portal> {
         await web.loadRequest(widget.site.resolve('/?cmd=web_logout'));
         await WebViewCookieManager().clearCookies();
         await web.clearLocalStorage();
-        if (context.mounted) Navigator.pop(context);
+        if (context.mounted) { Navigator.pop(context); }
       }),
     ]),
     body: SafeArea(child: Column(children:[
