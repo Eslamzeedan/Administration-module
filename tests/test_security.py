@@ -29,6 +29,7 @@ class Doc(AttrDict):
 class TestSecurity(unittest.TestCase):
     def setUp(self):
         self.frappe = types.ModuleType('frappe')
+        self.frappe.conf = AttrDict()
         self.frappe.session = AttrDict(user='driver@example.com')
         self.frappe.db = MagicMock()
         self.frappe.db.escape.side_effect = lambda v: "'" + v.replace("'", "''") + "'"
@@ -57,7 +58,7 @@ class TestSecurity(unittest.TestCase):
         self.context = patch.dict(sys.modules, {'frappe': self.frappe, 'frappe.utils': utils})
         self.context.start()
         self.addCleanup(self.context.stop)
-        for module in ('permissions', 'services', 'meetings', 'fleet', 'reporting', 'install'):
+        for module in ('permissions', 'services', 'meetings', 'fleet', 'reporting', 'install', 'navigation', 'workspaces'):
             fullname = 'eup_administration.' + module
             sys.modules.pop(fullname, None)
             setattr(self, module, importlib.import_module(fullname))

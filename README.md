@@ -1,3 +1,13 @@
+# EuP Administration — 4.0.0rc6
+
+Fleet and multi-stop trips, meetings, runner services, consumables/custody, administrative workflows, facilities, parcels, equipment, contracts and employee self-service on Frappe/ERPNext v16.
+
+Current verification and remaining acceptance gates: [RC6_ACCEPTANCE.md](RC6_ACCEPTANCE.md). Single Administration navigation is opt-in; existing configurations are preserved. This is a release candidate while clean-site and final browser/restore acceptance remain pending.
+
+## Historical baseline notes
+
+The notes below describe earlier milestones; the acceptance record above is authoritative for this candidate.
+
 # EuP Administration v2 — EuP Egypt
 
 Version **2.1.0rc1** (staging candidate based on v2.0.0). Target: Frappe/ERPNext **v16**, MariaDB/InnoDB, site timezone **Africa/Cairo**. Built from the supplied v0.1.0 ZIP. Locally validated; staging installation, database concurrency and browser checks remain required.
