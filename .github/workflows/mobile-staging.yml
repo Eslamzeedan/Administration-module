@@ -1,0 +1,28 @@
+name: Android staging app
+on:
+  push:
+    branches: [mobile/flutter-staging]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: '3.50.1'
+          cache: true
+      - run: bash mobile/prepare.sh "$RUNNER_TEMP/eup_mobile"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: EuP-Administration-Android
+          path: ${{ runner.temp }}/eup_mobile/build/app/outputs/flutter-apk/app-debug.apk
+          if-no-files-found: error
