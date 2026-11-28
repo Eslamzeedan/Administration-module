@@ -181,3 +181,29 @@ def custody_label(name):
     create(url).svg(stream, scale=5, quiet_zone=4)
     return {"url": url, "qr": "data:image/svg+xml;base64," + b64encode(stream.getvalue()).decode(),
             "label": name, "requires_login": True}
+
+
+@frappe.whitelist()
+def daily_dispatch(company):
+    require_company(company)
+    if not manager(company):
+        frappe.throw("Administration Manager role required", frappe.PermissionError)
+    now = now_datetime()
+    tomorrow = now.date() + timedelta(days=1)
+    groups = {}
+    for key, status, cutoff in (
+        ("pending", "Requested", tomorrow),
+        ("late", "Assigned", now),
+        ("upcoming", "Assigned", tomorrow),
+        ("active", "In Progress", None),
+    ):
+        filters = [["company", "=", company], ["status", "=", status]]
+        if cutoff:
+            filters.append(["planned_start", "<", cutoff])
+        if key == "upcoming":
+            filters.append(["planned_start", ">=", now])
+        records = frappe.get_list("ADM Trip", filters=filters,
+            fields=["name", "destination", "planned_start", "vehicle"],
+            order_by="planned_start asc, name asc", limit_page_length=51)
+        groups[key] = {"records": records[:50], "more": len(records) > 50}
+    return {"date": str(now.date()), "groups": groups}

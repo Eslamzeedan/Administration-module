@@ -1,8 +1,33 @@
-# EuP Administration — 4.0.0rc6
+# EuP Administration 4.0.0rc7
 
-Fleet and multi-stop trips, meetings, runner services, consumables/custody, administrative workflows, facilities, parcels, equipment, contracts and employee self-service on Frappe/ERPNext v16.
+Fleet, meetings, runner services, supplies and administrative workflows for EuP Egypt on Frappe and ERPNext v16. This branch includes the staging mobile service APIs. The Android client is distributed separately.
 
-Current verification and remaining acceptance gates: [RC6_ACCEPTANCE.md](RC6_ACCEPTANCE.md). Single Administration navigation is opt-in; existing configurations are preserved. This is a release candidate while clean-site and final browser/restore acceptance remain pending.
+## Install on a VM
+
+From the bench directory, verify that Frappe and ERPNext are both v16 and that ERPNext is installed on the target site. Replace the example site name with your own. Use a separate bench for a first trial since app code and assets are shared by all sites in a bench.
+
+```bash
+SITE=your-site.example
+bench version
+bench --site "$SITE" list-apps
+bench get-app --branch release/administration-v4-rc7 eup_administration https://github.com/Eslamzeedan/Administration-module.git
+bench --site "$SITE" backup --with-files
+bench --site "$SITE" install-app eup_administration
+bench build --app eup_administration
+bench --site "$SITE" list-apps
+```
+
+For a fresh site with ERPNext already downloaded into the bench, install ERPNext first using `bench --site "$SITE" install-app erpnext`. After installation, sign in to Desk, open the Administration workspace and verify a trip request and a meeting booking using a test employee. Assign roles and link the requesting user to an Employee before testing. Verify that only the assigned driver can start and finish a trip.
+
+## Upgrade and rollback
+
+For a bench that already contains this app, capture the current app commits, back up the database, public and private files, and securely copy the site configuration and encryption key before changing code. Restore the backup into an isolated bench and test the release branch there. Switch the existing app checkout to the release branch, refresh the bench requirements, build the app assets, and run site-specific migrate. Restart the managed bench services when appropriate. Verify Workspace visibility and retained records before rollout.
+
+For rollback, put the site in maintenance mode and restore matching prior app revisions, dependencies, assets, database, files and site configuration from the same backup point. Writes after that backup require reconciliation. See [upgrade and restore details](UPGRADE_AND_ROLLBACK.md).
+
+## Release verification
+
+The staging source for this release passed 249 Python unit tests and 36 frontend tests. The RC6 historical integration results are recorded in [RC6 acceptance](RC6_ACCEPTANCE.md). A clean-site install, restoration drill and end-to-end user acceptance for RC7 must be verified on the target VM before production rollout.
 
 ## Historical baseline notes
 

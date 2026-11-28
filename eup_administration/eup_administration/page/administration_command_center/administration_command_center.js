@@ -15,6 +15,8 @@ frappe.pages["administration-command-center"].on_page_load = function(wrapper) {
     let context, generation = 0;
     const contextReady = ui.request("eup_administration.v4.dashboard.context").then(async info => {
         context = info;
+        if (info.can_manage || info.can_choose_company)
+            ui.action(tools, __("Daily dispatch"), loadDispatch);
         if (info.company) {
             await company.set_value(info.company);
             if (!info.can_choose_company) {
@@ -36,6 +38,30 @@ frappe.pages["administration-command-center"].on_page_load = function(wrapper) {
             return false;
         }
         return true;
+    }
+    async function loadDispatch() {
+        const ticket = ++generation;
+        try {
+            if (!await ready() || ticket !== generation) return;
+            ui.state(content, __("Daily dispatch"), __("Loading trips"), "loading");
+            const selected = company.get_value();
+            const data = await ui.request("eup_administration.v4.dashboard.daily_dispatch", {company:selected});
+            if (ticket !== generation || selected !== company.get_value()) return;
+            content.empty();
+            const grid = ui.section(content, __("Daily dispatch"), selected + " · " + data.date);
+            ui.action(grid, __("Refresh"), loadDispatch);
+            for (const [key, title] of Object.entries({pending:"Awaiting assignment",late:"Late departures",upcoming:"Upcoming departures",active:"Trips in progress"})) {
+                const group = data.groups[key];
+                const panel = ui.section(grid, __(title));
+                if (!group.records.length) $("<p>").text(__("No trips")).appendTo(panel);
+                for (const trip of group.records)
+                    ui.row(panel, trip.destination || trip.name, frappe.datetime.str_to_user(trip.planned_start),
+                        [trip.name,trip.vehicle].filter(Boolean).join(" · "), () => ui.open("ADM Trip",trip.name));
+                if (group.more) $("<p>").text(__("Showing the first 50 trips")).appendTo(panel);
+            }
+        } catch (error) {
+            if (ticket === generation) ui.state(content, __("Daily dispatch"), ui.message(error), "error", loadDispatch);
+        }
     }
     function render(data) {
         content.empty();

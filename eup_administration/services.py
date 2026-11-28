@@ -41,12 +41,14 @@ def validate_trip(doc):
     old = doc.get_doc_before_save()
     if not old:
         doc.requested_by = frappe.session.user
+        doc.department = frappe.db.get_value('Employee', {'user_id': doc.requested_by, 'status': 'Active', 'company': doc.company}, 'department')
         doc.status = 'Draft'
         for key in ('start_odometer', 'end_odometer', 'distance_km', 'duration_minutes'):
             doc.set(key, 0)
         for key in ('actual_start', 'actual_end', 'approved_by', 'gap_reason', 'rejection_reason', 'rejected_by'):
             doc.set(key, None)
     else:
+        doc.department = old.department
         if doc.requested_by != old.requested_by:
             frappe.throw('Requester cannot be changed')
         protected = ('status', 'start_odometer', 'end_odometer', 'distance_km', 'duration_minutes', 'actual_start', 'actual_end', 'approved_by', 'gap_reason', 'rejection_reason', 'rejected_by')
@@ -59,8 +61,7 @@ def validate_trip(doc):
     period(doc.planned_start, doc.planned_end)
     if (doc.passenger_count or 0) < 1:
         frappe.throw('Passenger count must be positive')
-    if doc.cost_center and frappe.db.get_value('Cost Center', doc.cost_center, 'company') != doc.company:
-        frappe.throw('Cost center belongs to another company')
+    doc.cost_center = old.get('cost_center') if old else None
     if doc.status in ('Assigned', 'In Progress'):
         if not doc.vehicle or not doc.driver:
             frappe.throw('Vehicle and driver are required')

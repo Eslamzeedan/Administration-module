@@ -19,6 +19,8 @@ def validate_services(doc):
         if isinstance(row.quantity, bool) or not isinstance(row.quantity, int) or row.quantity < 1:
             frappe.throw('Service quantity must be a positive integer')
         previous = rows.get(row.name)
+        if row.get('service_type') == 'IT' and (not previous or previous.service_type != 'IT'):
+            frappe.throw('IT service requests are no longer available')
         if not is_admin():
             if row.status != (previous.status if previous else 'Requested'):
                 frappe.throw('Only managers can change service fulfillment', frappe.PermissionError)
@@ -47,7 +49,7 @@ def repeat_booking(name, frequency, count):
                     'attendee_count': doc.attendee_count, 'requirements': doc.requirements,
                     'meeting_link': doc.meeting_link, 'recurrence_root': doc.name,
                     'services': [{'service_type': r.service_type, 'details': r.details,
-                        'quantity': r.quantity, 'status': 'Requested'} for r in doc.get('services') or []]})
+                        'quantity': r.quantity, 'status': 'Requested'} for r in doc.get('services') or [] if r.service_type != 'IT']})
                 occurrence.insert()
                 created.append(occurrence.name)
         return {'seed': doc.name, 'created': created}

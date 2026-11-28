@@ -24,7 +24,7 @@ class TestV2Integration(AdministrationIntegrationTestCase):
         frappe.set_user(self.requester_user)
         t = now_datetime()+timedelta(days=2)
         seed = self.booking(t,t+timedelta(hours=1))
-        seed.append('services',{'service_type':'IT','quantity':1,'status':'Requested'})
+        seed.append('services',{'service_type':'Hospitality','quantity':1,'status':'Requested'})
         seed.save()
         frappe.set_user('Administrator')
         result = meetings.repeat_booking(seed.name,'Weekly',3)
@@ -32,7 +32,7 @@ class TestV2Integration(AdministrationIntegrationTestCase):
         for name in result['created']:
             doc = frappe.get_doc('ADM Meeting Booking',name)
             self.assertEqual(doc.organizer,self.requester_user)
-            self.assertEqual(doc.services[0].service_type,'IT')
+            self.assertEqual(doc.services[0].service_type,'Hospitality')
     def test_driver_costs_need_manager_submission(self):
         trip = self.assigned()
         frappe.set_user(self.driver_user)

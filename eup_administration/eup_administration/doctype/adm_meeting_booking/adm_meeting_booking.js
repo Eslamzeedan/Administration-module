@@ -1,5 +1,6 @@
 frappe.ui.form.on('ADM Meeting Booking', {
     refresh(frm) {
+        frm.fields_dict.services.grid.update_docfield_property('service_type', 'options', 'Hospitality\nEquipment\nOther');
         if (frm.is_new() || frm.doc.status !== 'Confirmed') return;
         if (!frm.doc.recurrence_root) frm.add_custom_button(__('Repeat Booking'), () => frappe.prompt([
             {fieldname: 'frequency', label: __('Frequency'), fieldtype: 'Select', options: 'Daily\nWeekly', reqd: 1},

@@ -59,13 +59,17 @@
       "fieldname": "department",
       "label": "Department",
       "fieldtype": "Link",
-      "options": "Department"
+      "options": "Department",
+      "read_only": 1
     },
     {
       "fieldname": "cost_center",
       "label": "Cost Center",
       "fieldtype": "Link",
-      "options": "Cost Center"
+      "options": "Cost Center",
+      "hidden": 1,
+      "read_only": 1,
+      "print_hide": 1
     },
     {
       "fieldname": "origin",

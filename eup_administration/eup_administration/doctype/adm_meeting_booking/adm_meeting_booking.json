@@ -64,7 +64,7 @@
     },
     {
       "fieldname": "requirements",
-      "label": "Hospitality / IT Requirements",
+      "label": "Hospitality Requirements",
       "fieldtype": "Small Text"
     },
     {

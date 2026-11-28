@@ -221,8 +221,7 @@ def validate_supply_request(doc):
     if not doc.purpose or not doc.needed_by:
         frappe.throw('Purpose and needed-by date required')
     getdate(doc.needed_by)
-    if doc.cost_center and frappe.db.get_value('Cost Center', doc.cost_center, 'company') != doc.company:
-        frappe.throw('Cost center company mismatch')
+    doc.cost_center = old.get('cost_center') if old else None
     lines = doc.get('items') or []
     if not lines or len(lines) > MAX_LINES:
         frappe.throw('Supply request needs 1 to 60 lines')

@@ -153,8 +153,7 @@ def validate_request(doc):
             frappe.throw('Add Careem rides using the assigned runner action')
         if old.status != 'Draft' and not _transition.get():
             frappe.throw('Submitted requests cannot be edited directly')
-    if doc.cost_center and frappe.db.get_value('Cost Center', doc.cost_center, 'company') != doc.company:
-        frappe.throw('Cost center company mismatch')
+    doc.cost_center = old.get('cost_center') if old else None
     if not doc.request_type or not doc.purpose or not doc.service_location or not doc.needed_by:
         frappe.throw('Request type, purpose, location and required time are mandatory')
     get_datetime(doc.needed_by)
